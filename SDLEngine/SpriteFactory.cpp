@@ -16,14 +16,14 @@ SpriteFactory::~SpriteFactory()
 	m_renderer = nullptr; //nullptr
 }
 
-void SpriteFactory::Draw(std::string _name, SDL_Rect _position) //for 'static' sprites
+void SpriteFactory::Draw(std::string _name, SDL_Rect _position, bool _flipHorizontal) //for 'static' sprites
 {
-	GetSprite(_name, _position)->Draw();
+	GetSprite(_name, _position)->Draw(_flipHorizontal);
 }
 
-void SpriteFactory::Draw(std::string _name, SDL_Rect _position, SDL_Rect& _cellRect) //the cellRect is used for animated sprites
+void SpriteFactory::Draw(std::string _name, SDL_Rect _position, SDL_Rect& _cellRect, bool _flipHorizontal) //the cellRect is used for animated sprites
 {
-	GetSprite(_name, _position)->AniDraw(_cellRect);
+	GetSprite(_name, _position)->AniDraw(_cellRect, _flipHorizontal);
 }
 
 Sprite* SpriteFactory::GetSprite(std::string& _name, SDL_Rect& _position)

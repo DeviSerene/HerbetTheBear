@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "SpriteFactory.h"
-#include "TMX/TMXObjectGroup.h"
+#include "TMX/TMXMap.h"
 
 class TileMap
 {
@@ -18,9 +18,13 @@ private:
 	std::vector<int> tileIndices;
 	std::vector<TMXObjectGroup> mapObjects;
 	std::string sprite;
+
+	TMXTileSet* set;
 public:
 
 	TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::string _atlas, const char *_workingDir, const char *_level);
 	~TileMap();
+
+	void Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int tileCountX);
 };
 

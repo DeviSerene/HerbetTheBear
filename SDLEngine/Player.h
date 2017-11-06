@@ -8,6 +8,8 @@ class Player : public Entities
 protected:
 
 	SDL_Event key_input;
+
+
 	int playerHeath;
 	bool playerHit;
 
@@ -22,8 +24,8 @@ public:
 	Player();
 	~Player();
 
-	void Input() override ;
-	void Update() override ;
+	void Input() override;
+	void Update() override;
 	void Draw(SpriteFactory *_sprite) override;
 
 	void HandleDamage();
