@@ -39,8 +39,8 @@ void PlayState::Draw()
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
 	SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
 
-	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 1, playerW, playerH);
-	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 1, helperW, helperH);
+	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 6, playerW, playerH);
+	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 6, helperW, helperH);
 	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", player->GetPlayerRect(), player->GetPlayerCropRect(), player->getPlayerDirection());
 	m_gameData->GetHelperSprites()->Draw("child_sheet.png", player->GetPlayerRect(), player->GetPlayerCropRect(), player->getPlayerDirection());
 
