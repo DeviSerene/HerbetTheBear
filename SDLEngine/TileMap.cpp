@@ -127,6 +127,8 @@ void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int 
 	for (int x = boundLeft; x < boundRight; x++) {
 		for (int y = boundTop; y < boundBottom; y++) {
 			int indice = tileIndices[(y * width) + x];
+			if (indice <= 0) continue;
+			indice--;
 
 			int tileX = indice % _tileCountX;
 			int tileY = indice / _tileCountX;
