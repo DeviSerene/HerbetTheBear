@@ -5,4 +5,4 @@
 /SDLEngine.VC.VC.opendb
 /SDLEngine.VC.db
 *.obj
-/SDLEngine/assets/textures/Forest_Tilesheet_01.png
+/SDLEngine/Debug/player.obj.enc

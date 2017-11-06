@@ -6,10 +6,10 @@ Player::Player()
 	: Entities()
 {
 	// stating players spawning position
-	EntityPosition.x = 100;
+	EntityPosition.x = 30;
 	EntityPosition.y = 100;
-	EntityPosition.w = 20;
-	EntityPosition.h = 30;
+	EntityPosition.w = 32;
+	EntityPosition.h = 32;
 
 	CropRect.x = 0;
 	CropRect.y = 0;
@@ -27,6 +27,9 @@ Player::Player()
 
 	timeLastFrame = 0.0f;
 	frameTime - 0.0f;
+
+	volX = 0;
+	volY = 0;
 
 	movingLeft = false;
 
@@ -70,7 +73,8 @@ void Player::Input()
 					// Jump movement
 				case SDLK_a:
 					// Left movement
-					EntityPosition.x -= 5;
+					//EntityPosition.x -= 5;
+					volX = -5;
 					CropRect.y = 32;
 
 					if (CropRect.x >= 128)
@@ -86,7 +90,8 @@ void Player::Input()
 				case SDLK_d:
 
 					//right movement
-					EntityPosition.x += 5;
+					//EntityPosition.x += 5;
+					volX = 5;
 					CropRect.y = 32;
 
 					if (CropRect.x >= 128)
@@ -118,15 +123,11 @@ void Player::Input()
 	}
 }
 
-void Player::Update()
+void Player::Update(TileMap *_tilemap)
 {
-	// While this is true, the player will be going through the jump cycle e.g Y axis increasing then decreasing
-	if (playerJumping == true)
-	{
-		PlayerJump();
-	}
-
+	
 	HandleDamage();
+	_tilemap->Collision(EntityPosition, volX, volY);
 }
 
 void Player::Draw(SpriteFactory *_sprite)
@@ -162,14 +163,16 @@ void Player::PlayerJump()
 	{
 		if (EntityPosition.y > YBeforeJump - jumpLimit)
 		{
-			EntityPosition.y -= 5;
+			//EntityPosition.y -= 5;
+			volY = -5;
 		}
 		else
 		{
 			// once the jump limit is reached, then we switch to player falling, and bring the lastframefallingpos into work to keep track of howe far the player can fall
 			playerFalling = true;
 			LastFrameFallingPos = EntityPosition.y;
-			EntityPosition.y -= 5;
+			volY = 5;
+			//EntityPosition.y += 5;
 		}
 	}
 
@@ -180,7 +183,8 @@ void Player::PlayerJump()
 		if (LastFrameFallingPos != EntityPosition.y)
 		{
 			LastFrameFallingPos = EntityPosition.y;
-			EntityPosition.y -= 5;
+			volY = 5;
+			//EntityPosition.y += 5;
 		}
 
 		// This means the player has stopped falling due to an obsticle e.g. floor
