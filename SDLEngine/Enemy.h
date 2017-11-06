@@ -12,4 +12,5 @@ protected:
 	std::vector<SDL_Rect> destinations;
 	size_t currentDest;
 	float speed;
+	bool flipped;
 };

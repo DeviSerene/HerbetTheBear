@@ -23,13 +23,13 @@ void Enemy::Update()
 	if (EntityPosition.x != destinations.at(currentDest).x || EntityPosition.y != destinations.at(currentDest).y)
 	{
 		//Flip enemy to face towards destination
-		if (EntityPosition.x > destinations.at(currentDest).x/*&& sprite isn't flipped*/)
+		if (EntityPosition.x > destinations.at(currentDest).x)
 		{
-			
+			flipped = true;
 		}
-		else if (EntityPosition.x < destinations.at(currentDest).x/*&& sprite is flipped*/)
+		else if (EntityPosition.x < destinations.at(currentDest).x)
 		{
-
+			flipped = false;
 		}
 		//move towards destination
 		int deltaX = EntityPosition.x - destinations.at(currentDest).x;
