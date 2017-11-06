@@ -1,10 +1,12 @@
 #include "PlayState.h"
 #include "TileMap.h"
 
+
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
 	map = new TileMap(0, 0, 0, 0, "assets/textures/grass.png", "assets/maps/", "test.tmx");
+	enemy1 = new Enemy(10.0f);
 }
 
 PlayState::~PlayState()
@@ -42,6 +44,7 @@ bool PlayState::HandleSDLEvents()
 
 void PlayState::Update(float deltaTime)
 {
+	enemy1->Update();
 }
 
 void PlayState::Draw()
@@ -52,4 +55,6 @@ void PlayState::Draw()
 
 	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 1, playerW, playerH);
 	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 1, helperW, helperH);
+	//enemy1->Draw(m_gameData->GetPlayerSprites());
+	enemy1->Draw(m_gameData->GetHelperSprites());
 }
