@@ -1,12 +1,18 @@
 #include "PlayState.h"
 #include "TileMap.h"
 
+#include "Player.h"
+#include "SpriteFactory.h"
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
 	map = new TileMap(0, 0, 0, 0, "assets/textures/grass.png", "assets/maps/", "test.tmx");
 	enemy1 = new Enemy(10.0f);
+	map = new TileMap(0, 0, 0, 0, "assets/textures/Forest_Tilesheet_01.png", "assets/maps/", "test.tmx");
+
+	player = new Player();
+
 }
 
 PlayState::~PlayState()
@@ -16,34 +22,17 @@ PlayState::~PlayState()
 
 bool PlayState::HandleSDLEvents()
 {
-	SDL_Event ev;
-
-	while (SDL_PollEvent(&ev)) {
-		switch (ev.type) {
-		case SDL_KEYDOWN:
-			switch (ev.key.keysym.sym) {
-			case SDLK_LEFT:
-				cameraX -= 3;
-				break;
-			case SDLK_RIGHT:
-				cameraX += 3;
-				break;
-			case SDLK_UP:
-				cameraY -= 3;
-				break;
-			case SDLK_DOWN:
-				cameraY += 3;
-				break;
-			}
-			break;
-		}
-	}
+	player->Input();
 
 	return true;
 }
 
 void PlayState::Update(float deltaTime)
 {
+
+	
+	player->Update();
+
 	enemy1->Update();
 }
 
@@ -57,4 +46,9 @@ void PlayState::Draw()
 	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 1, helperW, helperH);
 	//enemy1->Draw(m_gameData->GetPlayerSprites());
 	enemy1->Draw(m_gameData->GetHelperSprites());
+	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 6, playerW, playerH);
+	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 6, helperW, helperH);
+	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", player->GetPlayerRect(), player->GetPlayerCropRect(), player->getPlayerDirection());
+	m_gameData->GetHelperSprites()->Draw("child_sheet.png", player->GetPlayerRect(), player->GetPlayerCropRect(), player->getPlayerDirection());
+
 }
