@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include "SpriteFactory.h"
 class Entities
 {
 public:
@@ -8,6 +9,6 @@ public:
 
 	virtual void Input();
 	virtual void Update();
-	virtual void Draw(SDL_Renderer *_renderer);
+	virtual void Draw(SpriteFactory* _sprite);
 };
 

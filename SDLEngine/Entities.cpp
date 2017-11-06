@@ -21,7 +21,7 @@ void Entities::Update()
 
 }
 
-void Entities::Draw(SDL_Renderer *_renderer)
+void Entities::Draw(SpriteFactory *_sprite)
 {
 
 }
