@@ -153,6 +153,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="Music.cpp" />
+    <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteFactory.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="GamestateManager.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="Music.h" />
+    <ClInclude Include="PlayState.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteFactory.h" />
