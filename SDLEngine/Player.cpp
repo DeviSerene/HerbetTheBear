@@ -30,7 +30,7 @@ Player::Player()
 
 	movingLeft = false;
 
-	
+
 
 }
 
@@ -42,7 +42,7 @@ Player::~Player()
 
 void Player::Input()
 {
-	
+
 	timeLastFrame = timeCurrentFrame;
 	timeCurrentFrame = SDL_GetTicks();
 	deltaT = timeCurrentFrame - timeLastFrame;
@@ -113,6 +113,10 @@ void Player::Input()
 
 				}
 			}
+			else
+			{
+				CropRect.x = 0;
+			}
 		}
 
 	}
@@ -123,6 +127,14 @@ void Player::Update()
 	// While this is true, the player will be going through the jump cycle e.g Y axis increasing then decreasing
 	if (playerJumping == true)
 	{
+		CropRect.y = 64;
+
+		if (CropRect.x >= 128)
+		{
+			CropRect.x = 0;
+		}
+
+		CropRect.x += 32;
 		PlayerJump();
 	}
 
@@ -132,7 +144,7 @@ void Player::Update()
 void Player::Draw(SpriteFactory *_sprite)
 {
 	// Draws the sprite
-	_sprite->Draw(fileName, EntityPosition, CropRect, true);
+	//_sprite->Draw(fileName, EntityPosition, CropRect, true);
 }
 
 void Player::HandleDamage()
@@ -153,6 +165,11 @@ void Player::HandleDamage()
 SDL_Rect Player::GetPlayerRect()
 {
 	return EntityPosition;
+}
+
+bool Player::getPlayerDirection()
+{
+	return movingLeft;
 }
 
 void Player::PlayerJump()

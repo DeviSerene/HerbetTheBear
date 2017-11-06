@@ -38,6 +38,7 @@ public:
 
 	void HandleDamage();
 	SDL_Rect GetPlayerRect();
+	bool getPlayerDirection();
 	void PlayerJump();
 };
 
