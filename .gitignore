@@ -27,3 +27,4 @@
 /SDLEngine/x64/Debug/SDLEngine.tlog/CL.command.1.tlog
 /SDLEngine/Debug/SDLEngine.tlog/CL.write.1.tlog
 *.tlog
+*.obj

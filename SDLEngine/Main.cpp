@@ -9,6 +9,7 @@
 #include "GamestateManager.h"
 #include "GameState.h"
 #include "MenuState.h"
+#include "PlayState.h"
 
 // function prototypes
 void GameLoop(GameData* _gameData);
@@ -36,7 +37,8 @@ int main(int, char**)
 		return 0;
 	}
 	gameData->m_stateManager = new GamestateManager;
-	gameData->m_stateManager->AddState(new MenuState(gameData));
+	//gameData->m_stateManager->AddState(new MenuState(gameData));
+	gameData->m_stateManager->AddState(new PlayState(gameData));
 	GameLoop(gameData); //start the game loop
 
 	// clean up, free any memory we have used
