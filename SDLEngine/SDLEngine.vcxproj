@@ -157,6 +157,13 @@
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteFactory.cpp" />
+    <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="TMX\tinyxml2.cpp" />
+    <ClCompile Include="TMX\TMXLayer.cpp" />
+    <ClCompile Include="TMX\TMXMap.cpp" />
+    <ClCompile Include="TMX\TMXObject.cpp" />
+    <ClCompile Include="TMX\TMXObjectGroup.cpp" />
+    <ClCompile Include="TMX\TMXTileSet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
@@ -169,6 +176,13 @@
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteFactory.h" />
+    <ClInclude Include="TileMap.h" />
+    <ClInclude Include="TMX\tinyxml2.h" />
+    <ClInclude Include="TMX\TMXLayer.h" />
+    <ClInclude Include="TMX\TMXMap.h" />
+    <ClInclude Include="TMX\TMXObject.h" />
+    <ClInclude Include="TMX\TMXObjectGroup.h" />
+    <ClInclude Include="TMX\TMXTileSet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

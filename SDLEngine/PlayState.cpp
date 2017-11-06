@@ -12,7 +12,7 @@ PlayState::~PlayState()
 
 bool PlayState::HandleSDLEvents()
 {
-
+	return false;
 }
 
 void PlayState::Update(float deltaTime)

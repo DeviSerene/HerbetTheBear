@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "SpriteFactory.h"
+#include "TMX/TMXObjectGroup.h"
 
 class TileMap
 {
