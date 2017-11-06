@@ -167,6 +167,7 @@
     <ClCompile Include="TMX\TMXObject.cpp" />
     <ClCompile Include="TMX\TMXObjectGroup.cpp" />
     <ClCompile Include="TMX\TMXTileSet.cpp" />
+    <ClCompile Include="Trap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="TMX\TMXObject.h" />
     <ClInclude Include="TMX\TMXObjectGroup.h" />
     <ClInclude Include="TMX\TMXTileSet.h" />
+    <ClInclude Include="Trap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
