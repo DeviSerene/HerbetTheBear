@@ -20,18 +20,7 @@ bool PlayState::HandleSDLEvents()
 		switch (ev.type) {
 		case SDL_KEYDOWN:
 			switch (ev.key.keysym.sym) {
-			case SDLK_LEFT:
-				cameraX -= 3;
-				break;
-			case SDLK_RIGHT:
-				cameraX += 3;
-				break;
-			case SDLK_UP:
-				cameraY -= 3;
-				break;
-			case SDLK_DOWN:
-				cameraY += 3;
-				break;
+				
 			}
 			break;
 		}

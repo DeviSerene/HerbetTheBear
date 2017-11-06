@@ -134,14 +134,4 @@ void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int 
 			_factory->Draw(sprite, SDL_Rect{ (int)(-_cameraX + (x * tileWidth)), (int)(-_cameraY + (y * tileHeight)), tileWidth, tileHeight }, SDL_Rect{ tileX * 64, tileY * 64, 64, 64 });
 		}
 	}
-	/*for (int x = 0; x < width; x++) {
-		for (int y = 0; y < height; y++) {
-			int indice = tileIndices[(y * width) + x];
-
-			int tileX = indice % _tileCountX;
-			int tileY = indice / _tileCountX;
-
-			_factory->Draw(sprite, SDL_Rect{ (int)(-_cameraX + (x * tileWidth)), (int)(_cameraY + (y * tileHeight)), tileWidth, tileHeight }, SDL_Rect{ tileX * 64, tileY * 64, 64, 64 });
-		}
-	}*/
 }
