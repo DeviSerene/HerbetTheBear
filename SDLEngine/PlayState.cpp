@@ -41,6 +41,7 @@ void PlayState::Draw()
 
 	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 1, playerW, playerH);
 	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 1, helperW, helperH);
+	//m_gameData->GetPlayerSprites()->Draw("child_sheet.png", player->GetPlayerRect(), player->GetPlayerCropRect(), player->getPlayerDirection());
 	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", player->GetPlayerRect(), player->GetPlayerCropRect(), player->getPlayerDirection());
 	m_gameData->GetHelperSprites()->Draw("child_sheet.png", player->GetPlayerRect(), player->GetPlayerCropRect(), player->getPlayerDirection());
 
