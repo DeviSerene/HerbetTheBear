@@ -20,6 +20,9 @@ Player::Player()
 	playerJumping = false;
 	jumpLimit = 40;
 
+	timeLastFrame = 0.0f;
+	frameTime - 0.0f;
+
 }
 
 
@@ -31,6 +34,10 @@ Player::~Player()
 void Player::Input()
 {
 	
+	timeLastFrame = timeCurrentFrame;
+	timeCurrentFrame = SDL_GetTicks();
+	deltaT = timeCurrentFrame - timeLastFrame;
+
 	while (SDL_PollEvent(&key_input))
 	{
 		if (key_input.type == SDL_QUIT)
@@ -82,7 +89,7 @@ void Player::Update()
 void Player::Draw(SpriteFactory *_sprite)
 {
 	// Draws the sprite
-	_sprite->Draw(fileName, EntityPosition);
+	_sprite->Draw(fileName, EntityPosition, CropRect, true);
 }
 
 void Player::HandleDamage()

@@ -10,7 +10,7 @@ public:
 	SpriteFactory(SDL_Renderer* _renderer);
 	~SpriteFactory();
 	void Draw(std::string _name, SDL_Rect _position, bool _flipHorizontal = false);
-	void Draw(std::string _name, SDL_Rect _position, SDL_Rect& _cellRect, bool _flipHorizontal = false); //two Draws, for static/animation
+	void Draw(std::string _name, SDL_Rect _position, SDL_Rect _cellRect, bool _flipHorizontal = false); //two Draws, for static/animation
 	Sprite* GetSprite(std::string& _name, SDL_Rect& _position); //return a sprite from the spritelist, or call Create Sprite
 	void CreateSprite(std::string& _name, SDL_Rect& _position); //adds a sprite to spritelist
 
