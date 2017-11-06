@@ -3,3 +3,27 @@
 ################################################################################
 
 /SDLEngine.VC.VC.opendb
+/SDLEngine.VC.db
+/.vs/SDLEngine/v14
+/SDLEngine/Debug/TMXLayer.obj
+/SDLEngine/Debug/TMXTileSet.obj
+/SDLEngine/Debug/TMXObjectGroup.obj
+/SDLEngine/Debug/TMXObject.obj
+/SDLEngine/Debug/TMXMap.obj
+/SDLEngine/Debug/tinyxml2.obj
+/SDLEngine/Debug/TileMap.obj
+/SDLEngine/Debug/PlayState.obj
+/SDLEngine/x64/Debug/vc140.pdb
+/SDLEngine/x64/Debug/vc140.idb
+/SDLEngine/x64/Debug/TMXObjectGroup.obj
+/SDLEngine/x64/Debug/TMXObject.obj
+/SDLEngine/x64/Debug/TMXMap.obj
+/SDLEngine/x64/Debug/TMXLayer.obj
+/SDLEngine/x64/Debug/tinyxml2.obj
+/SDLEngine/x64/Debug/SDLEngine.log
+/SDLEngine/x64/Debug/SDLEngine.tlog/unsuccessfulbuild
+/SDLEngine/x64/Debug/SDLEngine.tlog/SDLEngine.lastbuildstate
+/SDLEngine/x64/Debug/SDLEngine.tlog/CL.read.1.tlog
+/SDLEngine/x64/Debug/SDLEngine.tlog/CL.command.1.tlog
+/SDLEngine/Debug/SDLEngine.tlog/CL.write.1.tlog
+*.tlog
