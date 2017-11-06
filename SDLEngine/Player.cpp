@@ -11,6 +11,11 @@ Player::Player()
 	EntityPosition.w = 20;
 	EntityPosition.h = 30;
 
+	CropRect.x = 0;
+	CropRect.y = 0;
+	CropRect.w = 32;
+	CropRect.h = 32;
+
 	// Initilizing variables needed to handle player damage
 	playerHeath = 3;
 	playerHit = false;
@@ -19,6 +24,13 @@ Player::Player()
 	playerFalling = false;
 	playerJumping = false;
 	jumpLimit = 40;
+
+	timeLastFrame = 0.0f;
+	frameTime - 0.0f;
+
+	movingLeft = false;
+
+	
 
 }
 
@@ -31,40 +43,78 @@ Player::~Player()
 void Player::Input()
 {
 	
-	while (SDL_PollEvent(&key_input))
+	timeLastFrame = timeCurrentFrame;
+	timeCurrentFrame = SDL_GetTicks();
+	deltaT = timeCurrentFrame - timeLastFrame;
+
+	if (deltaT >= 10)
 	{
-		if (key_input.type == SDL_QUIT)
+		while (SDL_PollEvent(&key_input))
 		{
-			// Quit game
-		}
-		else if (key_input.type == SDL_KEYDOWN)
-		{
-			switch (key_input.key.keysym.sym)
+			if (key_input.type == SDL_QUIT)
 			{
-			case SDLK_SPACE:
-
-				if (playerJumping == false)
+				// Quit game
+			}
+			else if (key_input.type == SDL_KEYDOWN)
+			{
+				switch (key_input.key.keysym.sym)
 				{
-					playerJumping = true;
-					// Initilizing this to allow the jump class to pair it with the jump limit while jumping
-					YBeforeJump = EntityPosition.y;
+				case SDLK_SPACE:
+
+					if (playerJumping == false)
+					{
+						playerJumping = true;
+						// Initilizing this to allow the jump class to pair it with the jump limit while jumping
+						YBeforeJump = EntityPosition.y;
+					}
+					// Jump movement
+				case SDLK_a:
+					// Left movement
+					EntityPosition.x -= 5;
+					CropRect.y = 32;
+
+					if (CropRect.x >= 128)
+					{
+						CropRect.x = 0;
+					}
+
+					CropRect.x += 32;
+					movingLeft = true;
+
+					// Put sprite animation for left movement here
+
+				case SDLK_d:
+
+					//right movement
+					EntityPosition.x += 5;
+					CropRect.y = 32;
+
+					if (CropRect.x >= 128)
+					{
+						CropRect.x = 0;
+					}
+
+					CropRect.x += 32;
+					movingLeft = false;
+
+					// put sprite animation for right movement here
+				default:
+
+					CropRect.y = 0;
+
+					if (CropRect.x >= 128)
+					{
+						CropRect.x = 0;
+					}
+
+					CropRect.x += 32;
+
+
+
 				}
-				// Jump movement
-			case SDLK_a:
-				// Left movement
-				EntityPosition.x -= 5;
-
-				// Put sprite animation for left movement here
-
-			case SDLK_d:
-
-				//right movement
-				EntityPosition.x += 5;
-
-				// put sprite animation for right movement here
-				
 			}
 		}
+
 	}
 }
 
@@ -82,7 +132,7 @@ void Player::Update()
 void Player::Draw(SpriteFactory *_sprite)
 {
 	// Draws the sprite
-	_sprite->Draw(fileName, EntityPosition);
+	_sprite->Draw(fileName, EntityPosition, CropRect, true);
 }
 
 void Player::HandleDamage()

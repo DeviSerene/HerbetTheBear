@@ -9,9 +9,12 @@ protected:
 
 	SDL_Event key_input;
 
+	SDL_Rect CropRect;
 
 	int playerHeath;
 	bool playerHit;
+
+	bool movingLeft;
 
 	// Variables for handing Jumping
 	bool playerJumping;
@@ -19,6 +22,11 @@ protected:
 	int jumpLimit;
 	int YBeforeJump;
 	int LastFrameFallingPos;
+
+	float timeLastFrame;
+	float timeCurrentFrame;
+	float deltaT;
+	float frameTime;
 
 public:
 	Player();
