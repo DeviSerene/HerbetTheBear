@@ -4,6 +4,7 @@
 
 Entities::Entities()
 {
+	drawnPlayer = false;
 }
 
 
