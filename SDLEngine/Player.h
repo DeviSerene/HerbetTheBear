@@ -14,6 +14,8 @@ protected:
 	int playerHeath;
 	bool playerHit;
 
+	bool movingLeft;
+
 	// Variables for handing Jumping
 	bool playerJumping;
 	bool playerFalling;
