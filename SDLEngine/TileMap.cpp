@@ -108,16 +108,40 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY) {
 }
 
 
-void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int tileCountX) {
+void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int _tileCountX, int _windowWidth, int _windowHeight) {
+	
+	int boundLeft = (_cameraX - _windowWidth) / tileWidth - 1;
+	int boundRight = (_cameraX + _windowWidth) / tileWidth + 1;
+	int boundTop = (_cameraY - _windowHeight) / tileHeight - 1;
+	int boundBottom = (_cameraY + _windowHeight) / tileHeight + 1;
 
-	for (int x = 0; x < width; x++) {
+	if (boundLeft < 0)
+		boundLeft = 0;
+	if (boundRight >= width)
+		boundRight = width - 1;
+	if (boundTop < 0)
+		boundTop = 0;
+	if (boundBottom >= height)
+		boundBottom = height - 1;
+
+	for (int x = boundLeft; x < boundRight; x++) {
+		for (int y = boundTop; y < boundBottom; y++) {
+			int indice = tileIndices[(y * width) + x];
+
+			int tileX = indice % _tileCountX;
+			int tileY = indice / _tileCountX;
+
+			_factory->Draw(sprite, SDL_Rect{ (int)(-_cameraX + (x * tileWidth)), (int)(-_cameraY + (y * tileHeight)), tileWidth, tileHeight }, SDL_Rect{ tileX * 64, tileY * 64, 64, 64 });
+		}
+	}
+	/*for (int x = 0; x < width; x++) {
 		for (int y = 0; y < height; y++) {
 			int indice = tileIndices[(y * width) + x];
 
-			int tileX = indice % tileCountX;
-			int tileY = indice / tileCountX;
+			int tileX = indice % _tileCountX;
+			int tileY = indice / _tileCountX;
 
 			_factory->Draw(sprite, SDL_Rect{ (int)(-_cameraX + (x * tileWidth)), (int)(_cameraY + (y * tileHeight)), tileWidth, tileHeight }, SDL_Rect{ tileX * 64, tileY * 64, 64, 64 });
 		}
-	}
+	}*/
 }
