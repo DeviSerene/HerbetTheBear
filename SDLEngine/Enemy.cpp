@@ -44,3 +44,25 @@ void Enemy::Update()
 	}
 	
 }
+
+void Enemy::Draw(SpriteFactory * _sprite)
+{
+	SDL_Rect cropRect;
+	if (spriteIndex > 8)
+	{
+		spriteIndex = 1;
+	}
+	if (spriteIndex < 5)
+	{
+		cropRect.x = spriteIndex * 32;
+		cropRect.y = 0;
+		spriteIndex += 1;
+	}
+	else if (spriteIndex >= 5 && spriteIndex < 9)
+	{
+		cropRect.x = spriteIndex * 32;
+		cropRect.y = spriteIndex;
+		spriteIndex += 1;
+	}
+	_sprite->Draw("enemysprite.bmp", EntityPosition, cropRect, flipped);
+}
