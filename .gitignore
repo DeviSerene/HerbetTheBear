@@ -5,3 +5,4 @@
 /SDLEngine.VC.VC.opendb
 /SDLEngine.VC.db
 *.obj
+/SDLEngine/Debug/player.obj.enc
