@@ -2,8 +2,11 @@
 
 #include "GameState.h"
 #include "GameData.h"
+#include "Player.h"
+#include "SpriteFactory.h"
 
 class TileMap;
+
 
 class PlayState : public GameState
 {
@@ -12,6 +15,8 @@ class PlayState : public GameState
 public:
 
 	TileMap* map;
+	Player* player;
+	SpriteFactory* sprite;
 
 	PlayState(GameData* data);
 	~PlayState();

@@ -1,10 +1,16 @@
 #include "PlayState.h"
 #include "TileMap.h"
 
+#include "Player.h"
+#include "SpriteFactory.h"
+
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
 	map = new TileMap(0, 0, 0, 0, "assets/textures/grass.png", "assets/maps/", "test.tmx");
+
+	player = new Player();
+
 }
 
 PlayState::~PlayState()
@@ -14,23 +20,17 @@ PlayState::~PlayState()
 
 bool PlayState::HandleSDLEvents()
 {
-	SDL_Event ev;
-
-	while (SDL_PollEvent(&ev)) {
-		switch (ev.type) {
-		case SDL_KEYDOWN:
-			switch (ev.key.keysym.sym) {
-				
-			}
-			break;
-		}
-	}
+	player->Input();
 
 	return true;
 }
 
 void PlayState::Update(float deltaTime)
 {
+
+	
+	player->Update();
+
 }
 
 void PlayState::Draw()
@@ -41,4 +41,7 @@ void PlayState::Draw()
 
 	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 1, playerW, playerH);
 	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 1, helperW, helperH);
+	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", player->GetPlayerRect(), player->GetPlayerCropRect(), player->getPlayerDirection());
+	m_gameData->GetHelperSprites()->Draw("child_sheet.png", player->GetPlayerRect(), player->GetPlayerCropRect(), player->getPlayerDirection());
+
 }
