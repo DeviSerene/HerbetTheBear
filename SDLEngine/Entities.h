@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <string>
 #include "SpriteFactory.h"
+#include "TileMap.h"
 class Entities
 {
 protected:
@@ -16,7 +17,7 @@ public:
 	~Entities();
 
 	virtual void Input();
-	virtual void Update();
+	virtual void Update(TileMap *_tilemap);
 	virtual void Draw(SpriteFactory* _sprite);
 };
 

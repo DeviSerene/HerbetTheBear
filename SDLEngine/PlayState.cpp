@@ -27,10 +27,12 @@ bool PlayState::HandleSDLEvents()
 
 void PlayState::Update(float deltaTime)
 {
-
-	
-	player->Update();
-
+	player->Update(map);
+	int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
+	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
+	SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
+	cameraX = player->GetPlayerRect().x - (playerW / 2);
+	cameraY = player->GetPlayerRect().y - (playerH / 2);
 }
 
 void PlayState::Draw()
@@ -41,7 +43,13 @@ void PlayState::Draw()
 
 	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 6, playerW, playerH);
 	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 6, helperW, helperH);
-	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", player->GetPlayerRect(), player->GetPlayerCropRect(), player->getPlayerDirection());
-	m_gameData->GetHelperSprites()->Draw("child_sheet.png", player->GetPlayerRect(), player->GetPlayerCropRect(), player->getPlayerDirection());
+	
+	SDL_Rect playerPos = player->GetPlayerRect();
+	playerPos.x = -cameraX + (playerPos.x);
+	playerPos.y = -cameraY + (playerPos.y);
+
+	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
+
+	m_gameData->GetHelperSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
 
 }

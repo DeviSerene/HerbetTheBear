@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include "Entities.h"
+#include "TileMap.h"
 
 class Player : public Entities
 {
@@ -13,6 +14,9 @@ protected:
 
 	int playerHeath;
 	bool playerHit;
+
+	int volX;
+	int volY;
 
 	bool movingLeft;
 
@@ -33,7 +37,7 @@ public:
 	~Player();
 
 	void Input() override;
-	void Update() override;
+	void Update(TileMap *_tilemap) override;
 	void Draw(SpriteFactory *_sprite) override;
 
 	void HandleDamage();

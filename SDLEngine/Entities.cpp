@@ -17,7 +17,7 @@ void Entities::Input()
 
 }
 
-void Entities::Update()
+void Entities::Update(TileMap *_tilemap)
 {
 
 }
