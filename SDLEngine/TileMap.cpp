@@ -46,11 +46,12 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY) {
 		for (int y = 0; y < height; y++) {
 			int tileType = tileIndices[(y * width) + x];
 
-			if (tileType == -1) continue;
+			if (tileType <= 0) continue;
 
 			SDL_Rect tilePos = { x * tileWidth, y * tileHeight, tileWidth, tileHeight };
 
-			if (SDL_IntersectRect(&tilePos, &newPos, NULL) == SDL_FALSE) continue;
+			if (!(newPos.x <= tilePos.x + tilePos.w && newPos.x + newPos.w >= tilePos.x
+				&& newPos.y <= tilePos.y + tilePos.h && newPos.y + newPos.h >= tilePos.y)) continue;
 
 			if (rect.y >= tilePos.y + tilePos.y) {
 				tileV_X = x;
@@ -64,7 +65,7 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY) {
 					newVelX = velX;
 				}
 			}
-			else if (rect.x >= tilePos.x + tilePos.x) {
+			else if (rect.x >= tilePos.x + tilePos.w) {
 				tileH_X = x;
 				tileH_Y = y;
 
@@ -91,10 +92,10 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY) {
 			else if (rect.y + rect.h <= tilePos.y) {
 				tileV_X = x;
 				tileV_Y = y;
+				newVelY = tilePos.y - (rect.y + rect.h);
 
-				if (tileV_X != tileH_X) {
-					newVelY = tilePos.y - (rect.y + rect.h);
-				}
+				//if (tileV_X != tileH_X) {
+				//}
 
 				if (tileV_Y == tileH_Y) {
 					newVelX = velX;
@@ -127,6 +128,8 @@ void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int 
 	for (int x = boundLeft; x < boundRight; x++) {
 		for (int y = boundTop; y < boundBottom; y++) {
 			int indice = tileIndices[(y * width) + x];
+			if (indice <= 0) continue;
+			indice--;
 
 			int tileX = indice % _tileCountX;
 			int tileY = indice / _tileCountX;
@@ -134,14 +137,4 @@ void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int 
 			_factory->Draw(sprite, SDL_Rect{ (int)(-_cameraX + (x * tileWidth)), (int)(-_cameraY + (y * tileHeight)), tileWidth, tileHeight }, SDL_Rect{ tileX * 64, tileY * 64, 64, 64 });
 		}
 	}
-	/*for (int x = 0; x < width; x++) {
-		for (int y = 0; y < height; y++) {
-			int indice = tileIndices[(y * width) + x];
-
-			int tileX = indice % _tileCountX;
-			int tileY = indice / _tileCountX;
-
-			_factory->Draw(sprite, SDL_Rect{ (int)(-_cameraX + (x * tileWidth)), (int)(_cameraY + (y * tileHeight)), tileWidth, tileHeight }, SDL_Rect{ tileX * 64, tileY * 64, 64, 64 });
-		}
-	}*/
 }

@@ -7,7 +7,7 @@ Player::Player()
 {
 	// stating players spawning position
 	EntityPosition.x = 30;
-	EntityPosition.y = 100;
+	EntityPosition.y = -100;
 	EntityPosition.w = 32;
 	EntityPosition.h = 32;
 
@@ -50,6 +50,8 @@ void Player::Input()
 	timeCurrentFrame = SDL_GetTicks();
 	deltaT = timeCurrentFrame - timeLastFrame;
 
+	volX = 0;
+
 	if (deltaT >= 10)
 	{
 		while (SDL_PollEvent(&key_input))
@@ -64,13 +66,16 @@ void Player::Input()
 				{
 				case SDLK_SPACE:
 
-					if (playerJumping == false)
+					/*if (playerJumping == false)
 					{
 						playerJumping = true;
 						// Initilizing this to allow the jump class to pair it with the jump limit while jumping
 						YBeforeJump = EntityPosition.y;
-					}
+					}*/
+
+					volY = -10;
 					// Jump movement
+					break;
 				case SDLK_a:
 					// Left movement
 					//EntityPosition.x -= 5;
@@ -86,7 +91,7 @@ void Player::Input()
 					movingLeft = true;
 
 					// Put sprite animation for left movement here
-
+					break;
 				case SDLK_d:
 
 					//right movement
@@ -103,6 +108,7 @@ void Player::Input()
 					movingLeft = false;
 
 					// put sprite animation for right movement here
+					break;
 				default:
 
 					CropRect.y = 0;
@@ -115,11 +121,14 @@ void Player::Input()
 					CropRect.x += 32;
 
 
+					break;
 
 				}
 			}
 		}
 
+			volY += 1;
+			if (volY > 5) volY = 5;
 	}
 }
 
@@ -154,6 +163,16 @@ void Player::HandleDamage()
 SDL_Rect Player::GetPlayerRect()
 {
 	return EntityPosition;
+}
+
+SDL_Rect Player::GetPlayerCropRect()
+{
+	return CropRect;
+}
+
+bool Player::getPlayerDirection()
+{
+	return movingLeft;
 }
 
 void Player::PlayerJump()
