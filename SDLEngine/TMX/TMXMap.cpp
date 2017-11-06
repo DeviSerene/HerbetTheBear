@@ -31,7 +31,10 @@ TMXMap::TMXMap(const char *workingDir, const char *fileName)
 		ts->QueryIntAttribute("tilecount", &tsCount);
 		ts->QueryIntAttribute("firstgid", &tsFirst);
 		tsName = ts->Attribute("name");
-		tsFileName = ts->FirstChildElement("image")->Attribute("source");
+		if (ts->FirstChildElement("image") != NULL)
+			tsFileName = ts->FirstChildElement("image")->Attribute("source");
+		else
+			tsFileName = "";
 		strcat(tsFile, workingDir);
 		strcat(tsFile, tsFileName.c_str());
 		tileSets.push_back(new TMXTileSet(tsWidth, tsHeight, tsCount, tsFirst, tsName.c_str(), tsFile));
