@@ -1,6 +1,9 @@
 #include "PlayState.h"
 #include "TileMap.h"
 
+#include "Player.h"
+#include "SpriteFactory.h"
+
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
@@ -41,4 +44,6 @@ void PlayState::Draw()
 
 	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 1, playerW, playerH);
 	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 1, helperW, helperH);
+
+	m_gameData->GetPlayerSprites()->Draw("child_sprite.png", player->GetPlayerRect(), player->GetPlayerDirection());
 }
