@@ -6,6 +6,7 @@ struct TMXLayer
 {
 	int width, height;
 	const char *name;
+	int a;
 	int *tiles;
 	std::map<std::string, std::string> stringProperties;
 	std::map<std::string, int> intProperties;
