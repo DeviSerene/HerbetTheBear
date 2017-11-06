@@ -1,6 +1,5 @@
 #include "Player.h"
 
-#include <iostream>
 
 
 Player::Player()
@@ -27,16 +26,14 @@ Player::Player()
 	jumpLimit = 40;
 
 	timeLastFrame = 0.0f;
-	timeCurrentFrame = 0.0f;
 	frameTime - 0.0f;
-	deltaT = 0.0f;
 
 	volX = 0;
 	volY = 0;
 
 	movingLeft = false;
 
-
+	
 
 }
 
@@ -48,14 +45,13 @@ Player::~Player()
 
 void Player::Input()
 {
-	std::cout << "Player pos y" << EntityPosition.y << std::endl;
+	
 	timeLastFrame = timeCurrentFrame;
 	timeCurrentFrame = SDL_GetTicks();
-	deltaT = (timeCurrentFrame - timeLastFrame) / 1000.0f;
+	deltaT = timeCurrentFrame - timeLastFrame;
 
-	if (deltaT >= 0)
+	if (deltaT >= 10)
 	{
-		deltaT = 0;
 		while (SDL_PollEvent(&key_input))
 		{
 			if (key_input.type == SDL_QUIT)
@@ -74,7 +70,6 @@ void Player::Input()
 						// Initilizing this to allow the jump class to pair it with the jump limit while jumping
 						YBeforeJump = EntityPosition.y;
 					}
-					break;
 					// Jump movement
 				case SDLK_a:
 					// Left movement
@@ -86,12 +81,9 @@ void Player::Input()
 					{
 						CropRect.x = 0;
 					}
-					std::cout << "Player pos x: " << EntityPosition.x << std::endl;
-					std::cout << "Player pos y" << EntityPosition.y << std::endl;
+
 					CropRect.x += 32;
 					movingLeft = true;
-					
-					break;
 
 					// Put sprite animation for left movement here
 
@@ -106,50 +98,34 @@ void Player::Input()
 					{
 						CropRect.x = 0;
 					}
-					std::cout << "Player pos x: " << EntityPosition.x << std::endl;
-					std::cout << "Player pos y" << EntityPosition.y << std::endl;
+
 					CropRect.x += 32;
 					movingLeft = false;
 
-					break;
-
 					// put sprite animation for right movement here
+				default:
+
+					CropRect.y = 0;
+
+					if (CropRect.x >= 128)
+					{
+						CropRect.x = 0;
+					}
+
+					CropRect.x += 32;
+
+
 
 				}
 			}
-			else if (key_input.type == SDL_KEYUP)
-			{
-				CropRect.y = 0;
-
-				if (CropRect.x >= 128)
-				{
-					CropRect.x = 0;
-				}
-
-				CropRect.x += 32;
-			}
-
 		}
 
-		// While this is true, the player will be going through the jump cycle e.g Y axis increasing then decreasing
-		if (playerJumping == true)
-		{
-			CropRect.y = 64;
-
-			if (CropRect.x >= 128)
-			{
-				CropRect.x = 0;
-			}
-
-			CropRect.x += 32;
-			PlayerJump();
-			std::cout << "Crop rect x" << CropRect.x << std::endl;
-		}
 	}
 }
 
 void Player::Update(TileMap *_tilemap)
 {
+	
 	HandleDamage();
 	_tilemap->Collision(EntityPosition, volX, volY);
 }
@@ -157,7 +133,7 @@ void Player::Update(TileMap *_tilemap)
 void Player::Draw(SpriteFactory *_sprite)
 {
 	// Draws the sprite
-	//_sprite->Draw(fileName, EntityPosition, CropRect, true);
+	_sprite->Draw(fileName, EntityPosition, CropRect, true);
 }
 
 void Player::HandleDamage()
@@ -180,20 +156,10 @@ SDL_Rect Player::GetPlayerRect()
 	return EntityPosition;
 }
 
-SDL_Rect Player::GetPlayerCropRect()
-{
-	return CropRect;
-}
-
-bool Player::getPlayerDirection()
-{
-	return movingLeft;
-}
-
 void Player::PlayerJump()
 {
 	// player falling is false as long as the y axis is decreasing
- 	if (playerFalling == false)
+	if (playerFalling == false)
 	{
 		if (EntityPosition.y > YBeforeJump - jumpLimit)
 		{

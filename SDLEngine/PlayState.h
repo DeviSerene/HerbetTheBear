@@ -4,6 +4,7 @@
 #include "GameData.h"
 #include "Player.h"
 #include "SpriteFactory.h"
+#include "Enemy.h"
 
 class TileMap;
 
@@ -23,5 +24,6 @@ public:
 	virtual bool HandleSDLEvents();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
+	Enemy* enemy1;
 };
 

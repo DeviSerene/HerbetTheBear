@@ -1,14 +1,20 @@
 #include "Enemy.h"
+#include <iostream>
 
 Enemy::Enemy(float _speed)
 {
-	srand(time_t(0));
-	for (size_t i = 0; i < rand() % 5 + 2; i++)
+	
+	for (size_t i = 0; i < rand() % 10 + 2; i++)
 	{
 		SDL_Rect curr;
 		//generate random positions
+		curr.x = rand() % 800;
+		curr.y = rand() % 800;
+		destinations.push_back(curr);
+		std::cout << curr.x << ", " << curr.y << std::endl;
 	}
 	EntityPosition = destinations.at(0);
+	EntityPosition.w = EntityPosition.h = 32;
 	currentDest = 0;
 	speed = _speed;
 }
@@ -20,7 +26,7 @@ Enemy::~Enemy()
 
 void Enemy::Update()
 {
-	if (EntityPosition.x != destinations.at(currentDest).x || EntityPosition.y != destinations.at(currentDest).y)
+	if ((EntityPosition.x != destinations.at(currentDest).x) || (EntityPosition.y != destinations.at(currentDest).y))
 	{
 		//Flip enemy to face towards destination
 		if (EntityPosition.x > destinations.at(currentDest).x)
@@ -32,15 +38,21 @@ void Enemy::Update()
 			flipped = false;
 		}
 		//move towards destination
-		int deltaX = EntityPosition.x - destinations.at(currentDest).x;
-		int deltaY = EntityPosition.y - destinations.at(currentDest).y;
-		int distanceBetweenEntAndDest = std::sqrt(std::pow(deltaX, 2) + std::pow(deltaY, 2));
-		EntityPosition.x += deltaX / distanceBetweenEntAndDest * speed;
-		EntityPosition.y += deltaY / distanceBetweenEntAndDest * speed;
+		float deltaX = EntityPosition.x - destinations.at(currentDest).x;
+		float deltaY = EntityPosition.y - destinations.at(currentDest).y;
+		float distanceBetweenEntAndDest = std::sqrt(std::pow(deltaX, 2) + std::pow(deltaY, 2));
+		EntityPosition.x -= round(deltaX / distanceBetweenEntAndDest);
+		EntityPosition.y -= round(deltaY / distanceBetweenEntAndDest);
+		//std::cout << deltaX / distanceBetweenEntAndDest << std::endl;
+		//std::cout << EntityPosition.x << ", " << EntityPosition.y << ", Change: " << round(deltaX / distanceBetweenEntAndDest) + 1 << ", " << round(deltaY / distanceBetweenEntAndDest) + 1 << std::endl;
 	}
 	else
 	{
 		currentDest += 1;
+	}
+	if (currentDest == destinations.size())
+	{
+		currentDest = 0;
 	}
 	
 }
@@ -48,21 +60,16 @@ void Enemy::Update()
 void Enemy::Draw(SpriteFactory * _sprite)
 {
 	SDL_Rect cropRect;
-	if (spriteIndex > 8)
+	if (spriteIndex > 3)
 	{
-		spriteIndex = 1;
+		spriteIndex = 0;
 	}
-	if (spriteIndex < 5)
+	if (spriteIndex < 4)
 	{
 		cropRect.x = spriteIndex * 32;
 		cropRect.y = 0;
+		cropRect.w = cropRect.h = 32;
 		spriteIndex += 1;
 	}
-	else if (spriteIndex >= 5 && spriteIndex < 9)
-	{
-		cropRect.x = spriteIndex * 32;
-		cropRect.y = spriteIndex;
-		spriteIndex += 1;
-	}
-	_sprite->Draw("enemysprite.bmp", EntityPosition, cropRect, flipped);
+	_sprite->Draw("assets/ghost_sheet.png", EntityPosition, cropRect , flipped);
 }
