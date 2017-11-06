@@ -32,6 +32,82 @@ TileMap::~TileMap()
 {
 }
 
+void TileMap::Collision(SDL_Rect& rect, float velX, float velY) {
+	float newVelX = velX, newVelY = velY;
+
+	SDL_Rect newPos = rect;
+	newPos.x += velX;
+	newPos.y += velY;
+
+	int tileH_X = -1, tileH_Y = -1;
+	int tileV_X = -1, tileV_Y = -1;
+
+	for (int x = 0; x < width; x++) {
+		for (int y = 0; y < height; y++) {
+			int tileType = tileIndices[(y * width) + x];
+
+			if (tileType == -1) continue;
+
+			SDL_Rect tilePos = { x * tileWidth, y * tileHeight, tileWidth, tileHeight };
+
+			if (SDL_IntersectRect(&tilePos, &newPos, NULL) == SDL_FALSE) continue;
+
+			if (rect.y >= tilePos.y + tilePos.y) {
+				tileV_X = x;
+				tileV_Y = y;
+
+				if (tileV_X != tileH_X) {
+					newVelY = (tilePos.y + tilePos.h) - rect.y;
+				}
+
+				if (tileV_Y == tileH_Y) {
+					newVelX = velX;
+				}
+			}
+			else if (rect.x >= tilePos.x + tilePos.x) {
+				tileH_X = x;
+				tileH_Y = y;
+
+				if (tileH_Y != tileV_Y) {
+					newVelX = (tilePos.x + tilePos.w) - rect.x;
+				}
+
+				if (tileV_X == tileH_X) {
+					newVelY = velY;
+				}
+			}
+			else if (rect.x + rect.w <= tilePos.x) {
+				tileH_X = x;
+				tileH_Y = y;
+
+				if (tileH_Y != tileV_Y) {
+					newVelX = tilePos.x - (rect.x + rect.w);
+				}
+
+				if (tileV_X == tileH_X) {
+					newVelY = velY;
+				}
+			}
+			else if (rect.y + rect.h <= tilePos.y) {
+				tileV_X = x;
+				tileV_Y = y;
+
+				if (tileV_X != tileH_X) {
+					newVelY = tilePos.y - (rect.y + rect.h);
+				}
+
+				if (tileV_Y == tileH_Y) {
+					newVelX = velX;
+				}
+			}
+		}
+	}
+
+	rect.x += newVelX;
+	rect.y += newVelY;
+}
+
+
 void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int tileCountX) {
 
 	for (int x = 0; x < width; x++) {

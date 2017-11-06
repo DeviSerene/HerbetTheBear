@@ -24,7 +24,7 @@ public:
 
 	TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::string _atlas, const char *_workingDir, const char *_level);
 	~TileMap();
-
+	void Collision(SDL_Rect& rect, float velX, float velY);
 	void Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int tileCountX);
 };
 
