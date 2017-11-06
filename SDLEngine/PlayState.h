@@ -4,8 +4,6 @@
 #include "GameData.h"
 
 class TileMap;
-class Player;
-class SpriteFactory;
 
 class PlayState : public GameState
 {
@@ -14,7 +12,6 @@ class PlayState : public GameState
 public:
 
 	TileMap* map;
-	Player* player;
 
 	PlayState(GameData* data);
 	~PlayState();
