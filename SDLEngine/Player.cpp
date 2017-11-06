@@ -9,8 +9,8 @@ Player::Player()
 	// stating players spawning position
 	EntityPosition.x = 100;
 	EntityPosition.y = 150;
-	EntityPosition.w = 20;
-	EntityPosition.h = 30;
+	EntityPosition.w = 100;
+	EntityPosition.h = 100;
 
 	CropRect.x = 0;
 	CropRect.y = 0;
@@ -109,25 +109,21 @@ void Player::Input()
 					break;
 
 					// put sprite animation for right movement here
-				default:
-
-					CropRect.y = 0;
-
-					if (CropRect.x >= 128)
-					{
-						CropRect.x = 0;
-					}
-
-					CropRect.x += 32;
-
-
 
 				}
 			}
-			else
+			else if (key_input.type == SDL_KEYUP)
 			{
-				CropRect.x = 0;
+				CropRect.y = 0;
+
+				if (CropRect.x >= 128)
+				{
+					CropRect.x = 0;
+				}
+
+				CropRect.x += 32;
 			}
+
 		}
 
 		// While this is true, the player will be going through the jump cycle e.g Y axis increasing then decreasing
