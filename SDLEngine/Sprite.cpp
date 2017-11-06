@@ -24,14 +24,27 @@ Sprite::~Sprite()
 		SDL_DestroyTexture(m_image); //free the memory
 }
 
-void Sprite::Draw()
+void Sprite::Draw(bool _flip)
 {
+	SDL_RendererFlip flip;
+	if(_flip == true)
+		flip = SDL_FLIP_HORIZONTAL;
+	else
+		flip = SDL_FLIP_NONE;
+
+
 	if (m_image)//safety - ensure there is something to draw
-		SDL_RenderCopy(m_renderer, m_image, NULL, &m_position);
+		SDL_RenderCopyEx(m_renderer, m_image, NULL, &m_position, 0,NULL, flip);
 }
 
-void Sprite::AniDraw(SDL_Rect& _cellRect)
+void Sprite::AniDraw(SDL_Rect& _cellRect, bool _flip)
 {
+	SDL_RendererFlip flip;
+	if (_flip == true)
+		flip = SDL_FLIP_HORIZONTAL;
+	else
+		flip = SDL_FLIP_NONE;
+
 	if (m_image)
-		SDL_RenderCopy(m_renderer, m_image, &_cellRect, &m_position); 
+		SDL_RenderCopyEx(m_renderer, m_image, &_cellRect, &m_position, 0, NULL, flip);
 }
