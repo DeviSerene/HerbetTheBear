@@ -7,7 +7,7 @@ Player::Player()
 {
 	// stating players spawning position
 	EntityPosition.x = 100;
-	EntityPosition.y = 100;
+	EntityPosition.y = 150;
 	EntityPosition.w = 20;
 	EntityPosition.h = 30;
 
@@ -26,7 +26,9 @@ Player::Player()
 	jumpLimit = 40;
 
 	timeLastFrame = 0.0f;
+	timeCurrentFrame = 0.0f;
 	frameTime - 0.0f;
+	deltaT = 0.0f;
 
 	movingLeft = false;
 
@@ -45,10 +47,11 @@ void Player::Input()
 
 	timeLastFrame = timeCurrentFrame;
 	timeCurrentFrame = SDL_GetTicks();
-	deltaT = timeCurrentFrame - timeLastFrame;
+	deltaT = (timeCurrentFrame - timeLastFrame) / 1000.0f;
 
-	if (deltaT >= 10)
+	if (deltaT >= 0)
 	{
+		deltaT = 0;
 		while (SDL_PollEvent(&key_input))
 		{
 			if (key_input.type == SDL_QUIT)
@@ -165,6 +168,11 @@ void Player::HandleDamage()
 SDL_Rect Player::GetPlayerRect()
 {
 	return EntityPosition;
+}
+
+SDL_Rect Player::GetPlayerCropRect()
+{
+	return CropRect;
 }
 
 bool Player::getPlayerDirection()
