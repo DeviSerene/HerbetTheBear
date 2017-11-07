@@ -9,13 +9,14 @@ struct TMXObject
 	int x, y, width, height, id;
 	TMX_OBJECT_SHAPES shape;
 	std::string type;
+	std::string name;
 	std::map<const char*, std::string> stringProperties;
 	std::map<const char*, int> intProperties;
 	std::map<const char*, float> floatProperties;
 	std::map<const char*, bool> boolProperties;
 
 
-	TMXObject(int x, int y, int width, int height, int id, std::string type, TMX_OBJECT_SHAPES shape);
+	TMXObject(std::string name, int x, int y, int width, int height, int id, std::string type, TMX_OBJECT_SHAPES shape);
 	~TMXObject();
 };
 

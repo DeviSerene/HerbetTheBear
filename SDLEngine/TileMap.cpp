@@ -27,6 +27,11 @@ TileMap::TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::
 	}
 
 	grassTimer = Timer(0.7f);
+
+	for (TMXObject *ob : map.objectGroups[0]->objects) {
+		if (ob->name == "Teddy")
+			teddyPos = SDL_Rect{ ob->x, ob->y, 32, 32 };
+	}
 }
 
 

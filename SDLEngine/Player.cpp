@@ -94,11 +94,12 @@ void Player::Update(PlayState *_playState)
 
 	volY += 0.75f;
 	if (volY > 10) volY = 10;
-	Entities::Update(_playState);
 	HandleDamage();
 
 	onGround = false;
 	_playState->map->Collision(EntityPosition, volX, volY, onGround);
+
+	Entities::Update(_playState);
 
 	if (onGround) {
 		if (volX > 0 || volX < 0) {

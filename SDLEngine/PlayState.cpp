@@ -40,8 +40,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 		coinx += 20;
 		coiny += 20;
 	}
-
-	teddy = new Teddy(SDL_Rect{ 64, 64, 32, 32 });
+	teddy = new Teddy(map->teddyPos);
 }
 
 PlayState::~PlayState()
