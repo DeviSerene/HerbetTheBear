@@ -9,6 +9,10 @@
 #include "Level.h"
 #include "PauseState.h"
 
+std::vector<int> forestHalfTiles = { 2, 4, 5, 8, 10, 11, 14, 16, 17, 20, 22, 23 };
+std::vector<int> caveHalfTiles = { 3, 7 };
+std::vector<int> circusHalfTiles = { 3, 4, 5 };
+
 #define COIN_CHANCE 7
 #define BEAR_MINIMUM 3
 #define GHOST_COUNT 15
@@ -16,14 +20,22 @@
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
-	currentLevel = 3;
+	currentLevel = 0;
 	levels.resize(4);
 	levels[0] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet.png", 3);
-	levels[1] = Level("test_night.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet_dark.png", 3);
-	levels[2] = Level("test_cave.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
-	levels[3] = Level("test_circus.tmx", "assets/textures/Circus_Tilesheet_01.png", 3, "assets/textures/circusbg_sheet.png", 3);
+	levels[0].halfTileIndices = forestHalfTiles;
 
-	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str());
+	levels[1] = Level("test_night.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet_dark.png", 3);
+	levels[1].halfTileIndices = forestHalfTiles;
+
+	levels[2] = Level("test_cave.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
+	levels[2].halfTileIndices = caveHalfTiles;
+
+	levels[3] = Level("test_circus.tmx", "assets/textures/Circus_Tilesheet_01.png", 3, "assets/textures/circusbg_sheet.png", 3);
+	levels[3].halfTileIndices = circusHalfTiles;
+	levels[3].grass = false;
+
+	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
 
 	for (size_t i = 0; i <= GHOST_COUNT; i++)
 	{
@@ -214,8 +226,8 @@ void PlayState::Draw()
 		}
 	}
 	
-	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, levels[currentLevel].tileSetWidth, playerW, playerH);
-	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, levels[currentLevel].tileSetWidth, helperW, helperH);
+	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, levels[currentLevel].tileSetWidth, playerW, playerH, levels[currentLevel].grass);
+	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, levels[currentLevel].tileSetWidth, helperW, helperH, levels[currentLevel].grass);
 	for (size_t i = 0; i < ghosts.size(); i++)
 	{
 		ghosts.at(i)->Draw(m_gameData->GetHelperSprites());
@@ -282,7 +294,7 @@ void PlayState::nextLevel() {
 	if (currentLevel >= levels.size())
 		currentLevel = 0;
 	delete map;
-	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str());
+	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
 	delete teddy;
 	teddy = new Teddy(map->teddyPos);
 	player->SetPlayerRect(SDL_Rect{ 30, 0, 32, 32 });
