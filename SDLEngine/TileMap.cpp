@@ -26,7 +26,7 @@ TileMap::TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::
 		}
 	}
 
-	grassTimer = Timer(1.0f);
+	grassTimer = Timer(0.7f);
 }
 
 
