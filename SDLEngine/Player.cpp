@@ -18,7 +18,7 @@ Player::Player()
 
 	// Initilizing variables needed to handle player damage
 	playerHeath = 3;
-	playerHit = false;
+	playerDead = false;
 
 	// initilizing the values needed to handle the player jumping
 	playerFalling = false;
@@ -34,8 +34,12 @@ Player::Player()
 	movingLeft = false;
 
 	animationTimer = Timer(0.2f);
+	DamageOffsetTimer = Timer(5000.0f);
 	onGround = false;
 	numOfCoins = 0;
+
+	playerDamaged = false;
+	invulnerabilityFrames = false;
 }
 
 
@@ -82,10 +86,13 @@ void Player::Update(PlayState *_playState)
 	}
 
 	if (animationTimer.Completed()) {
-		CropRect.x += 32;
+		if (invulnerabilityFrames == false)
+		{
+			CropRect.x += 32;
 
-		if (CropRect.x >= 128) {
-			CropRect.x = 0;
+			if (CropRect.x >= 128) {
+				CropRect.x = 0;
+			}
 		}
 
 		animationTimer.Reset();
@@ -95,7 +102,6 @@ void Player::Update(PlayState *_playState)
 
 	volY += 0.75f;
 	if (volY > 10) volY = 10;
-	HandleDamage();
 
 	onGround = false;
 	_playState->map->Collision(EntityPosition, volX, volY, onGround);
@@ -120,21 +126,6 @@ void Player::Draw(SpriteFactory *_sprite)
 {
 	// Draws the sprite
 	_sprite->Draw(fileName, EntityPosition, CropRect, true);
-}
-
-void Player::HandleDamage()
-{
-	// This will be turned to true via a signal from the enemy class
-	if (playerHit == true)
-	{
-		playerHeath -= 1;
-		playerHit = false;
-	}
-
-	if (playerHeath == 0)
-	{
-		// Player dies
-	}
 }
 
 SDL_Rect Player::GetPlayerRect()
@@ -195,4 +186,49 @@ void Player::PlayerJump()
 void Player::incrementCoins()
 {
 	numOfCoins++;
+}
+
+bool Player::CollideWith(Entities* _other)
+{
+	if (DamageOffsetTimer.Completed())
+	{
+		invulnerabilityFrames = false;
+		if (Entities::CollideWith(_other))
+		{
+			playerHeath--;
+			invulnerabilityFrames = true;
+			playerDamaged = true;
+			DamageOffsetTimer.Reset();
+		}
+		else
+		{
+			playerDamaged = false;
+		}
+	}
+	else
+	{
+		if (invulnerabilityFrames == true)
+		{
+			CropRect.x += 32;
+			if (CropRect.x >= 160)
+			{
+				CropRect.x = 0;
+			}
+		}
+		DamageOffsetTimer.Update(0.5);
+	}
+
+	
+
+	return playerDamaged;
+}
+
+bool Player::checkForPlayerDeath()
+{
+	if (playerHeath == 0)
+	{
+		playerDead = true;
+	}
+
+	return playerDead;
 }

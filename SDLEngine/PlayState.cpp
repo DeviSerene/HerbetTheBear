@@ -127,6 +127,8 @@ void PlayState::Update(float deltaTime)
 	for (size_t i = 0; i < ghosts.size(); i++)
 	{
 		ghosts.at(i)->Update(this);
+		// Checking if player collides with any of the ghosts
+		player->CollideWith(ghosts[i]);
 	}
 
 	// Calls the update function and checks if they player has collided with a coin, if so, coin disapears and the players coin count increases
@@ -147,12 +149,20 @@ void PlayState::Update(float deltaTime)
 	for (size_t i = 0; i < bears.size(); i++)
 	{
 		bears.at(i)->Update(this);
+		// checking if the player is collisiding with any of the bears
+		player->CollideWith(bears[i]);
 	}
 	teddy->Update(this);
 	clown->Update(this);
 
 	if (teddy->CollideWith(player))
 		nextLevel();
+
+	// If this returns true, then the player has lost all of their lives and they lose
+	if (player->checkForPlayerDeath() == true)
+	{
+		// Player dies, return to menu/end screen
+	}
 }
 
 void PlayState::Draw()
