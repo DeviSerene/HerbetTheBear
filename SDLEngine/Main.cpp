@@ -88,12 +88,15 @@ void GameLoop(GameData* _gameData)
 		SDL_RenderPresent(_gameData->GetPlayerRenderer());
 		SDL_RenderPresent(_gameData->GetHelperRenderer());
 
+		int ms = 1000 / 60;
+		_sleep(ms);
+
 		// Limiter in case we're running really quick
-		if (deltaTs < (1.0f / 50.0f))	// not sure how accurate the SDL_Delay function is..
+		/*if (deltaTs < (1.0f / 50.0f))	// not sure how accurate the SDL_Delay function is..
 		{
 			SDL_Delay((unsigned int)(((1.0f / 50.0f) - deltaTs)*1000.0f));
 			//SDL_Delay((unsigned int)(30.0F / 1000.0F));
-		}
+		}*/
 		//SDL_Delay((unsigned int)(1000.0F / 30.0F));
 		if (exit)
 		{
