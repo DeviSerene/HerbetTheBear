@@ -35,6 +35,7 @@ Player::Player()
 
 	animationTimer = Timer(0.2f);
 	onGround = false;
+	numOfCoins = 0;
 }
 
 
@@ -189,4 +190,9 @@ void Player::PlayerJump()
 			playerJumping = false;
 		}
 	}
+}
+
+void Player::incrementCoins()
+{
+	numOfCoins++;
 }

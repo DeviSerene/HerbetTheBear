@@ -124,6 +124,14 @@ void PlayState::Update(float deltaTime)
 	for (int i = 0; i < Coins.size(); i++)
 	{
 		Coins[i]->Update(this);
+		Coins[i]->CollideWith(player);
+		if (Coins[i]->getIfCoinDestroyed() == true)
+		{
+			//delete Coins.at(i);
+			Coins.erase(Coins.begin() + i);
+			player->incrementCoins();
+		}
+	
 	}
 	player->Update(this);
 	bear->Update(this);
