@@ -27,7 +27,7 @@ public:
 	virtual bool HandleSDLEvents();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
-	Ghost* ghost1;
+	std::vector<Ghost*> ghosts;
 
 };
 
