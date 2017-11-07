@@ -14,10 +14,7 @@ Teddy::~Teddy()
 
 bool Teddy::CollideWith(Entities *_other) {
 	if (Entities::CollideWith(_other)) {
-		Player *p = dynamic_cast<Player*> (_other);
-		if (p != NULL) {
-			//Level complete, change
-		}
+
  		return true;
 	}
 	return false;

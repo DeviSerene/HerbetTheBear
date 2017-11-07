@@ -15,6 +15,8 @@ protected:
 	SDL_Rect CropRect;
 
 	int playerHeath;
+
+	int numOfCoins;
 	bool playerHit;
 
 	float volX;
@@ -51,5 +53,6 @@ public:
 	bool getPlayerDirection();
 	void PlayerJump();
 	int getPlayerHealth() const { return playerHeath; }
+	void incrementCoins();
 };
 
