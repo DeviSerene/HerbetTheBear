@@ -11,7 +11,7 @@ class PlayState;
 class MushroomSpike : public Entities
 {
 private:
-	bool decoy;
+	bool decoy, revealed;
 public:
 	MushroomSpike(int posX, int posY, bool decoy);
 	~MushroomSpike();
@@ -21,5 +21,8 @@ public:
 
 	void DrawHelper(SpriteFactory *_factory, float cameraX, float cameraY);
 	void DrawPlayer(SpriteFactory *_factory, float cameraX, float cameraY);
+
+	bool isDecoy() const { return decoy; }
+	void reveal() { revealed = true; }
 };
 

@@ -41,9 +41,13 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	player = new Player();
 	for (TMXObject *ob : map->getObjects()[0]->objects) {
 		if (ob->name == "Child_Decoy")
-			clowns.push_back(new Clown(ob->x, ob->y - 64, 32, 64, player, true));
-		else if(ob->name == "Child_Clown")
-			clowns.push_back(new Clown(ob->x, ob->y - 64, 32, 64, player, false));
+			clowns.push_back(new Clown(ob->x - 16, ob->y - 64, 32, 64, player, true));
+		else if (ob->name == "Child_Clown")
+			clowns.push_back(new Clown(ob->x - 16, ob->y - 64, 32, 64, player, false));
+		else if (ob->name == "Mushroom")
+			spikes.push_back(new MushroomSpike(ob->x - 16, ob->y - 32, true));
+		else if (ob->name == "Spike")
+			spikes.push_back(new MushroomSpike(ob->x - 16, ob->y - 32, false));
 	}
 
 	for (size_t i = 0; i <= GHOST_COUNT; i++)
@@ -80,8 +84,6 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	drawDoor = false;
 	doorPosDetermined = false;
 	zoom = false;
-
-	spikes.push_back(new MushroomSpike(32, 32, false));
 }
 
 PlayState::~PlayState()
@@ -211,9 +213,21 @@ void PlayState::Update(float deltaTime)
 			_enemyType = "Bear";
 		}
 	}
+
+	//Evil things
 	teddy->Update(this);
-	for (Clown *c : clowns)
+	for (Clown *c : clowns) {
 		c->Update(this);
+		if(player->CollideWith(c))
+			player->playSoundEffect(m_gameData);
+	}
+
+	for (MushroomSpike *spike : spikes) {
+		if (!spike->isDecoy() && player->CollideWith(spike)) {
+			spike->reveal();
+			player->playSoundEffect(m_gameData);
+		}
+	}
 	/*for (int i = 0; i < 20; i++)
 	{
 		if (player->CollideWith(clown))
