@@ -75,6 +75,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	teddy = new Teddy(map->teddyPos);
 
 	DoorTimer = Timer(2000.0);
+	DeathTimer = Timer(100.0);
 
 	doorPosRect.w = 128;
 	doorPosRect.h = 96;
@@ -86,6 +87,16 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	drawDoor = false;
 	doorPosDetermined = false;
 	zoom = false;
+
+	deathAnimationRect.x = 300;
+	deathAnimationRect.y = 200;
+	deathAnimationRect.w = 200;
+	deathAnimationRect.h = 200;
+
+	deathAnimationCropRect.x = deathAnimationCropRect.y = 0;
+	
+
+	spikes.push_back(new MushroomSpike(32, 32, false));
 }
 
 PlayState::~PlayState()
@@ -152,187 +163,197 @@ void PlayState::Update(float deltaTime)
 {
 	this->delta = deltaTime;
 
-	player->Update(this);
-	for (int i = 0; i < Coins.size(); i++)
+	if (player->checkForPlayerDeath() == false)
 	{
-		Coins[i]->Update(this);
-	}
-	int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
-	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
-	SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
-	cameraX = player->GetPlayerRect().x - (playerW / 2);
-	cameraY = player->GetPlayerRect().y - (playerH / 2);
-
-	if (cameraX < 0)
-		cameraX = 0;
-	else if (cameraX >(map->getWidthInTiles() * 64) - playerW)
-		cameraX = map->getWidthInTiles() * 64 - playerW;
-	if (cameraY < 0)
-		cameraY = 0;
-	else if (cameraY >(map->getHeightInTiles() * 64) - playerH)
-		cameraY = map->getHeightInTiles() * 64 - playerH;
-
-	for (size_t i = 0; i < ghosts.size(); i++)
-	{
-		ghosts.at(i)->Update(this);
-		// Checking if player collides with any of the ghosts
-		if (player->CollideWith(ghosts[i]))
+		player->Update(this);
+		for (int i = 0; i < Coins.size(); i++)
 		{
-			player->playSoundEffect(m_gameData);
+			Coins[i]->Update(this);
 		}
-		if (player->checkForPlayerDeath())
-		{
-			_enemyType = "Ghost";
-		}
-	}
+		int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
+		SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
+		SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
+		cameraX = player->GetPlayerRect().x - (playerW / 2);
+		cameraY = player->GetPlayerRect().y - (playerH / 2);
 
-	// Calls the update function and checks if they player has collided with a coin, if so, coin disapears and the players coin count increases
-	for (int i = 0; i < Coins.size(); i++)
-	{
-		Coins[i]->Update(this);
-		Coins[i]->CollideWith(player);
-		if (Coins[i]->getIfCoinDestroyed() == true)
+		if (cameraX < 0)
+			cameraX = 0;
+		else if (cameraX > (map->getWidthInTiles() * 64) - playerW)
+			cameraX = map->getWidthInTiles() * 64 - playerW;
+		if (cameraY < 0)
+			cameraY = 0;
+		else if (cameraY > (map->getHeightInTiles() * 64) - playerH)
+			cameraY = map->getHeightInTiles() * 64 - playerH;
+
+		if (player->checkForPlayerDeath() == false)
 		{
-			//delete Coins.at(i);
-			Coins.erase(Coins.begin() + i);
-			player->incrementCoins();
-			m_gameData->GetAudio()->SoundPlay("assets/sfx_coin.wav");
+			for (size_t i = 0; i < ghosts.size(); i++)
+			{
+				ghosts.at(i)->Update(this);
+				// Checking if player collides with any of the ghosts
+				if (player->CollideWith(ghosts[i]))
+				{
+					player->playSoundEffect(m_gameData);
+				}
+				if (player->checkForPlayerDeath())
+				{
+					_enemyType = "Ghost";
+				}
+			}
 		}
 
-	}
-	player->Update(this);
-	for (size_t i = 0; i < bears.size(); i++)
-	{
-		bears.at(i)->Update(this, false);
-		// checking if the player is collisiding with any of the bears
-		if (player->CollideWith(bears[i]))
+		// Calls the update function and checks if they player has collided with a coin, if so, coin disapears and the players coin count increases
+		for (int i = 0; i < Coins.size(); i++)
 		{
-			player->playSoundEffect(m_gameData);
-			
-		}
-		if (player->checkForPlayerDeath())
-		{
-			_enemyType = "Bear";
-		}
-	}
+			Coins[i]->Update(this);
+			Coins[i]->CollideWith(player);
+			if (Coins[i]->getIfCoinDestroyed() == true)
+			{
+				//delete Coins.at(i);
+				Coins.erase(Coins.begin() + i);
+				player->incrementCoins();
+				m_gameData->GetAudio()->SoundPlay("assets/sfx_coin.wav");
+			}
 
-	//Evil things
-	teddy->Update(this);
-	for (Clown *c : clowns) {
-		if (c->isDecoy()) continue;
-		c->Update(this);
-		if (player->CollideWith(c)) {
-			player->playSoundEffect(m_gameData);
+		}
+		player->Update(this);
+		if (player->checkForPlayerDeath() == false)
+		{
+			for (size_t i = 0; i < bears.size(); i++)
+			{
+				bears.at(i)->Update(this);
+				// checking if the player is collisiding with any of the bears
+				if (player->CollideWith(bears[i]))
+				{
+					player->playSoundEffect(m_gameData);
+
+				}
+				if (player->checkForPlayerDeath())
+				{
+					_enemyType = "Bear";
+				}
+			}
+		}
+		teddy->Update(this);
+		for (Clown *c : clowns)
+		{
+			c->Update(this);
+
+		}
+		/*for (int i = 0; i < 20; i++)
+		{
+			if (player->CollideWith(clown))
+			{
+				player->playSoundEffect(m_gameData);
+			}
 			if (player->checkForPlayerDeath())
 			{
 				_enemyType = "Clown";
 			}
-		}
+		}*/
+
+		if (teddy->CollideWith(player))
+			drawDoor = true;
+
 	}
-
-	for (MushroomSpike *spike : spikes) {
-		if (!spike->isDecoy() && player->CollideWith(spike)) {
-			spike->reveal();
-			player->playSoundEffect(m_gameData);
-		}
-	}
-
-	if (teddy->CollideWith(player))
-		drawDoor = true;
-
 	// If this returns true, then the player has lost all of their lives and they lose
-	if (player->checkForPlayerDeath() == true)
-	{
-		// Player dies, return to menu/end screen
-	}
+	
 }
 
 void PlayState::Draw()
 {
-	int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
-	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
-	SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
+	if (player->checkForPlayerDeath() == false)
+	{
+		int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
+		SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
+		SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
 
-	int skySize = 256;
-	for (int x = 0; x < map->getWidthInTiles() / ((float)skySize / 64); x++) {
-		for (int y = 0; y < map->getHeightInTiles() / ((float)skySize / 64); y++) {
-			int index = skyTiles[(y * map->getWidthInTiles()) + x];
-			m_gameData->GetPlayerSprites()->Draw(levels[currentLevel].backgroundTileSet, SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
-			m_gameData->GetHelperSprites()->Draw(levels[currentLevel].backgroundTileSet, SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
+		int skySize = 256;
+		for (int x = 0; x < map->getWidthInTiles() / ((float)skySize / 64); x++) {
+			for (int y = 0; y < map->getHeightInTiles() / ((float)skySize / 64); y++) {
+				int index = skyTiles[(y * map->getWidthInTiles()) + x];
+				m_gameData->GetPlayerSprites()->Draw(levels[currentLevel].backgroundTileSet, SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
+				m_gameData->GetHelperSprites()->Draw(levels[currentLevel].backgroundTileSet, SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
+			}
+		}
+
+		map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, levels[currentLevel].tileSetWidth, playerW, playerH, levels[currentLevel].grass);
+		map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, levels[currentLevel].tileSetWidth, helperW, helperH, levels[currentLevel].grass);
+		for (size_t i = 0; i < ghosts.size(); i++)
+		{
+			ghosts.at(i)->Draw(m_gameData->GetHelperSprites());
+		}
+		for (int i = 0; i < Coins.size(); i++)
+		{
+			Coins[i]->Draw(m_gameData->GetPlayerSprites());
+		}
+		for (size_t i = 0; i < bears.size(); i++)
+		{
+			bears.at(i)->Draw(m_gameData->GetPlayerSprites());
+		}
+		SDL_Rect playerPos = player->GetPlayerRect();
+		playerPos.x = -cameraX + (playerPos.x);
+		playerPos.y = -cameraY + (playerPos.y);
+
+
+
+		m_gameData->GetPlayerSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
+		m_gameData->GetHelperSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
+
+		teddy->Draw(m_gameData->GetHelperSprites());
+
+		for (Clown *c : clowns) {
+			c->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
+			c->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
+		}
+
+		//UI
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", SDL_Rect{ 30, 30, 32, 32 }, SDL_Rect{ 0, 0, 16, 16 });
+		DrawText(m_gameData->GetPlayerRenderer(), std::to_string(player->getCoins()), SDL_Color{ 255, 255, 255 }, 62, 38);
+		for (int i = 0; i < player->getPlayerHealth(); i++) {
+			m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i + 20, playerH - 70, 64, 64 });
+		}
+
+		for (MushroomSpike* spike : spikes) {
+			spike->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
+			spike->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
+		}
+
+		if (drawDoor == true)
+		{
+			if (doorPosDetermined == false)
+			{
+				doorPosRect.x = playerPos.x - playerPos.w;
+				doorPosRect.y = playerPos.y - 50;
+				doorPosRect.w = 128;
+				doorPosRect.h = 96;
+				doorPosDetermined = true;
+			}
+
+			m_gameData->GetPlayerSprites()->Draw("assets/textures/Door_01.png", doorPosRect, doorCropRect);
+			m_gameData->GetHelperSprites()->Draw("assets/textures/Door_01.png", doorPosRect, doorCropRect);
+
+			zoom = true;
+			ScaleDoor();
+
+
+			if (DoorTimer.Completed())
+			{
+				nextLevel();
+				drawDoor = false;
+				doorPosDetermined = false;
+				DoorTimer.Reset();
+			}
+			else
+			{
+				DoorTimer.Update(10);
+			}
 		}
 	}
 
-	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, levels[currentLevel].tileSetWidth, playerW, playerH, levels[currentLevel].grass);
-	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, levels[currentLevel].tileSetWidth, helperW, helperH, levels[currentLevel].grass);
-	for (size_t i = 0; i < ghosts.size(); i++)
+	else if (player->checkForPlayerDeath() == true)
 	{
-		ghosts.at(i)->Draw(m_gameData->GetHelperSprites());
-	}
-	for (int i = 0; i < Coins.size(); i++)
-	{
-		Coins[i]->Draw(m_gameData->GetPlayerSprites());
-	}
-	for (size_t i = 0; i < bears.size(); i++)
-	{
-		bears.at(i)->Draw(m_gameData->GetPlayerSprites());
-	}
-	SDL_Rect playerPos = player->GetPlayerRect();
-	playerPos.x = -cameraX + (playerPos.x);
-	playerPos.y = -cameraY + (playerPos.y);
-
-
-
-	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
-	m_gameData->GetHelperSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
-
-	teddy->Draw(m_gameData->GetHelperSprites());
-
-	for (Clown *c : clowns) {
-		c->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
-		c->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
-	}
-
-	//UI
-	m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", SDL_Rect{ 30, 30, 32, 32 }, SDL_Rect{ 0, 0, 16, 16 });
-	DrawText(m_gameData->GetPlayerRenderer(), std::to_string(player->getCoins()), SDL_Color{ 255, 255, 255 }, 62, 38);
-	for (int i = 0; i < player->getPlayerHealth(); i++) {
-		m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i + 20, playerH - 70, 64, 64 });
-	}
-
-	for (MushroomSpike* spike : spikes) {
-		spike->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
-		spike->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
-	}
-
-	if (drawDoor == true)
-	{
-		if (doorPosDetermined == false)
-		{
-			doorPosRect.x = playerPos.x - playerPos.w;
-			doorPosRect.y = playerPos.y - 50;
-			doorPosRect.w = 128;
-			doorPosRect.h = 96;
-			doorPosDetermined = true;
-		}
-
-		m_gameData->GetPlayerSprites()->Draw("assets/textures/Door_01.png", doorPosRect, doorCropRect);
-		m_gameData->GetHelperSprites()->Draw("assets/textures/Door_01.png", doorPosRect, doorCropRect);
-
-		zoom = true;
-		ScaleDoor();
-
-
-		/*if (DoorTimer.Completed())
-		{
-		nextLevel();
-		drawDoor = false;
-		doorPosDetermined = false;
-		DoorTimer.Reset();
-		}
-		else
-		{
-		DoorTimer.Update(10);
-		}*/
+		playDeathAnimation();
 	}
 
 }
@@ -423,11 +444,59 @@ void PlayState::playDeathAnimation()
 {
 	if (_enemyType == "Clown")
 	{
+		deathAnimationCropRect.w = 64;
+		deathAnimationCropRect.h = 64;
 		// Play clown death animation
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/ClownDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+
+		if (deathAnimationCropRect.x != 64 && deathAnimationCropRect.y != 192)
+		{
+			deathAnimationCropRect.x += 64;
+			if (deathAnimationCropRect.x >= 320)
+			{
+				deathAnimationCropRect.x = 0;
+				deathAnimationCropRect.y += 64;
+			}
+		}
+		else if (deathAnimationCropRect.x == 36 && deathAnimationCropRect.y == 192)
+		{
+			// Call back to menu or lose state
+		}
+		
+
 	}
 	else if (_enemyType == "Ghost")
 	{
 		// play ghost death animation
+
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/GhostDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		// play bear death animation
+		if (DeathTimer.Completed())
+		{
+			DeathTimer.Reset();
+			deathAnimationCropRect.w = 64;
+			deathAnimationCropRect.h = 64;
+			// Play clown death animation
+
+
+			if (deathAnimationCropRect.x != 256 || deathAnimationCropRect.y != 192)
+			{
+				deathAnimationCropRect.x += 64;
+				if (deathAnimationCropRect.x >= 320)
+				{
+					deathAnimationCropRect.x = 0;
+					deathAnimationCropRect.y += 64;
+				}
+			}
+			else if (deathAnimationCropRect.x == 256 && deathAnimationCropRect.y == 192)
+			{
+				// Call back to menu or lose state
+			}
+		}
+		else
+		{
+			DeathTimer.Update(10);
+		}
 	}
 	else if(_enemyType == "Spikes")
 	{
@@ -435,7 +504,34 @@ void PlayState::playDeathAnimation()
 	}
 	else if (_enemyType == "Bear")
 	{
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/BearDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		// play bear death animation
+		if (DeathTimer.Completed())
+		{
+			DeathTimer.Reset();
+			deathAnimationCropRect.w = 64;
+			deathAnimationCropRect.h = 64;
+			// Play clown death animation
+			
+
+			if (deathAnimationCropRect.x != 256 || deathAnimationCropRect.y != 192)
+			{
+				deathAnimationCropRect.x += 64;
+				if (deathAnimationCropRect.x >= 320)
+				{
+					deathAnimationCropRect.x = 0;
+					deathAnimationCropRect.y += 64;
+				}
+			}
+			else if (deathAnimationCropRect.x == 256 && deathAnimationCropRect.y == 192)
+			{
+				// Call back to menu or lose state
+			}
+		}
+		else
+		{
+			DeathTimer.Update(10);
+		}
 	}
 	
 }

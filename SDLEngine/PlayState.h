@@ -29,6 +29,9 @@ class PlayState : public GameState
 
 	bool hasBeenHit;
 
+	SDL_Rect deathAnimationRect;
+	SDL_Rect deathAnimationCropRect;
+
 	SDL_Rect doorPosRect;
 	bool doorPosDetermined;
 	SDL_Rect doorCropRect;
@@ -37,6 +40,7 @@ class PlayState : public GameState
 	bool drawDoor;
 
 	Timer DoorTimer;
+	Timer DeathTimer;
 	bool zoom;
 
 public:
