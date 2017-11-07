@@ -21,7 +21,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
 	}
-	for (size_t j = 0; j < 16; j++)
+	for (size_t j = 0; j < 6; j++)
 	{
 		bears.push_back(new Bear(rand() % map->getWidthInTiles() * 64, rand() % map->getWidthInTiles() * 64, rand() % map->getHeightInTiles() * 64));
 	}
@@ -220,5 +220,8 @@ void PlayState::nextLevel() {
 	teddy = new Teddy(map->teddyPos);
 	delete player;
 	player = new Player();
-
+	for (size_t i = 0; i < bears.size(); i++)
+	{
+		bears.at(i)->Init(rand() % map->getWidthInTiles() * 64, rand() % map->getWidthInTiles() * 64, rand() % map->getHeightInTiles() * 64);
+	}
 }
