@@ -60,8 +60,6 @@ void Player::Update(PlayState *_playState)
 	timeCurrentFrame = SDL_GetTicks();
 	deltaT = timeCurrentFrame - timeLastFrame;
 
-	volX = 0;
-
 	if (_playState->inputUp && onGround) {
 		/*if (playerJumping == false)
 		{
@@ -70,7 +68,7 @@ void Player::Update(PlayState *_playState)
 		YBeforeJump = EntityPosition.y;
 		}*/
 
-		volY = -15;
+		volY = -9.25f;
 		movingLeft = true;
 	}
 
@@ -78,11 +76,13 @@ void Player::Update(PlayState *_playState)
 	if (_playState->inputLeft) {
 		// Left movement
 		//EntityPosition.x -= 5;
-		volX = -5;
+		if (volX > 0) volX = 0;
+		volX -= 0.5f;
 		movingLeft = true;
 		// Put sprite animation for left movement here
 	} else if (_playState->inputRight) {
-		volX = 5;
+		if (volX < 0) volX = 0;
+		volX += 0.5f;
 		movingLeft = false;
 	}
 
@@ -101,8 +101,18 @@ void Player::Update(PlayState *_playState)
 
 	animationTimer.Update(_playState->delta);
 
-	volY += 0.75f;
-	if (volY > 10) volY = 10;
+	if (!_playState->inputLeft && !_playState->inputRight) {
+		if (volX > 0) {
+			volX = volX - 0.2f < 0 ? 0 : volX - 0.2f;
+		} else if (volX < 0) {
+			volX = volX + 0.2f > 0 ? 0 : volX + 0.2f;
+		}
+	}
+
+	volX = volX > 3.5f ? 3.5f : volX < -3.5f ? -3.5f : volX;
+
+	volY += 0.45f;
+	if (volY > 7.0F) volY = 7.0F;
 
 	onGround = false;
 	_playState->map->Collision(EntityPosition, volX, volY, onGround);
