@@ -50,5 +50,6 @@ public:
 	SDL_Rect GetPlayerCropRect();
 	bool getPlayerDirection();
 	void PlayerJump();
+	int getPlayerHealth() const { return playerHeath; }
 };
 

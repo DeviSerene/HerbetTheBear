@@ -10,7 +10,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	
 	map = new TileMap(0, 0, 0, 0, "assets/textures/Forest_Tilesheet_01.png", "assets/maps/", "test.tmx");
 
-	for (size_t i = 0; i < 51; i++)
+	for (size_t i = 0; i < 36; i++)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
 	}
@@ -135,4 +135,7 @@ void PlayState::Draw()
 	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
 	m_gameData->GetHelperSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
 
+	for (int i = 0; i < player->getPlayerHealth(); i++) {
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i, playerH - 70, 64, 64 });
+	}
 }
