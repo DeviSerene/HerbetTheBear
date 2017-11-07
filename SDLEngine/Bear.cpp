@@ -13,6 +13,8 @@ void Bear::Init(PlayState* _state)
 	EntityPosition.w = 64;
 	EntityPosition.h = 63;
 	prevPos = EntityPosition;
+	idle = false;
+	moveTime = rand() % 500 + 150;
 }
 
 void Bear::ReOrient(PlayState* _state)
@@ -23,6 +25,7 @@ void Bear::ReOrient(PlayState* _state)
 	destinations.push_back(topTiles.at(rand() % topTiles.size()));
 	for (size_t i = 0; i < destinations.size(); i++)
 	{
+		destinations.at(i).x += 3;
 		destinations.at(i).x *= 64;
 		destinations.at(i).y *= 64 - 65;
 	}
@@ -49,7 +52,7 @@ void Bear::Draw(SpriteFactory * _sprite)
 void Bear::Update(PlayState * _state)
 {
 	Enemy::Update(_state);	
-
+	
 	bool OnGround;
 	int velX = 0;
 	if (EntityPosition.x < destinations.at(currentDest).x)
@@ -67,7 +70,7 @@ void Bear::Update(PlayState * _state)
 
 	_state->map->Collision(EntityPosition, velX, 5, OnGround);
 
-	if (counter == 5)
+	if (counter % 5 == 0 && (!idle))
 	{
 		if (EntityPosition.x == prevPos.x)
 		{
@@ -75,7 +78,22 @@ void Bear::Update(PlayState * _state)
 		}
 		prevPos = EntityPosition;
 	}
-	counter++;
-	if (counter > 5)
+	if (counter % moveTime == 0)
+	{
+		currentDest = 0;
+		destinations.at(currentDest) = EntityPosition;
+		for (size_t i = 1; i < destinations.size(); i++)
+		{
+			destinations.erase(destinations.begin() + i);
+		}
+		idle = true;
+	}
+	if (counter % (moveTime + moveTime / 2) == 0)
+	{
+		ReOrient(_state);
+		idle = false;
 		counter = 0;
+	}
+
+	counter++;
 }

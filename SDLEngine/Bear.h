@@ -13,4 +13,6 @@ public:
 protected:
 	SDL_Rect prevPos;
 	int counter = 0;
+	bool idle = false;
+	int moveTime;
 };
