@@ -39,16 +39,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 
 	generateCoins(COIN_CHANCE);
 
-	/*coinx = 30;
-	coiny = 50;
-
-	/*for (int i = 0; i < 10; i++)
-	{
-		Coins.push_back(new Coin());
-		Coins[i]->SetCoinPosRect(coinx, coiny);
-		coinx += 20;
-		coiny += 20;
-	}*/
+	}
 
 	teddy = new Teddy(map->teddyPos);
 

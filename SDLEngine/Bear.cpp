@@ -6,7 +6,8 @@ Bear::Bear(int _roamLeft, int _roamRight, int _height)
 	destinations.push_back(SDL_Rect{ _roamLeft, _height, 64, 64 });
 	destinations.push_back(SDL_Rect{ _roamRight, _height, 64, 64 });
 	EntityPosition = destinations.at(0);
-	EntityPosition.w = EntityPosition.h = 64;
+	EntityPosition.w = 64;
+	EntityPosition.h = 63;
 }
 
 void Bear::Draw(SpriteFactory * _sprite)
