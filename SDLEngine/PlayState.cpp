@@ -21,7 +21,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
 	}
-	for (size_t j = 0; j < 31; j++)
+	for (size_t j = 0; j < 16; j++)
 	{
 		bears.push_back(new Bear(rand() % map->getWidthInTiles() * 64, rand() % map->getWidthInTiles() * 64, rand() % map->getHeightInTiles() * 64));
 	}
