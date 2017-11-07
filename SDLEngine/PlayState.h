@@ -41,5 +41,6 @@ public:
 	std::vector<Ghost*> ghosts;
 	std::vector<Bear*> bears;
 
+	void nextLevel();
 };
 
