@@ -56,7 +56,7 @@ void Player::Update(PlayState *_playState)
 
 	volX = 0;
 
-	if (_playState->inputUp) {
+	if (_playState->inputUp && onGround) {
 		/*if (playerJumping == false)
 		{
 		playerJumping = true;
@@ -64,7 +64,7 @@ void Player::Update(PlayState *_playState)
 		YBeforeJump = EntityPosition.y;
 		}*/
 
-		volY = -10;
+		volY = -15;
 		movingLeft = true;
 	}
 
@@ -98,7 +98,7 @@ void Player::Update(PlayState *_playState)
 	Entities::Update(_playState);
 	HandleDamage();
 
-	bool onGround = false;
+	onGround = false;
 	_playState->map->Collision(EntityPosition, volX, volY, onGround);
 
 	if (onGround) {

@@ -49,12 +49,12 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY, bool& onGround) 
 
 	if (boundLeft < 0)
 		boundLeft = 0;
-	if (boundRight >= width)
-		boundRight = width - 1;
+	if (boundRight > width)
+		boundRight = width;
 	if (boundTop < 0)
 		boundTop = 0;
-	if (boundBottom >= height)
-		boundBottom = height - 1;
+	if (boundBottom > height)
+		boundBottom = height;
 
 	for (int x = boundLeft; x < boundRight; x++) {
 		for (int y = boundTop; y < boundBottom; y++) {
@@ -132,12 +132,12 @@ void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int 
 
 	if (boundLeft < 0)
 		boundLeft = 0;
-	if (boundRight >= width)
-		boundRight = width - 1;
+	if (boundRight > width)
+		boundRight = width;
 	if (boundTop < 0)
 		boundTop = 0;
-	if (boundBottom >= height)
-		boundBottom = height - 1;
+	if (boundBottom > height)
+		boundBottom = height;
 
 	for (int x = boundLeft; x < boundRight; x++) {
 		for (int y = boundTop; y < boundBottom; y++) {
