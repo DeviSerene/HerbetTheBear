@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include <iostream>
+#include "PlayState.h"
 
 Enemy::Enemy(float _speed)
 {
@@ -44,7 +45,7 @@ void Enemy::Update(PlayState* _state)
 		EntityPosition.x -= round(deltaX / distanceBetweenEntAndDest);
 		EntityPosition.y -= round(deltaY / distanceBetweenEntAndDest);
 		//std::cout << deltaX / distanceBetweenEntAndDest << std::endl;
-		std::cout << EntityPosition.x << ", " << EntityPosition.y << ", Change: " << round(deltaX / distanceBetweenEntAndDest) + 1 << ", " << round(deltaY / distanceBetweenEntAndDest) + 1 << std::endl;
+		//std::cout << EntityPosition.x << ", " << EntityPosition.y << ", Change: " << round(deltaX / distanceBetweenEntAndDest) + 1 << ", " << round(deltaY / distanceBetweenEntAndDest) + 1 << std::endl;
 	}
 	else
 	{
@@ -54,7 +55,16 @@ void Enemy::Update(PlayState* _state)
 	{
 		currentDest = 0;
 	}
-	
+
+	CollideWith(_state->player);
+}
+
+bool Enemy::CollideWith(Entities *_other) {
+	if (Entities::CollideWith(_other)) {
+		std::cout << "Collision!!";
+		//Kill player or somit
+	}
+	return false;
 }
 
 void Enemy::Draw(SpriteFactory * _sprite)
