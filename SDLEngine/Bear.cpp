@@ -1,9 +1,10 @@
 #include "Bear.h"
+#include "PlayState.h"
 
 Bear::Bear()
 {
-	destinations.push_back(SDL_Rect{ 10, 520, 64, 64 });
-	destinations.push_back(SDL_Rect{ 1000, 520, 64, 64 });
+	destinations.push_back(SDL_Rect{ 10, 500, 64, 64 });
+	destinations.push_back(SDL_Rect{ 200, 500, 64, 64 });
 	EntityPosition = destinations.at(0);
 	EntityPosition.w = EntityPosition.h = 64;
 }
@@ -29,5 +30,21 @@ void Bear::Draw(SpriteFactory * _sprite)
 void Bear::Update(PlayState * _state)
 {
 	Enemy::Update(_state);
+	bool OnGround;
+	int velX = 0;
+	if (EntityPosition.x < destinations.at(currentDest).x)
+	{
+		velX = 1;
+	}
+	else if (EntityPosition.x > destinations.at(currentDest).x)
+	{
+		velX = -1;
+	}
+	else
+	{
+		currentDest += 1;
+	}
+
+	_state->map->Collision(EntityPosition, velX, 5, OnGround);
 	//TODO: Add falling and ground collision
 }

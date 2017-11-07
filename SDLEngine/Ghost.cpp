@@ -20,7 +20,25 @@ Ghost::~Ghost()
 {
 }
 
-
+void Ghost::Update(PlayState* _state)
+{
+	Enemy::Update(_state);
+	if ((EntityPosition.x != destinations.at(currentDest).x) || (EntityPosition.y != destinations.at(currentDest).y))
+	{
+		//move towards destination	
+		float deltaX = EntityPosition.x - destinations.at(currentDest).x;
+		float deltaY = EntityPosition.y - destinations.at(currentDest).y;
+		float distanceBetweenEntAndDest = std::sqrt(std::pow(deltaX, 2) + std::pow(deltaY, 2));
+		EntityPosition.x -= round(deltaX / distanceBetweenEntAndDest);
+		EntityPosition.y -= round(deltaY / distanceBetweenEntAndDest);	
+	}
+	else
+	{
+		currentDest += 1;
+	}
+	
+	
+}
 
 void Ghost::Draw(SpriteFactory * _sprite)
 {
