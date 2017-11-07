@@ -15,9 +15,11 @@ protected:
 	SDL_Rect CropRect;
 
 	int playerHeath;
+	bool playerDamaged;
+	bool playerDead;
+	bool invulnerabilityFrames;
 
 	int numOfCoins;
-	bool playerHit;
 
 	float volX;
 	float volY;
@@ -38,6 +40,7 @@ protected:
 	float frameTime;
 
 	Timer animationTimer;
+	Timer DamageOffsetTimer;
 
 public:
 	Player();
@@ -46,8 +49,8 @@ public:
 	void Input() override;
 	void Update(PlayState* _state) override;
 	void Draw(SpriteFactory *_sprite) override;
+	bool CollideWith(Entities *_other) override;
 
-	void HandleDamage();
 	SDL_Rect GetPlayerRect();
 	SDL_Rect GetPlayerCropRect();
 	bool getPlayerDirection();
@@ -55,5 +58,6 @@ public:
 	int getPlayerHealth() const { return playerHeath; }
 	void incrementCoins();
 	int getCoins() const { return numOfCoins; }
+	bool checkForPlayerDeath();
 };
 
