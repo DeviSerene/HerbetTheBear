@@ -134,6 +134,8 @@ void PlayState::Update(float deltaTime)
 	{
 		ghosts.at(i)->Update(this);
 	}
+
+	// Calls the update function and checks if they player has collided with a coin, if so, coin disapears and the players coin count increases
 	for (int i = 0; i < Coins.size(); i++)
 	{
 		Coins[i]->Update(this);
