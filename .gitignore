@@ -13,3 +13,15 @@
 !.ttf
 !.tsx
 !.tmx
+/SDLEngine/Debug/Trap.obj
+/SDLEngine/Debug/TMXTileSet.obj
+/SDLEngine/Debug/TMXObjectGroup.obj
+/SDLEngine/Debug/TMXObject.obj
+/SDLEngine/Debug/TMXMap.obj
+/SDLEngine/Debug/TMXLayer.obj
+/SDLEngine/Debug/tinyxml2.obj
+/SDLEngine/Debug/TileMap.obj
+/SDLEngine/Debug/PlayState.obj
+/SDLEngine/Debug/Player.obj
+/SDLEngine/Debug/Entities.obj
+/SDLEngine/Debug/Enemy.obj
