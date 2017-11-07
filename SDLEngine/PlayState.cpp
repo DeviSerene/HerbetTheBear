@@ -10,7 +10,7 @@
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
-	currentLevel = 1;
+	currentLevel = 0;
 	levels.resize(2);
 	levels[0] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", "assets/textures/sky_sheet.png");
 	levels[1] = Level("test_night.tmx", "assets/textures/Forest_Tilesheet_01.png", "assets/textures/sky_sheet_dark.png");
@@ -140,6 +140,9 @@ void PlayState::Update(float deltaTime)
 	bear->Update(this);
 	teddy->Update(this);
 	clown->Update(this);
+
+	if (teddy->CollideWith(player))
+		nextLevel();
 }
 
 void PlayState::Draw()
@@ -190,4 +193,16 @@ void PlayState::Draw()
 	clown->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
 	clown->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
 
+}
+
+void PlayState::nextLevel() {
+	currentLevel++;
+	if (currentLevel >= levels.size())
+		currentLevel = 0;
+	delete map;
+	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str());
+	delete teddy;
+	teddy = new Teddy(map->teddyPos);
+	delete player;
+	player = new Player();
 }
