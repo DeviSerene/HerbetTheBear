@@ -11,9 +11,8 @@ class TileMap;
 
 class PlayState : public GameState
 {
-	float cameraX, cameraY;
-
 public:
+	float cameraX, cameraY;
 
 	TileMap* map;
 	Player* player;

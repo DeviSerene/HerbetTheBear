@@ -134,7 +134,7 @@ void Player::Input()
 
 void Player::Update(PlayState *_playState)
 {
-	
+	Entities::Update(_playState);
 	HandleDamage();
 	_playState->map->Collision(EntityPosition, volX, volY);
 }

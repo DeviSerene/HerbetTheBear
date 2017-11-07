@@ -108,9 +108,6 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY) {
 				tileV_Y = y;
 				newVelY = tilePos.y - (rect.y + rect.h);
 
-				//if (tileV_X != tileH_X) {
-				//}
-
 				if (tileV_Y == tileH_Y) {
 					newVelX = velX;
 				}

@@ -7,7 +7,7 @@ class Enemy:
 public:
 	Enemy(float _speed);
 	~Enemy();
-	void Update();
+	void Update(PlayState* _state) override;
 	void Draw(SpriteFactory* _sprite);
 protected:
 	std::vector<SDL_Rect> destinations;

@@ -23,8 +23,9 @@ Enemy::~Enemy()
 
 }
 
-void Enemy::Update()
+void Enemy::Update(PlayState* _state)
 {
+	Entities::Update(_state);
 	if ((EntityPosition.x != destinations.at(currentDest).x) || (EntityPosition.y != destinations.at(currentDest).y))
 	{
 		//Flip enemy to face towards destination
@@ -70,5 +71,6 @@ void Enemy::Draw(SpriteFactory * _sprite)
 		cropRect.w = cropRect.h = 32;
 		spriteIndex += 1;
 	}
-	_sprite->Draw("assets/ghost_sheet.png", EntityPosition, cropRect , flipped);
+	SDL_Rect worldPos = SDL_Rect{ EntityPosition.x - (int)cameraX, EntityPosition.y - (int)cameraY, EntityPosition.w, EntityPosition.h };
+	_sprite->Draw("assets/ghost_sheet.png", worldPos, cropRect , flipped);
 }

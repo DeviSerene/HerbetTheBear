@@ -12,6 +12,7 @@ protected:
 
 	SDL_Rect EntityPosition;
 	std::string fileName;
+	float cameraX, cameraY;
 
 	bool drawnPlayer;
 
@@ -20,7 +21,7 @@ public:
 	~Entities() {}
 
 	virtual void Input() {}
-	virtual void Update(PlayState* _state) {}
+	virtual void Update(PlayState* _state);
 	virtual void Draw(SpriteFactory* _sprite) {}
 };
 
