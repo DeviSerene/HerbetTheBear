@@ -33,7 +33,7 @@ Player::Player()
 
 	movingLeft = false;
 
-	
+	animationTimer = Timer(0.2f);
 
 }
 
@@ -80,11 +80,18 @@ void Player::Update(PlayState *_playState)
 		movingLeft = false;
 	}
 
-	CropRect.x += 32;
 
-	if (CropRect.x >= 128) {
-		CropRect.x = 0;
+	if (animationTimer.Completed()) {
+		CropRect.x += 32;
+
+		if (CropRect.x >= 128) {
+			CropRect.x = 0;
+		}
+
+		animationTimer.Reset();
 	}
+
+	//animationTimer.Update(_playState->);
 
 	volY += 1;
 	if (volY > 5) volY = 5;

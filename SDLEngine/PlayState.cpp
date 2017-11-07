@@ -10,6 +10,10 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	ghost1 = new Ghost(2500, 600);
 	map = new TileMap(0, 0, 0, 0, "assets/textures/Forest_Tilesheet_01.png", "assets/maps/", "test.tmx");
 
+	skyTiles.resize(map->getWidthInTiles() * map->getHeightInTiles());
+	for (int i = 0; i < skyTiles.size(); i++)
+		skyTiles[i] = rand() % 3;
+
 	player = new Player();
 
 	inputRight = false;
@@ -74,7 +78,7 @@ bool PlayState::HandleSDLEvents()
 
 void PlayState::Update(float deltaTime)
 {
-
+	this->delta = deltaTime;
 
 	ghost1->Update(this);
 	player->Update(this);
@@ -92,7 +96,14 @@ void PlayState::Draw()
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
 	SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
 
-	
+	int skySize = 256;
+	for (int x = 0; x < map->getWidthInTiles(); x++) {
+		for (int y = 0; y < map->getHeightInTiles(); y++) {
+			int index = skyTiles[(y * map->getWidthInTiles()) + x];
+			m_gameData->GetPlayerSprites()->Draw("assets/textures/sky_sheet.png", SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
+			m_gameData->GetHelperSprites()->Draw("assets/textures/sky_sheet.png", SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
+		}
+	}
 	
 	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 6, playerW, playerH);
 	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 6, helperW, helperH);

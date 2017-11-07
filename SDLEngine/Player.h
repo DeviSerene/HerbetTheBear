@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include "Entities.h"
 #include "TileMap.h"
+#include "Timer.h"
 
 class Player : public Entities
 {
@@ -32,6 +33,8 @@ protected:
 	float timeCurrentFrame;
 	float deltaT;
 	float frameTime;
+
+	Timer animationTimer;
 
 public:
 	Player();
