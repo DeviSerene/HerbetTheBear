@@ -93,10 +93,7 @@ void AudioManager::SoundPlay(std::string _name, int _channel)
 	GetSound(_name)->PlaySound(_channel);
 }
 
-void AudioManager::SoundStop(int _channel)
-{
-	Mix_HaltChannel(_channel);
-}
+
 
 SoundEffect* AudioManager::GetSound(std::string& _name)
 {
