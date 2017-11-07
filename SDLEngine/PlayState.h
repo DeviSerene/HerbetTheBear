@@ -31,8 +31,6 @@ public:
 	TileMap *map;
 	Player *player;
 	Clown *clown;
-	std::vector<Ghost*> ghosts;
-	Bear* bear;
 	SpriteFactory* sprite;
 
 	PlayState(GameData* data);
@@ -40,6 +38,9 @@ public:
 	virtual bool HandleSDLEvents();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
+	std::vector<Ghost*> ghosts;
+	std::vector<Bear*> bears;
+
 	void nextLevel();
 };
 
