@@ -30,3 +30,11 @@
 /SDLEngine/Debug/Ghost.obj
 *.obj
 /SDLEngine/Debug/SDLEngine.Build.CppClean.log
+/SDLEngine/Thumbs.db
+/SDLEngine/Debug/SDLEngine.tlog/unsuccessfulbuild
+/SDLEngine/Debug/SDLEngine.tlog/link-rc.write.1.tlog
+/SDLEngine/Debug/SDLEngine.tlog/link-rc.read.1.tlog
+/SDLEngine/Debug/SDLEngine.tlog/link-cvtres.write.1.tlog
+/SDLEngine/Debug/SDLEngine.tlog/link-cvtres.read.1.tlog
+/SDLEngine/Debug/SDLEngine.tlog
+/SDLEngine/assets/textures/Thumbs.db
