@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "SpriteFactory.h"
 #include "Teddy.h"
+#include "Clown.h"
 #include "Level.h"
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
@@ -42,7 +43,10 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 		coinx += 20;
 		coiny += 20;
 	}
+
 	teddy = new Teddy(map->teddyPos);
+
+	clown = new Clown(400, 100, 32, 64, player, false);
 }
 
 PlayState::~PlayState()
@@ -128,8 +132,14 @@ void PlayState::Update(float deltaTime)
 	{
 		ghosts.at(i)->Update(this);
 	}
+	for (int i = 0; i < Coins.size(); i++)
+	{
+		Coins[i]->Update(this);
+	}
+	player->Update(this);
 	bear->Update(this);
 	teddy->Update(this);
+	clown->Update(this);
 }
 
 void PlayState::Draw()
@@ -153,6 +163,11 @@ void PlayState::Draw()
 	{
 		ghosts.at(i)->Draw(m_gameData->GetHelperSprites());
 	}
+	for (int i = 0; i < Coins.size(); i++)
+	{
+		//m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", Coins[i]->getWorldPosRect(), Coins[i]->getCoinCropRect(), false);
+		Coins[i]->Draw(m_gameData->GetPlayerSprites());
+	}
 	bear->Draw(m_gameData->GetHelperSprites());
 	SDL_Rect playerPos = player->GetPlayerRect();
 	playerPos.x = -cameraX + (playerPos.x);
@@ -172,6 +187,7 @@ void PlayState::Draw()
 		std::cout << "Coin Drawn" << std::endl;
 	}
 
-	
+	clown->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
+	clown->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
 
 }

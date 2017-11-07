@@ -10,6 +10,7 @@
 
 class TileMap;
 class Teddy;
+class Clown;
 struct Level;
 
 class PlayState : public GameState
@@ -27,8 +28,9 @@ public:
 
 	bool inputRight, inputLeft, inputUp;
 
-	TileMap* map;
-	Player* player;
+	TileMap *map;
+	Player *player;
+	Clown *clown;
 	SpriteFactory* sprite;
 
 	PlayState(GameData* data);
