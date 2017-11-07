@@ -52,6 +52,7 @@ public:
 	bool CollideWith(Entities *_other) override;
 
 	SDL_Rect GetPlayerRect();
+	void SetPlayerRect(SDL_Rect _rect) { EntityPosition = _rect; }
 	SDL_Rect GetPlayerCropRect();
 	bool getPlayerDirection();
 	void PlayerJump();

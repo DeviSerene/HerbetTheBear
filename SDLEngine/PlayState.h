@@ -42,5 +42,6 @@ public:
 	std::vector<Bear*> bears;
 
 	void nextLevel();
+	void generateCoins(int _chance);
 };
 

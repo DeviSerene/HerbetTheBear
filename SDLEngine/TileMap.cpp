@@ -158,13 +158,14 @@ void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int 
 		if (grassFrame > 5)
 			grassFrame = 0;
 	}
+
 	for (int x = boundLeft; x < boundRight; x++) {
 		for (int y = boundTop; y < boundBottom; y++) {
 			int indice = tileIndices[(y * width) + x];
 			if (indice <= 0) continue;
 			indice--;
 
-			if (indice > 11)
+			if (y > 0 && !tileIndices[((y - 1) * width) + x])
 				_factory->Draw("assets/textures/grass_sheet.png", SDL_Rect{ (int)(-_cameraX + (x * tileWidth)), (int)(-_cameraY + (y * tileHeight)) - tileHeight, tileWidth, tileHeight },
 					SDL_Rect{ grassFrame * 32, 0, 32, 32 });
 
@@ -174,4 +175,19 @@ void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int 
 			_factory->Draw(sprite, SDL_Rect{ (int)(-_cameraX + (x * tileWidth)), (int)(-_cameraY + (y * tileHeight)), tileWidth, tileHeight }, SDL_Rect{ tileX * 64, tileY * 64, 64, 64 });
 		}
 	}
+}
+
+std::vector<SDL_Rect> TileMap::getTopTiles() const {
+	std::vector<SDL_Rect> result;
+	for (int x = 0; x < width; x++) {
+		for (int y = 0; y < height; y++) {
+			if (!tileIndices[(y * width) + x])
+				continue;
+			if (y == 0)
+				continue;
+			if (!tileIndices[((y - 1) * width) + x])
+			result.push_back(SDL_Rect{ x, y, 1, 1 });
+		}
+	}
+	return result;
 }

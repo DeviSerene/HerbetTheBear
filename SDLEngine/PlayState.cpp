@@ -7,6 +7,8 @@
 #include "Clown.h"
 #include "Level.h"
 
+#define COIN_CHANCE 7
+
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
@@ -21,7 +23,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
 	}
-	for (size_t j = 0; j < 16; j++)
+	for (size_t j = 0; j < 6; j++)
 	{
 		bears.push_back(new Bear(rand() % map->getWidthInTiles() * 64, rand() % map->getWidthInTiles() * 64, rand() % map->getHeightInTiles() * 64));
 	}
@@ -35,16 +37,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	inputLeft = false;
 	inputUp = false;
 
-	coinx = 30;
-	coiny = 50;
-
-	for (int i = 0; i < 10; i++)
-	{
-		Coins.push_back(new Coin());
-		Coins[i]->SetCoinPosRect(coinx, coiny);
-		coinx += 20;
-		coiny += 20;
-	}
+	generateCoins(COIN_CHANCE);
 
 	teddy = new Teddy(map->teddyPos);
 
@@ -228,7 +221,24 @@ void PlayState::nextLevel() {
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str());
 	delete teddy;
 	teddy = new Teddy(map->teddyPos);
-	delete player;
-	player = new Player();
+	player->SetPlayerRect(SDL_Rect{ 30, 0, 32, 32 });
+	generateCoins(COIN_CHANCE);
 
+	for (size_t i = 0; i < bears.size(); i++)
+	{
+		bears.at(i)->Init(rand() % map->getWidthInTiles() * 64, rand() % map->getWidthInTiles() * 64, rand() % map->getHeightInTiles() * 64);
+	}
+}
+
+void PlayState::generateCoins(int _chance) {
+	for (Coin *c : Coins)
+		delete c;
+	Coins.clear();
+	for (SDL_Rect r : map->getTopTiles()) {
+		if (rand() % _chance == 0) {
+			Coin *c = new Coin();
+			c->SetCoinPosRect(r.x * 64 + 24, r.y * 64 - 16);
+			Coins.push_back(c);
+		}
+	}
 }

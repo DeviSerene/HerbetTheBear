@@ -35,4 +35,6 @@ public:
 
 	int getWidthInTiles() const { return width; }
 	int getHeightInTiles() const { return height; }
+
+	std::vector<SDL_Rect> getTopTiles() const;
 };
