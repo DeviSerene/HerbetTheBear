@@ -3,6 +3,7 @@
 #include "Entities.h"
 #include "TileMap.h"
 #include "Timer.h"
+#include "GameData.h"
 
 class Player : public Entities
 {
@@ -18,6 +19,7 @@ protected:
 	bool playerDamaged;
 	bool playerDead;
 	bool invulnerabilityFrames;
+	bool soundEffectPlayed;
 
 	int numOfCoins;
 
@@ -60,5 +62,6 @@ public:
 	void incrementCoins();
 	int getCoins() const { return numOfCoins; }
 	bool checkForPlayerDeath();
+	void playSoundEffect(GameData *m_gameData);
 };
 

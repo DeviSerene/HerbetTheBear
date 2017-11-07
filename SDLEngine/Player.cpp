@@ -40,6 +40,7 @@ Player::Player()
 
 	playerDamaged = false;
 	invulnerabilityFrames = false;
+	soundEffectPlayed = false;
 }
 
 
@@ -193,6 +194,7 @@ bool Player::CollideWith(Entities* _other)
 	if (DamageOffsetTimer.Completed())
 	{
 		invulnerabilityFrames = false;
+		soundEffectPlayed = false;
 		if (Entities::CollideWith(_other))
 		{
 			playerHeath--;
@@ -231,4 +233,13 @@ bool Player::checkForPlayerDeath()
 	}
 
 	return playerDead;
+}
+
+void Player::playSoundEffect(GameData *m_gameData)
+{
+	if (soundEffectPlayed == false)
+	{
+		m_gameData->GetAudio()->SoundPlay("assets/sfx_childHurt.wav");
+		soundEffectPlayed = true;
+	}
 }
