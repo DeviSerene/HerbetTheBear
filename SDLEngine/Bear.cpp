@@ -1,12 +1,31 @@
 #include "Bear.h"
 #include "PlayState.h"
 
-Bear::Bear()
+Bear::Bear(PlayState* _state)
 {
-	destinations.push_back(SDL_Rect{ 10, 500, 64, 64 });
-	destinations.push_back(SDL_Rect{ 200, 500, 64, 64 });
+	Init(_state);
+}
+
+void Bear::Init(PlayState* _state)
+{
+	ReOrient(_state);
 	EntityPosition = destinations.at(0);
-	EntityPosition.w = EntityPosition.h = 64;
+	EntityPosition.w = 64;
+	EntityPosition.h = 63;
+	prevPos = EntityPosition;
+}
+
+void Bear::ReOrient(PlayState* _state)
+{
+	destinations.clear();
+	std::vector<SDL_Rect> topTiles = _state->map->getTopTiles();
+	destinations.push_back(topTiles.at(rand() % topTiles.size()));
+	destinations.push_back(topTiles.at(rand() % topTiles.size()));
+	for (size_t i = 0; i < destinations.size(); i++)
+	{
+		destinations.at(i).x *= 64;
+		destinations.at(i).y *= 64 - 65;
+	}
 }
 
 void Bear::Draw(SpriteFactory * _sprite)
@@ -29,7 +48,8 @@ void Bear::Draw(SpriteFactory * _sprite)
 
 void Bear::Update(PlayState * _state)
 {
-	Enemy::Update(_state);
+	Enemy::Update(_state);	
+
 	bool OnGround;
 	int velX = 0;
 	if (EntityPosition.x < destinations.at(currentDest).x)
@@ -46,5 +66,16 @@ void Bear::Update(PlayState * _state)
 	}
 
 	_state->map->Collision(EntityPosition, velX, 5, OnGround);
-	//TODO: Add falling and ground collision
+
+	if (counter == 10)
+	{
+		if (EntityPosition.x == prevPos.x)
+		{
+			ReOrient(_state);			
+		}
+		prevPos = EntityPosition;
+	}
+	counter++;
+	if (counter > 10)
+		counter = 0;
 }
