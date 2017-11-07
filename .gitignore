@@ -6,3 +6,6 @@
 /SDLEngine.VC.db
 *.obj
 /SDLEngine/Debug/player.obj.enc
+.vs/*
+Debug/*
+SDK/*
