@@ -147,7 +147,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
-    <ClCompile Include="Clown.cpp" />
+	<ClCompile Include="Bear.cpp" />
+	<ClCompile Include="Clown.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entities.cpp" />
     <ClCompile Include="GameData.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteFactory.cpp" />
+    <ClCompile Include="Teddy.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TMX\tinyxml2.cpp" />
@@ -174,7 +176,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="Clown.h" />
+    <ClInclude Include="Bear.h" />
+	<ClInclude Include="Clown.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entities.h" />
     <ClInclude Include="GameData.h" />
@@ -188,6 +191,7 @@
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteFactory.h" />
+    <ClInclude Include="Teddy.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TMX\tinyxml2.h" />

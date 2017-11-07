@@ -3,6 +3,7 @@
 #include "GameData.h"
 #include "Player.h"
 #include "SpriteFactory.h"
+#include "Teddy.h"
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
@@ -14,6 +15,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
 	}
+	bear = new Bear();
 
 	skyTiles.resize(map->getWidthInTiles() * map->getHeightInTiles());
 	for (int i = 0; i < skyTiles.size(); i++)
@@ -24,6 +26,8 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	inputRight = false;
 	inputLeft = false;
 	inputUp = false;
+
+	teddy = new Teddy(SDL_Rect{ 64, 64, 32, 32 });
 }
 
 PlayState::~PlayState()
@@ -85,10 +89,6 @@ void PlayState::Update(float deltaTime)
 {
 	this->delta = deltaTime;
 
-	for (size_t i = 0; i < ghosts.size(); i++)
-	{
-		ghosts.at(i)->Update(this);
-	}
 	player->Update(this);
 	int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
@@ -105,6 +105,12 @@ void PlayState::Update(float deltaTime)
 	else if (cameraY > (map->getHeightInTiles() * 64) - playerH)
 		cameraY = map->getHeightInTiles() * 64 - playerH;
 
+	for (size_t i = 0; i < ghosts.size(); i++)
+	{
+		ghosts.at(i)->Update(this);
+	}
+	bear->Update(this);
+	teddy->Update(this);
 }
 
 void PlayState::Draw()
@@ -128,12 +134,15 @@ void PlayState::Draw()
 	{
 		ghosts.at(i)->Draw(m_gameData->GetHelperSprites());
 	}
+	bear->Draw(m_gameData->GetHelperSprites());
 	SDL_Rect playerPos = player->GetPlayerRect();
 	playerPos.x = -cameraX + (playerPos.x);
 	playerPos.y = -cameraY + (playerPos.y);
 
 	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
 	m_gameData->GetHelperSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
+
+	teddy->Draw(m_gameData->GetHelperSprites());
 
 	for (int i = 0; i < player->getPlayerHealth(); i++) {
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i, playerH - 70, 64, 64 });

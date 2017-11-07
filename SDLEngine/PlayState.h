@@ -5,13 +5,15 @@
 #include "Player.h"
 #include "SpriteFactory.h"
 #include "Ghost.h"
+#include "Bear.h"
 
 class TileMap;
-
+class Teddy;
 
 class PlayState : public GameState
 {
 	std::vector<int> skyTiles;
+	Teddy *teddy;
 public:
 	float cameraX, cameraY;
 	float delta;
@@ -28,6 +30,7 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 	std::vector<Ghost*> ghosts;
+	Bear* bear;
 
 };
 
