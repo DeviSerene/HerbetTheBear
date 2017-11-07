@@ -4,15 +4,17 @@
 #include "Player.h"
 #include "SpriteFactory.h"
 #include "Teddy.h"
-
-
-
+#include "Level.h"
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
-	
-	map = new TileMap(0, 0, 0, 0, "assets/textures/Forest_Tilesheet_01.png", "assets/maps/", "test.tmx");
+	currentLevel = 1;
+	levels.resize(2);
+	levels[0] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", "assets/textures/sky_sheet.png");
+	levels[1] = Level("test_night.tmx", "assets/textures/Forest_Tilesheet_01.png", "assets/textures/sky_sheet_dark.png");
+
+	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str());
 
 	for (size_t i = 0; i < 36; i++)
 	{
@@ -140,8 +142,8 @@ void PlayState::Draw()
 	for (int x = 0; x < map->getWidthInTiles() / ((float)skySize / 64); x++) {
 		for (int y = 0; y < map->getHeightInTiles() / ((float)skySize / 64); y++) {
 			int index = skyTiles[(y * map->getWidthInTiles()) + x];
-			m_gameData->GetPlayerSprites()->Draw("assets/textures/sky_sheet.png", SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
-			m_gameData->GetHelperSprites()->Draw("assets/textures/sky_sheet.png", SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
+			m_gameData->GetPlayerSprites()->Draw(levels[currentLevel].backgroundTileSet, SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
+			m_gameData->GetHelperSprites()->Draw(levels[currentLevel].backgroundTileSet, SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
 		}
 	}
 	
