@@ -217,9 +217,15 @@ void PlayState::Update(float deltaTime)
 	//Evil things
 	teddy->Update(this);
 	for (Clown *c : clowns) {
+		if (c->isDecoy()) continue;
 		c->Update(this);
-		if(player->CollideWith(c))
+		if (player->CollideWith(c)) {
 			player->playSoundEffect(m_gameData);
+			if (player->checkForPlayerDeath())
+			{
+				_enemyType = "Clown";
+			}
+		}
 	}
 
 	for (MushroomSpike *spike : spikes) {
@@ -228,21 +234,9 @@ void PlayState::Update(float deltaTime)
 			player->playSoundEffect(m_gameData);
 		}
 	}
-	for (int i = 0; i < 20; i++)
-	{
-		if (player->CollideWith(clown))
-		{
-			player->playSoundEffect(m_gameData);
-		}
-		if (player->checkForPlayerDeath())
-		{
-			_enemyType = "Clown";
-		}
-	}
 
 	if (teddy->CollideWith(player))
 		drawDoor = true;
-
 
 	// If this returns true, then the player has lost all of their lives and they lose
 	if (player->checkForPlayerDeath() == true)
