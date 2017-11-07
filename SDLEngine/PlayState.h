@@ -22,6 +22,9 @@ class PlayState : public GameState
 	int coinx;
 	int coiny;
 	int currentLevel;
+
+	bool hasBeenHit;
+
 public:
 	float cameraX, cameraY;
 	float delta;
