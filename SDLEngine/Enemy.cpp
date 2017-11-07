@@ -16,9 +16,11 @@ Enemy::~Enemy()
 void Enemy::Update(PlayState* _state)
 {
 	Entities::Update(_state);
-	if ((EntityPosition.x != destinations.at(currentDest).x) || (EntityPosition.y != destinations.at(currentDest).y))
-	{
-		//Flip enemy to face towards destination
+	//Flip enemy to face towards destination
+		if (currentDest == destinations.size())
+		{
+			currentDest = 0;
+		}
 		if (EntityPosition.x > destinations.at(currentDest).x)
 		{
 			flipped = true;
@@ -27,21 +29,7 @@ void Enemy::Update(PlayState* _state)
 		{
 			flipped = false;
 		}
-		//move towards destination
-		float deltaX = EntityPosition.x - destinations.at(currentDest).x;
-		float deltaY = EntityPosition.y - destinations.at(currentDest).y;
-		float distanceBetweenEntAndDest = std::sqrt(std::pow(deltaX, 2) + std::pow(deltaY, 2));
-		EntityPosition.x -= round(deltaX / distanceBetweenEntAndDest);
-		EntityPosition.y -= round(deltaY / distanceBetweenEntAndDest);
-	}
-	else
-	{
-		currentDest += 1;
-	}
-	if (currentDest == destinations.size())
-	{
-		currentDest = 0;
-	}
+		
 
 	CollideWith(_state->player);
 }
