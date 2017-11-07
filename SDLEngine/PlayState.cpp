@@ -176,7 +176,6 @@ void PlayState::Draw()
 	}
 	for (int i = 0; i < Coins.size(); i++)
 	{
-		//m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", Coins[i]->getWorldPosRect(), Coins[i]->getCoinCropRect(), false);
 		Coins[i]->Draw(m_gameData->GetPlayerSprites());
 	}
 	bear->Draw(m_gameData->GetHelperSprites());
@@ -189,18 +188,15 @@ void PlayState::Draw()
 
 	teddy->Draw(m_gameData->GetHelperSprites());
 
-	for (int i = 0; i < player->getPlayerHealth(); i++) {
-		m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i, playerH - 70, 64, 64 });
-	}
-	for (int i = 0; i < Coins.size(); i++)
-	{
-		m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", Coins[i]->getCoinPosRect(), Coins[i]->getCoinCropRect(), false);
-		std::cout << "Coin Drawn" << std::endl;
-	}
-
 	clown->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
 	clown->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
 
+	//UI
+	m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", SDL_Rect{ 30, 30, 32, 32 }, SDL_Rect{ 0, 0, 16, 16 });
+	DrawText(m_gameData->GetPlayerRenderer(), std::to_string(player->getCoins()), SDL_Color{ 255, 255, 255 }, 62, 38);
+	for (int i = 0; i < player->getPlayerHealth(); i++) {
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i + 20, playerH - 70, 64, 64 });
+	}
 }
 
 void PlayState::nextLevel() {
