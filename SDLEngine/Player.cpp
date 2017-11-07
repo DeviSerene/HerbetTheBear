@@ -34,7 +34,7 @@ Player::Player()
 	movingLeft = false;
 
 	animationTimer = Timer(0.2f);
-	DamageOffsetTimer = Timer(5000.0f);
+	DamageOffsetTimer = Timer(2000.0f);
 	onGround = false;
 	numOfCoins = 0;
 
