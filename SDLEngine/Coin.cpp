@@ -59,7 +59,7 @@ bool Coin::CollideWith(Entities* _other)
 	if (Entities::CollideWith(_other))
 	{
 		DestoryCoin = true;
-		
+		SoundEffect::SoundEffect("assets/sfx_coin.wav");
 	}
 	else
 	{
