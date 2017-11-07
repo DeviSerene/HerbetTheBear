@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "SpriteFactory.h"
 #include "Ghost.h"
+#include "Coin.h"
 
 class TileMap;
 
@@ -12,6 +13,9 @@ class TileMap;
 class PlayState : public GameState
 {
 	std::vector<int> skyTiles;
+	std::vector<Coin*> Coins;
+	int coinx;
+	int coiny;
 public:
 	float cameraX, cameraY;
 	float delta;

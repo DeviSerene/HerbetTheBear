@@ -1,8 +1,8 @@
 #include "PlayState.h"
 #include "TileMap.h"
-#include "GameData.h"
-#include "Player.h"
-#include "SpriteFactory.h"
+
+
+
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
@@ -19,6 +19,17 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	inputRight = false;
 	inputLeft = false;
 	inputUp = false;
+
+	coinx = 30;
+	coiny = 50;
+
+	for (int i = 0; i < 10; i++)
+	{
+		Coins.push_back(new Coin());
+		Coins[i]->SetCoinPosRect(coinx, coiny);
+		coinx += 20;
+		coiny += 20;
+	}
 }
 
 PlayState::~PlayState()
@@ -82,6 +93,10 @@ void PlayState::Update(float deltaTime)
 
 	ghost1->Update(this);
 	player->Update(this);
+	for (int i = 0; i < Coins.size(); i++)
+	{
+		Coins[i]->Update(this);
+	}
 	int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
 	SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
@@ -123,5 +138,13 @@ void PlayState::Draw()
 
 	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
 	m_gameData->GetHelperSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
+
+	for (int i = 0; i < Coins.size(); i++)
+	{
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", Coins[i]->getCoinPosRect(), Coins[i]->getCoinCropRect(), false);
+		std::cout << "Coin Drawn" << std::endl;
+	}
+
+	
 
 }

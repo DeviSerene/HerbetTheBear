@@ -80,7 +80,6 @@ void Player::Update(PlayState *_playState)
 		movingLeft = false;
 	}
 
-
 	if (animationTimer.Completed()) {
 		CropRect.x += 32;
 
