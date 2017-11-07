@@ -116,5 +116,16 @@ void Bear::Update(PlayState * _state)
 			counter = 0;
 		}
 	}
+	else
+	{
+		if (counter % 5 == 0)
+		{
+			currentDest += 1;
+		}
+		if (counter % 500 == 0)
+		{
+			counter = 0;
+		}
+	}
 	counter++;
 }
