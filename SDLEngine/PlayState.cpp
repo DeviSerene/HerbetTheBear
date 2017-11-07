@@ -213,6 +213,11 @@ void PlayState::nextLevel() {
 	teddy = new Teddy(map->teddyPos);
 	player->SetPlayerRect(SDL_Rect{ 30, 0, 32, 32 });
 	generateCoins(COIN_CHANCE);
+
+	for (size_t i = 0; i < bears.size(); i++)
+	{
+		bears.at(i)->Init(rand() % map->getWidthInTiles() * 64, rand() % map->getWidthInTiles() * 64, rand() % map->getHeightInTiles() * 64);
+	}
 }
 
 void PlayState::generateCoins(int _chance) {
@@ -225,10 +230,5 @@ void PlayState::generateCoins(int _chance) {
 			c->SetCoinPosRect(r.x * 64 + 24, r.y * 64 - 16);
 			Coins.push_back(c);
 		}
-	}
-	
-	for (size_t i = 0; i < bears.size(); i++)
-	{
-		bears.at(i)->Init(rand() % map->getWidthInTiles() * 64, rand() % map->getWidthInTiles() * 64, rand() % map->getHeightInTiles() * 64);
 	}
 }

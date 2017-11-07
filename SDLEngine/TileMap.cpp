@@ -158,13 +158,14 @@ void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int 
 		if (grassFrame > 5)
 			grassFrame = 0;
 	}
+
 	for (int x = boundLeft; x < boundRight; x++) {
 		for (int y = boundTop; y < boundBottom; y++) {
 			int indice = tileIndices[(y * width) + x];
 			if (indice <= 0) continue;
 			indice--;
 
-			if (indice > 11)
+			if (y > 0 && !tileIndices[((y - 1) * width) + x])
 				_factory->Draw("assets/textures/grass_sheet.png", SDL_Rect{ (int)(-_cameraX + (x * tileWidth)), (int)(-_cameraY + (y * tileHeight)) - tileHeight, tileWidth, tileHeight },
 					SDL_Rect{ grassFrame * 32, 0, 32, 32 });
 
