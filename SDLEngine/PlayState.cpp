@@ -39,8 +39,6 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 
 	generateCoins(COIN_CHANCE);
 
-	}
-
 	teddy = new Teddy(map->teddyPos);
 
 	clown = new Clown(400, 100, 32, 64, player, false);
