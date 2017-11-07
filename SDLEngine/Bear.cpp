@@ -9,12 +9,13 @@ Bear::Bear(PlayState* _state)
 void Bear::Init(PlayState* _state)
 {
 	destinations.clear();
-	destinations.push_back(_state->map->getTopTiles().at(rand() % _state->map->getTopTiles().size()));
-	destinations.push_back(_state->map->getTopTiles().at(rand() % _state->map->getTopTiles().size()));
+	std::vector<SDL_Rect> topTiles = _state->map->getTopTiles();
+	destinations.push_back(topTiles.at(rand() % topTiles.size()));
+	destinations.push_back(topTiles.at(rand() % topTiles.size()));
 	for (size_t i = 0; i < destinations.size(); i++)
 	{
 		destinations.at(i).x *= 64;
-		//destinations.at(i).y *= 64;
+		destinations.at(i).y *= 64 - 65;
 	}
 	EntityPosition = destinations.at(0);
 	EntityPosition.w = 64;
@@ -59,5 +60,4 @@ void Bear::Update(PlayState * _state)
 	}
 
 	_state->map->Collision(EntityPosition, velX, 5, OnGround);
-	//TODO: Add falling and ground collision
 }
