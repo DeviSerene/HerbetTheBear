@@ -10,7 +10,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	
 	map = new TileMap(0, 0, 0, 0, "assets/textures/Forest_Tilesheet_01.png", "assets/maps/", "test.tmx");
 
-	for (size_t i = 0; i < 51; i++)
+	for (size_t i = 0; i < 36; i++)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
 	}
