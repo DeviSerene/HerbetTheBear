@@ -25,6 +25,7 @@ protected:
 	// Variables for handing Jumping
 	bool playerJumping;
 	bool playerFalling;
+	bool onGround;
 	int jumpLimit;
 	int YBeforeJump;
 	int LastFrameFallingPos;
