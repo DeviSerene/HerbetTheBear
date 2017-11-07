@@ -11,7 +11,8 @@ class Entities
 protected:
 
 	SDL_Rect EntityPosition;
-
+	float hitboxWidth;
+	float hitboxHeight;
 	std::string fileName;
 	float cameraX, cameraY;
 
@@ -25,6 +26,12 @@ public:
 	virtual void Update(PlayState* _state);
 	virtual void Draw(SpriteFactory* _sprite) {}
 	virtual bool CollideWith(Entities *_other);
+
+	inline SDL_Rect GetHitbox() {
+		return SDL_Rect{ ((int)(EntityPosition.x + (EntityPosition.w / 2) - (hitboxWidth / 2)))
+			, (int)((EntityPosition.y + EntityPosition.h) - hitboxHeight)
+			, (int)hitboxWidth, (int)hitboxHeight };
+	}
 
 	SDL_Rect getPosition() const { return EntityPosition; }
 };

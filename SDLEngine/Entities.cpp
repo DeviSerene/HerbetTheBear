@@ -13,9 +13,10 @@ void Entities::Update(PlayState* _state) {
 }
  
 bool Entities::CollideWith(Entities *_other) {
-	SDL_Rect otherPos = _other->getPosition();
-	if ((EntityPosition.x <= otherPos.x + otherPos.w && EntityPosition.x + EntityPosition.w >= otherPos.x
-		&& EntityPosition.y <= otherPos.y + otherPos.h && EntityPosition.y + EntityPosition.h >= otherPos.y))
+	SDL_Rect hitbox = GetHitbox();
+	SDL_Rect otherPos = _other->GetHitbox();
+	if ((hitbox.x <= otherPos.x + otherPos.w && hitbox.x + hitbox.w >= otherPos.x
+		&& hitbox.y <= otherPos.y + otherPos.h && hitbox.y + hitbox.h >= otherPos.y))
 		return true;
 	return false;
 }

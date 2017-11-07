@@ -59,7 +59,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 
 	teddy = new Teddy(map->teddyPos);
 
-	clown = new Clown(400, 100, 32, 64, player, true);
+	clown = new Clown(400, 100, 32, 64, player, false);
 
 	DoorTimer = Timer(2000.0);
 

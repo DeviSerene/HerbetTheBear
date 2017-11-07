@@ -11,6 +11,9 @@ Player::Player()
 	EntityPosition.w = 32;
 	EntityPosition.h = 32;
 
+	hitboxWidth = 17;
+	hitboxHeight = 30;
+
 	CropRect.x = 0;
 	CropRect.y = 0;
 	CropRect.w = 32;

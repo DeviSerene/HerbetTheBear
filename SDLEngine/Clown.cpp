@@ -18,6 +18,9 @@ Clown::Clown(float posX, float posY, float width, float height, Player *player, 
 
 	animCrop = SDL_Rect{ 0, 0, 32, 64 };
 	smokeCrop = SDL_Rect{ 128, 0, 32, 64 };
+
+	hitboxWidth = 16;
+	hitboxHeight = 46;
 }
 
 Clown::~Clown()
