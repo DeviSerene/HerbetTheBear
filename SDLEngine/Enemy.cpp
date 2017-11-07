@@ -37,7 +37,7 @@ void Enemy::Update(PlayState* _state)
 
 bool Enemy::CollideWith(Entities *_other) {
 	if (Entities::CollideWith(_other)) {
-		std::cout << "Collision!!";
+		
 		//Kill player or somit
 	}
 	return false;

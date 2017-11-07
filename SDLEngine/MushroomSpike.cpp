@@ -13,6 +13,7 @@ MushroomSpike::MushroomSpike(int posX, int posY, bool decoy)
 	hitboxWidth = 32;
 	hitboxHeight = 16;
 	this->decoy = decoy;
+	revealed = false;
 }
 
 
@@ -28,5 +29,5 @@ void MushroomSpike::DrawHelper(SpriteFactory *_factory, float cameraX, float cam
 }
 
 void MushroomSpike::DrawPlayer(SpriteFactory *_factory, float cameraX, float cameraY) {
-	_factory->Draw(MushroomSprite, EntityPosition, false, cameraX, cameraY);
+	_factory->Draw(decoy || !revealed ? MushroomSprite : SpikeSprite, EntityPosition, false, cameraX, cameraY);
 }
