@@ -25,6 +25,7 @@ private:
 
 	TMXTileSet* set;
 public:
+	SDL_Rect teddyPos;
 
 	TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::string _atlas, const char *_workingDir, const char *_level);
 	~TileMap();

@@ -11,9 +11,13 @@ Coin::Coin()
 	EntityPosition.y = 0;
 	EntityPosition.w = EntityPosition.h = 16;
 
+	
+
 	cropRect.x = 0;
 	cropRect.y = 0;
 	cropRect.w = cropRect.h = 16;
+
+	
 }
 
 
@@ -24,6 +28,7 @@ Coin::~Coin()
 
 void Coin::Update(PlayState *_state)
 {
+	Entities::Update(_state);
 	if (animationTimer.Completed())
 	{
 		cropRect.x += 16;
@@ -36,11 +41,14 @@ void Coin::Update(PlayState *_state)
 	}
 
 	animationTimer.Update(_state->delta);
+	
+
 }
 
 void Coin::Draw(SpriteFactory *_sprite)
 {
-	
+	worldPos = SDL_Rect{ EntityPosition.x - (int)cameraX, EntityPosition.y - (int)cameraY, EntityPosition.w, EntityPosition.h };
+	_sprite->Draw("assets/textures/coin_sheet.png", worldPos, cropRect, false);
 }
 
 void Coin::CoinCollected()
@@ -62,4 +70,9 @@ SDL_Rect Coin::getCoinPosRect()
 SDL_Rect Coin::getCoinCropRect()
 {
 	return cropRect;
+}
+
+SDL_Rect Coin::getWorldPosRect()
+{
+	return worldPos;
 }

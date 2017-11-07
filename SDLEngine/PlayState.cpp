@@ -42,7 +42,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 		coiny += 20;
 	}
 
-	teddy = new Teddy(SDL_Rect{ 64, 64, 32, 32 });
+	teddy = new Teddy(map->teddyPos);
 
 	clown = new Clown(400, 100, 32, 64, player, false);
 }
@@ -130,6 +130,11 @@ void PlayState::Update(float deltaTime)
 	{
 		ghosts.at(i)->Update(this);
 	}
+	for (int i = 0; i < Coins.size(); i++)
+	{
+		Coins[i]->Update(this);
+	}
+	player->Update(this);
 	bear->Update(this);
 	teddy->Update(this);
 	clown->Update(this);
@@ -155,6 +160,11 @@ void PlayState::Draw()
 	for (size_t i = 0; i < ghosts.size(); i++)
 	{
 		ghosts.at(i)->Draw(m_gameData->GetHelperSprites());
+	}
+	for (int i = 0; i < Coins.size(); i++)
+	{
+		//m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", Coins[i]->getWorldPosRect(), Coins[i]->getCoinCropRect(), false);
+		Coins[i]->Draw(m_gameData->GetPlayerSprites());
 	}
 	bear->Draw(m_gameData->GetHelperSprites());
 	SDL_Rect playerPos = player->GetPlayerRect();
