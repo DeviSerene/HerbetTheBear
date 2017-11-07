@@ -3,6 +3,7 @@
 #include "GameData.h"
 #include "Player.h"
 #include "SpriteFactory.h"
+#include "Teddy.h"
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
@@ -24,6 +25,8 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	inputRight = false;
 	inputLeft = false;
 	inputUp = false;
+
+	teddy = new Teddy(SDL_Rect{ 64, 64, 32, 32 });
 }
 
 PlayState::~PlayState()
@@ -105,6 +108,7 @@ void PlayState::Update(float deltaTime)
 	else if (cameraY > (map->getHeightInTiles() * 64) - playerH)
 		cameraY = map->getHeightInTiles() * 64 - playerH;
 
+	teddy->Update(this);
 }
 
 void PlayState::Draw()
@@ -134,6 +138,8 @@ void PlayState::Draw()
 
 	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
 	m_gameData->GetHelperSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
+
+	teddy->Draw(m_gameData->GetHelperSprites());
 
 	for (int i = 0; i < player->getPlayerHealth(); i++) {
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i, playerH - 70, 64, 64 });

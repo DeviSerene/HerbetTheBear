@@ -161,6 +161,7 @@
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteFactory.cpp" />
+    <ClCompile Include="Teddy.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TMX\tinyxml2.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteFactory.h" />
+    <ClInclude Include="Teddy.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TMX\tinyxml2.h" />

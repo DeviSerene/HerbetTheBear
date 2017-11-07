@@ -7,11 +7,12 @@
 #include "Ghost.h"
 
 class TileMap;
-
+class Teddy;
 
 class PlayState : public GameState
 {
 	std::vector<int> skyTiles;
+	Teddy *teddy;
 public:
 	float cameraX, cameraY;
 	float delta;
