@@ -91,7 +91,7 @@ void Player::Update(PlayState *_playState)
 		animationTimer.Reset();
 	}
 
-	animationTimer.Update();
+	//animationTimer.Update(_playState->);
 
 	volY += 1;
 	if (volY > 5) volY = 5;
