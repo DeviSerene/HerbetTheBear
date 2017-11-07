@@ -1,4 +1,6 @@
 #include "MenuState.h"
+#include <string>
+#include "PlayState.h"
 
 MenuState::MenuState(GameData* _gamedata)
 	: GameState(_gamedata)
@@ -39,9 +41,26 @@ bool MenuState::HandleSDLEvents()
 			switch (ev.button.button) //what key has been pressed?
 			{
 			case SDL_BUTTON_LEFT:
+				SDL_Rect r = SDL_Rect{ ev.button.x, ev.button.y, 1, 1 };
+				int x = ev.button.x;
+				int y = ev.button.y;
+
+				if (x >= playRect.x && x < playRect.x + playRect.w && y >= playRect.y && y < playRect.y + playRect.h) {
+					m_gameData->m_stateManager->ChangeState(new PlayState(m_gameData));
+				}
+
+				if (x >= exitRect.x && x < exitRect.x + exitRect.w && y >= exitRect.y && y < exitRect.y + exitRect.h) {
+					m_gameData->m_stateManager->RemoveLastState();
+					return false;
+				}
+
 				break;
 			}
-			
+		case SDL_WINDOWEVENT:
+			if (ev.window.event == SDL_WINDOWEVENT_CLOSE) {
+				m_gameData->m_stateManager->RemoveLastState();
+				return false;
+			}
 		}
 	}
 	return true;
@@ -49,12 +68,26 @@ bool MenuState::HandleSDLEvents()
 
 void MenuState::Update(float _deltaTime)
 {
+	int width;
+	int height;
 
+	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &width, &height);
+	playRect = { (width - 192) / 2, 300, 192, 64 };
+	exitRect = { (width - 192) / 2, 400, 192, 64 };
 }
 
 void MenuState::Draw()
 {
-	//DrawText(m_gameData->GetPlayerSprites(), "", SDL_Color{10, 10, 10, 10});
+	int width;
+	int height;
+
+	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &width, &height);
+
+	DrawText(m_gameData->GetHelperRenderer(), std::string("Please Press Play on Screen 1"), SDL_Color{255, 255, 255, 255 }, 10, 10);
+
+	m_gameData->GetPlayerSprites()->Draw("assets/textures/PlayButton.png", playRect);
+	m_gameData->GetPlayerSprites()->Draw("assets/textures/ExitButton.png", exitRect);
+
 	m_gameData->GetPlayerSprites()->Draw("assets/KarstenHorse.png", { 200,100,50,50 });
 	m_gameData->GetHelperSprites()->Draw("assets/KarstenHorse.png", { 200,100,50,50 });
 }

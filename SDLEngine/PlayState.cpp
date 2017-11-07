@@ -178,6 +178,10 @@ void PlayState::Update(float deltaTime)
 		{
 			player->playSoundEffect(m_gameData);
 		}
+		if (player->checkForPlayerDeath())
+		{
+			_enemyType = "Ghost";
+		}
 	}
 
 	// Calls the update function and checks if they player has collided with a coin, if so, coin disapears and the players coin count increases
@@ -197,11 +201,16 @@ void PlayState::Update(float deltaTime)
 	player->Update(this);
 	for (size_t i = 0; i < bears.size(); i++)
 	{
-		bears.at(i)->Update(this);
+		bears.at(i)->Update(this, false);
 		// checking if the player is collisiding with any of the bears
 		if (player->CollideWith(bears[i]))
 		{
 			player->playSoundEffect(m_gameData);
+			
+		}
+		if (player->checkForPlayerDeath())
+		{
+			_enemyType = "Bear";
 		}
 	}
 
@@ -225,7 +234,11 @@ void PlayState::Update(float deltaTime)
 		{
 			player->playSoundEffect(m_gameData);
 		}
-	}*/
+		if (player->checkForPlayerDeath())
+		{
+			_enemyType = "Clown";
+		}
+	}
 
 	if (teddy->CollideWith(player))
 		drawDoor = true;
@@ -360,6 +373,7 @@ void PlayState::generateCoins(int _chance) {
 
 void PlayState::ScaleDoor()
 {
+	player->setInvincibility(true);
 	//800 by 600
 	if (zoom == true)
 	{
@@ -405,5 +419,27 @@ void PlayState::ScaleDoor()
 		zoom = false;
 		drawDoor = false;
 		doorPosDetermined = false;
+		player->setInvincibility(false);
 	}
+}
+
+void PlayState::playDeathAnimation()
+{
+	if (_enemyType == "Clown")
+	{
+		// Play clown death animation
+	}
+	else if (_enemyType == "Ghost")
+	{
+		// play ghost death animation
+	}
+	else if(_enemyType == "Spikes")
+	{
+		// play spikes death animation
+	}
+	else if (_enemyType == "Bear")
+	{
+		// play bear death animation
+	}
+	
 }

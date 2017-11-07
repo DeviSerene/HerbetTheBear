@@ -64,5 +64,6 @@ public:
 	int getCoins() const { return numOfCoins; }
 	bool checkForPlayerDeath();
 	void playSoundEffect(GameData *m_gameData);
+	void setInvincibility(bool _value);
 };
 

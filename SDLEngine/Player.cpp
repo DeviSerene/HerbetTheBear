@@ -256,3 +256,8 @@ void Player::playSoundEffect(GameData *m_gameData)
 		soundEffectPlayed = true;
 	}
 }
+
+void Player::setInvincibility(bool _value)
+{
+	invulnerabilityFrames = _value;
+}
