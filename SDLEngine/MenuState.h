@@ -7,6 +7,9 @@ class MenuState :
 	public GameState
 {
 public:
+	SDL_Rect playRect;
+	SDL_Rect exitRect;
+
 	MenuState(GameData* _gamedata);				//constructor
 	~MenuState();								//destructor
 
