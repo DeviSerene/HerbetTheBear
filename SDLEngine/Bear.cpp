@@ -19,8 +19,8 @@ void Bear::Init(PlayState* _state, SDL_Rect _wayPoints)
 	}
 	else
 	{
-		destinations.push_back(_wayPoints);
-		destinations.push_back(SDL_Rect{ _wayPoints.x + _wayPoints.w, _wayPoints.y, 64, 64 });
+		destinations.push_back(SDL_Rect{ _wayPoints.x - _wayPoints.w/2, _wayPoints.y, 64, 63 });
+		destinations.push_back(SDL_Rect{ _wayPoints.x + _wayPoints.w/2, _wayPoints.y, 64, 63 });
 	}
 	prevPos = EntityPosition;
 	idle = false;
@@ -50,9 +50,17 @@ void Bear::Draw(SpriteFactory * _sprite)
 	animTimer.Update(0.016f);
 	if (animTimer.Completed()) {
 		animTimer.Reset();
-		spriteIndex++;
-		if (spriteIndex > 1)
+		
+		if (!idle)
+		{
+			spriteIndex++;
+			if (spriteIndex > 1)
+				spriteIndex = 0;
+		}
+		else
+		{
 			spriteIndex = 0;
+		}
 	}
 	cropRect.x = spriteIndex * 64;
 	cropRect.y = 0;

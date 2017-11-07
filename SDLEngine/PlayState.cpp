@@ -48,6 +48,8 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 			spikes.push_back(new MushroomSpike(ob->x - 16, ob->y - 32, true));
 		else if (ob->name == "Spike")
 			spikes.push_back(new MushroomSpike(ob->x - 16, ob->y - 32, false));
+		else if (ob->name == "Waypoint")
+			bears.push_back(new Bear(this, SDL_Rect{ ob->x, ob->y, ob->width, ob->height }, true));
 	}
 
 	for (size_t i = 0; i <= GHOST_COUNT; i++)
