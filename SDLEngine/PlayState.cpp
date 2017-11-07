@@ -191,7 +191,7 @@ void PlayState::Update(float deltaTime)
 	player->Update(this);
 	for (size_t i = 0; i < bears.size(); i++)
 	{
-		bears.at(i)->Update(this);
+		bears.at(i)->Update(this, false);
 		// checking if the player is collisiding with any of the bears
 		if (player->CollideWith(bears[i]))
 		{
