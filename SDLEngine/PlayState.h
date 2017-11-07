@@ -11,8 +11,10 @@ class TileMap;
 
 class PlayState : public GameState
 {
+	std::vector<int> skyTiles;
 public:
 	float cameraX, cameraY;
+	float delta;
 
 	bool inputRight, inputLeft, inputUp;
 
