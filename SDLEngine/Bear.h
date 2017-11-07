@@ -9,7 +9,7 @@ public:
 	void Init(PlayState* _state, SDL_Rect _wayPoints);
 	void ReOrient(PlayState * _state);
 	void Draw(SpriteFactory* _sprite) override;
-	void Update(PlayState* _state, bool isPreset);
+	void Update(PlayState* _state);
 protected:
 	SDL_Rect prevPos;
 	int counter = 0;
