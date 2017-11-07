@@ -8,7 +8,7 @@
 #include "Level.h"
 
 #define COIN_CHANCE 7
-#define BEAR_MINIMUM 3
+#define BEAR_MINIMUM 1
 #define GHOST_COUNT 10
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)

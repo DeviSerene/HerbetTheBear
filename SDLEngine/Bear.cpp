@@ -8,6 +8,15 @@ Bear::Bear(PlayState* _state)
 
 void Bear::Init(PlayState* _state)
 {
+	ReOrient(_state);
+	EntityPosition = destinations.at(0);
+	EntityPosition.w = 64;
+	EntityPosition.h = 63;
+	prevPos = EntityPosition;
+}
+
+void Bear::ReOrient(PlayState* _state)
+{
 	destinations.clear();
 	std::vector<SDL_Rect> topTiles = _state->map->getTopTiles();
 	destinations.push_back(topTiles.at(rand() % topTiles.size()));
@@ -17,9 +26,6 @@ void Bear::Init(PlayState* _state)
 		destinations.at(i).x *= 64;
 		destinations.at(i).y *= 64 - 65;
 	}
-	EntityPosition = destinations.at(0);
-	EntityPosition.w = 64;
-	EntityPosition.h = 63;
 }
 
 void Bear::Draw(SpriteFactory * _sprite)
@@ -42,8 +48,8 @@ void Bear::Draw(SpriteFactory * _sprite)
 
 void Bear::Update(PlayState * _state)
 {
-	Enemy::Update(_state);
-	
+	Enemy::Update(_state);	
+
 	bool OnGround;
 	int velX = 0;
 	if (EntityPosition.x < destinations.at(currentDest).x)
@@ -60,4 +66,16 @@ void Bear::Update(PlayState * _state)
 	}
 
 	_state->map->Collision(EntityPosition, velX, 5, OnGround);
+
+	if (counter == 10)
+	{
+		if (EntityPosition.x == prevPos.x)
+		{
+			ReOrient(_state);			
+		}
+		prevPos = EntityPosition;
+	}
+	counter++;
+	if (counter > 10)
+		counter = 0;
 }
