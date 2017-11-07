@@ -27,7 +27,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	inputLeft = false;
 	inputUp = false;
 
-	teddy = new Teddy(SDL_Rect{ 64, 64, 32, 32 });
+	teddy = new Teddy(map->teddyPos);
 }
 
 PlayState::~PlayState()
