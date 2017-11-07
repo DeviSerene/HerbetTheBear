@@ -14,6 +14,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
 	}
+	bear = new Bear();
 
 	skyTiles.resize(map->getWidthInTiles() * map->getHeightInTiles());
 	for (int i = 0; i < skyTiles.size(); i++)
@@ -89,6 +90,7 @@ void PlayState::Update(float deltaTime)
 	{
 		ghosts.at(i)->Update(this);
 	}
+	bear->Update(this);
 	player->Update(this);
 	int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
@@ -128,6 +130,7 @@ void PlayState::Draw()
 	{
 		ghosts.at(i)->Draw(m_gameData->GetHelperSprites());
 	}
+	bear->Draw(m_gameData->GetHelperSprites());
 	SDL_Rect playerPos = player->GetPlayerRect();
 	playerPos.x = -cameraX + (playerPos.x);
 	playerPos.y = -cameraY + (playerPos.y);
