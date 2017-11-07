@@ -132,7 +132,7 @@ void PlayState::Update(float deltaTime)
 		// Checking if player collides with any of the ghosts
 		if (player->CollideWith(ghosts[i]))
 		{
-			m_gameData->GetAudio()->SoundPlay("assets/sfx_childHurt.wav");
+			player->playSoundEffect(m_gameData);
 		}
 	}
 
@@ -157,14 +157,14 @@ void PlayState::Update(float deltaTime)
 		// checking if the player is collisiding with any of the bears
 		if (player->CollideWith(bears[i]))
 		{
-			m_gameData->GetAudio()->SoundPlay("assets/sfx_childHurt.wav");
+			player->playSoundEffect(m_gameData);
 		}
 	}
 	teddy->Update(this);
 	clown->Update(this);
 	if (player->CollideWith(clown))
 	{
-		m_gameData->GetAudio()->SoundPlay("assets/sfx_childHurt.wav");
+		player->playSoundEffect(m_gameData);
 	}
 
 	if (teddy->CollideWith(player))
