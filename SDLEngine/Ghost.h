@@ -9,6 +9,7 @@ public:
 	~Ghost();
 	void Update(PlayState * _state) override;
 	void Draw(SpriteFactory* _sprite) override;
+
 protected:
 	
 };
