@@ -2,10 +2,14 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/SDLEngine.VC.VC.opendb
-/SDLEngine.VC.db
-*.obj
-/SDLEngine/Debug/player.obj.enc
-.vs/*
-Debug/*
-SDK/*
+*
+
+!.gitignore
+!.cpp
+!.h
+!.png
+!.wav
+!.mid
+!.ttf
+!.tsx
+!.tmx
