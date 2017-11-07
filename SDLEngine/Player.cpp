@@ -68,7 +68,7 @@ void Player::Update(PlayState *_playState)
 		YBeforeJump = EntityPosition.y;
 		}*/
 
-		volY = -9.25f;
+		volY = -11.0f;
 		movingLeft = true;
 	}
 
