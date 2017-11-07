@@ -6,6 +6,13 @@
 #include "TMX/TMXMap.h"
 #include "Timer.h"
 
+struct TileFlags {
+	bool top = true;
+	bool left = true;
+	bool right = true;
+	bool bottom = true;
+};
+
 class TileMap
 {
 private:
@@ -17,6 +24,7 @@ private:
 	int height;
 	
 	std::vector<int> tileIndices;
+	std::vector<TileFlags> tileFlags;
 	std::vector<TMXObjectGroup> mapObjects;
 	std::string sprite;
 
