@@ -49,7 +49,6 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 		else if (ob->name == "Spike")
 			spikes.push_back(new MushroomSpike(ob->x - 16, ob->y - 32, false));
 	}
-
 	for (size_t i = 0; i <= GHOST_COUNT; i++)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
@@ -214,12 +213,32 @@ void PlayState::Update(float deltaTime)
 			}
 
 		}
+
+		if (player->checkForPlayerDeath() == false)
+		{
+			for (int i = 0; i < spikes.size(); i++)
+			{
+				spikes[i]->Update(this);
+				if (spikes[i]->isDecoy() == false)
+				{
+					if (player->CollideWith(spikes[i]))
+					{
+						player->playSoundEffect(m_gameData);
+					}
+					if (player->checkForPlayerDeath())
+					{
+						_enemyType = "Spikes";
+					}
+				}
+			}
+		}
+
 		player->Update(this);
 		if (player->checkForPlayerDeath() == false)
 		{
 			for (size_t i = 0; i < bears.size(); i++)
 			{
-				bears.at(i)->Update(this);
+				bears.at(i)->Update(this, true);
 				// checking if the player is collisiding with any of the bears
 				if (player->CollideWith(bears[i]))
 				{
@@ -233,10 +252,24 @@ void PlayState::Update(float deltaTime)
 			}
 		}
 		teddy->Update(this);
-		for (Clown *c : clowns)
+		if (player->checkForPlayerDeath() == false)
 		{
-			c->Update(this);
+			for (Clown *c : clowns)
+			{
+				c->Update(this);
+				if (c->isDecoy() == false)
+				{
+					if (player->CollideWith(c))
+					{
+						player->playSoundEffect(m_gameData);
+					}
+					if (player->checkForPlayerDeath())
+					{
+						_enemyType = "Clown";
+					}
+				}
 
+			}
 		}
 		/*for (int i = 0; i < 20; i++)
 		{
@@ -254,7 +287,7 @@ void PlayState::Update(float deltaTime)
 			drawDoor = true;
 
 	}
-	// If this returns true, then the player has lost all of their lives and they lose
+	
 	
 }
 
@@ -442,25 +475,34 @@ void PlayState::playDeathAnimation()
 {
 	if (_enemyType == "Clown")
 	{
-		deathAnimationCropRect.w = 64;
-		deathAnimationCropRect.h = 64;
-		// Play clown death animation
+		
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/ClownDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
-
-		if (deathAnimationCropRect.x != 64 && deathAnimationCropRect.y != 192)
+		m_gameData->GetHelperSprites()->Draw("assets/textures/ClownDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		// Play clown death animation
+		
+		if (DeathTimer.Completed())
 		{
-			deathAnimationCropRect.x += 64;
-			if (deathAnimationCropRect.x >= 320)
+			DeathTimer.Reset();
+			deathAnimationCropRect.w = 64;
+			deathAnimationCropRect.h = 64;
+			if (deathAnimationCropRect.x != 64 || deathAnimationCropRect.y != 192)
 			{
-				deathAnimationCropRect.x = 0;
-				deathAnimationCropRect.y += 64;
+				deathAnimationCropRect.x += 64;
+				if (deathAnimationCropRect.x >= 320)
+				{
+					deathAnimationCropRect.x = 0;
+					deathAnimationCropRect.y += 64;
+				}
+			}
+			else if (deathAnimationCropRect.x == 36 && deathAnimationCropRect.y == 192)
+			{
+				// Call back to menu or lose state
 			}
 		}
-		else if (deathAnimationCropRect.x == 36 && deathAnimationCropRect.y == 192)
+		else
 		{
-			// Call back to menu or lose state
+			DeathTimer.Update(10);
 		}
-		
 
 	}
 	else if (_enemyType == "Ghost")
@@ -468,6 +510,7 @@ void PlayState::playDeathAnimation()
 		// play ghost death animation
 
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/GhostDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/GhostDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		// play bear death animation
 		if (DeathTimer.Completed())
 		{
@@ -499,10 +542,40 @@ void PlayState::playDeathAnimation()
 	else if(_enemyType == "Spikes")
 	{
 		// play spikes death animation
+
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/SpikeDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/SpikeDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		// play bear death animation
+		if (DeathTimer.Completed())
+		{
+			DeathTimer.Reset();
+			deathAnimationCropRect.w = 64;
+			deathAnimationCropRect.h = 64;
+			// Play clown death animation
+
+			if (deathAnimationCropRect.x != 256 || deathAnimationCropRect.y != 192)
+			{
+				deathAnimationCropRect.x += 64;
+				if (deathAnimationCropRect.x >= 320)
+				{
+					deathAnimationCropRect.x = 0;
+					deathAnimationCropRect.y += 64;
+				}
+			}
+			else if (deathAnimationCropRect.x == 256 && deathAnimationCropRect.y == 192)
+			{
+				// Call back to menu or lose state
+			}
+		}
+		else
+		{
+			DeathTimer.Update(10);
+		}
 	}
 	else if (_enemyType == "Bear")
 	{
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/BearDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/BearDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		// play bear death animation
 		if (DeathTimer.Completed())
 		{
