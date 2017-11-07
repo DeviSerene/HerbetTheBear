@@ -6,6 +6,7 @@ Enemy::Enemy()
 {	
 	
 	currentDest = 0;	
+	
 }
 
 Enemy::~Enemy()

@@ -5,6 +5,8 @@
 Teddy::Teddy(SDL_Rect _pos)
 {
 	EntityPosition = _pos;
+	hitboxWidth = 25;
+	hitboxHeight = 30;
 }
 
 

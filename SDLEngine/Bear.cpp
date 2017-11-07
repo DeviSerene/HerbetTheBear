@@ -2,8 +2,11 @@
 #include "PlayState.h"
 
 Bear::Bear(PlayState* _state)
+	: Enemy()
 {
 	Init(_state);
+	hitboxWidth = 50;
+	hitboxHeight = 40;
 }
 
 void Bear::Init(PlayState* _state)
