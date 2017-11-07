@@ -11,7 +11,6 @@ Enemy::Enemy(float _speed)
 		curr.x = rand() % 800;
 		curr.y = rand() % 800;
 		destinations.push_back(curr);
-		std::cout << curr.x << ", " << curr.y << std::endl;
 	}
 	EntityPosition = destinations.at(0);
 	EntityPosition.w = EntityPosition.h = 32;
@@ -44,7 +43,7 @@ void Enemy::Update()
 		EntityPosition.x -= round(deltaX / distanceBetweenEntAndDest);
 		EntityPosition.y -= round(deltaY / distanceBetweenEntAndDest);
 		//std::cout << deltaX / distanceBetweenEntAndDest << std::endl;
-		//std::cout << EntityPosition.x << ", " << EntityPosition.y << ", Change: " << round(deltaX / distanceBetweenEntAndDest) + 1 << ", " << round(deltaY / distanceBetweenEntAndDest) + 1 << std::endl;
+		std::cout << EntityPosition.x << ", " << EntityPosition.y << ", Change: " << round(deltaX / distanceBetweenEntAndDest) + 1 << ", " << round(deltaY / distanceBetweenEntAndDest) + 1 << std::endl;
 	}
 	else
 	{
