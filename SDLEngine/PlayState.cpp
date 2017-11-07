@@ -103,11 +103,6 @@ void PlayState::Update(float deltaTime)
 {
 	this->delta = deltaTime;
 
-	for (size_t i = 0; i < ghosts.size(); i++)
-	{
-		ghosts.at(i)->Update(this);
-	}
-	bear->Update(this);
 	player->Update(this);
 	for (int i = 0; i < Coins.size(); i++)
 	{
@@ -128,6 +123,11 @@ void PlayState::Update(float deltaTime)
 	else if (cameraY > (map->getHeightInTiles() * 64) - playerH)
 		cameraY = map->getHeightInTiles() * 64 - playerH;
 
+	for (size_t i = 0; i < ghosts.size(); i++)
+	{
+		ghosts.at(i)->Update(this);
+	}
+	bear->Update(this);
 	teddy->Update(this);
 }
 
