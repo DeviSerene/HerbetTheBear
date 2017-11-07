@@ -143,6 +143,7 @@ void PlayState::Update(float deltaTime)
 			//delete Coins.at(i);
 			Coins.erase(Coins.begin() + i);
 			player->incrementCoins();
+			m_gameData->GetAudio()->SoundPlay("assets/sfx_coin.wav");
 		}
 	
 	}
