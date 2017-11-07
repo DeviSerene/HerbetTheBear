@@ -105,6 +105,9 @@
     <ClCompile Include="TMX\tinyxml2.cpp">
       <Filter>Source Files\TMX</Filter>
     </ClCompile>
+    <ClCompile Include="Ghost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameData.h">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="TMX\tinyxml2.h">
       <Filter>Header Files\TMX</Filter>
+    </ClInclude>
+    <ClInclude Include="Ghost.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
