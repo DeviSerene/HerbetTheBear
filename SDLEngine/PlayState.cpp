@@ -7,8 +7,13 @@
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
-	ghost1 = new Ghost(2500, 600);
+	
 	map = new TileMap(0, 0, 0, 0, "assets/textures/Forest_Tilesheet_01.png", "assets/maps/", "test.tmx");
+
+	for (size_t i = 0; i < 51; i++)
+	{
+		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
+	}
 
 	skyTiles.resize(map->getWidthInTiles() * map->getHeightInTiles());
 	for (int i = 0; i < skyTiles.size(); i++)
@@ -80,7 +85,10 @@ void PlayState::Update(float deltaTime)
 {
 	this->delta = deltaTime;
 
-	ghost1->Update(this);
+	for (size_t i = 0; i < ghosts.size(); i++)
+	{
+		ghosts.at(i)->Update(this);
+	}
 	player->Update(this);
 	int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
@@ -107,7 +115,10 @@ void PlayState::Draw()
 	
 	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 6, playerW, playerH);
 	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 6, helperW, helperH);
-	ghost1->Draw(m_gameData->GetHelperSprites());
+	for (size_t i = 0; i < ghosts.size(); i++)
+	{
+		ghosts.at(i)->Draw(m_gameData->GetHelperSprites());
+	}
 	SDL_Rect playerPos = player->GetPlayerRect();
 	playerPos.x = -cameraX + (playerPos.x);
 	playerPos.y = -cameraY + (playerPos.y);
