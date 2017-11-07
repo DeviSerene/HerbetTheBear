@@ -69,7 +69,7 @@ void Bear::Draw(SpriteFactory * _sprite)
 	_sprite->Draw("assets/textures/herbert.png", worldPos, cropRect, flipped);
 }
 
-void Bear::Update(PlayState * _state, bool isPreset)
+void Bear::Update(PlayState * _state)
 {
 	Enemy::Update(_state);	
 	
