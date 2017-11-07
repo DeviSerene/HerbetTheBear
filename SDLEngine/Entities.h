@@ -11,6 +11,7 @@ class Entities
 protected:
 
 	SDL_Rect EntityPosition;
+
 	std::string fileName;
 	float cameraX, cameraY;
 
