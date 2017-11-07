@@ -34,6 +34,7 @@ class PlayState : public GameState
 	bool drawDoor;
 
 	Timer DoorTimer;
+	bool zoom;
 
 public:
 	float cameraX, cameraY;

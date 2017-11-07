@@ -12,4 +12,6 @@ struct Level
 	std::string backgroundTileSet;
 	int tileSetWidth;
 	int backgroundTileSetWidth;
+	bool grass = true;
+	std::vector<int> halfTileIndices;
 };

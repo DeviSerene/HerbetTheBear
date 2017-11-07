@@ -40,7 +40,7 @@ public:
 	~TileMap();
 
 	void Collision(SDL_Rect& rect, float velX, float velY, bool& onGround);
-	void Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int tileCountX, int _windowWidth, int _windowHeight);
+	void Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int tileCountX, int _windowWidth, int _windowHeight, bool grass);
 
 	int getWidthInTiles() const { return width; }
 	int getHeightInTiles() const { return height; }

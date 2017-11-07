@@ -41,12 +41,12 @@ TileMap::TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::
 				TileFlags flags;
 
 				for (int i = 0; i < halfTiles.size(); i++) {
-					if (indice == halfTiles[i])
+					if (indice - 1 == halfTiles[i])
 						flags.halfTile = true;
 				}
 
 
-				if (InRange(x, y - 1) && tileIndices[((y - 1) * width) + x] > 0) flags.top = false;
+				if (InRange(x, y - 1) && tileIndices[((y - 1) * width) + x] > 0 && !tileFlags[((y - 1) * width) + x].halfTile) flags.top = false;
 				if (InRange(x - 1, y) && tileIndices[(y * width) + (x - 1)] > 0) flags.left = false;
 				if (InRange(x, y + 1) && tileIndices[((y + 1) * width) + x] > 0) flags.bottom = false;
 				if (InRange(x + 1, y) && tileIndices[(y * width) + (x + 1)] > 0) flags.right = false;
@@ -131,7 +131,7 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY, bool& onGround) 
 }
 
 
-void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int _tileCountX, int _windowWidth, int _windowHeight) {
+void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int _tileCountX, int _windowWidth, int _windowHeight, bool grass) {
 	
 	int boundLeft = (_cameraX - _windowWidth) / tileWidth - 1;
 	int boundRight = (_cameraX + _windowWidth) / tileWidth + 1;
@@ -147,12 +147,14 @@ void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int 
 	if (boundBottom > height)
 		boundBottom = height;
 
-	grassTimer.Update(0.016f);
-	if (grassTimer.Completed()) {
-		grassTimer.Reset();
-		grassFrame++;
-		if (grassFrame > 5)
-			grassFrame = 0;
+	if (grass) {
+		grassTimer.Update(0.016f);
+		if (grassTimer.Completed()) {
+			grassTimer.Reset();
+			grassFrame++;
+			if (grassFrame > 5)
+				grassFrame = 0;
+		}
 	}
 
 	for (int x = boundLeft; x < boundRight; x++) {
@@ -161,7 +163,7 @@ void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int 
 			if (indice <= 0) continue;
 			indice--;
 
-			if (y > 0 && !tileIndices[((y - 1) * width) + x])
+			if (grass && y > 0 && !tileIndices[((y - 1) * width) + x])
 				_factory->Draw("assets/textures/grass_sheet.png", SDL_Rect{ (int)(-_cameraX + (x * tileWidth)), (int)(-_cameraY + (y * tileHeight)) - tileHeight, tileWidth, tileHeight },
 					SDL_Rect{ grassFrame * 32, 0, 32, 32 });
 
