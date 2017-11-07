@@ -17,8 +17,8 @@ protected:
 	int playerHeath;
 	bool playerHit;
 
-	int volX;
-	int volY;
+	float volX;
+	float volY;
 
 	bool movingLeft;
 
