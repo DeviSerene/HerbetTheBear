@@ -152,6 +152,7 @@
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GamestateManager.cpp" />
+    <ClCompile Include="Ghost.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="Music.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GamestateManager.h" />
+    <ClInclude Include="Ghost.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="Player.h" />

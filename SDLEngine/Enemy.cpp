@@ -2,21 +2,10 @@
 #include <iostream>
 #include "PlayState.h"
 
-Enemy::Enemy(float _speed)
-{
+Enemy::Enemy()
+{	
 	
-	for (size_t i = 0; i < rand() % 10 + 2; i++)
-	{
-		SDL_Rect curr;
-		//generate random positions
-		curr.x = rand() % 800;
-		curr.y = rand() % 800;
-		destinations.push_back(curr);
-	}
-	EntityPosition = destinations.at(0);
-	EntityPosition.w = EntityPosition.h = 32;
-	currentDest = 0;
-	speed = _speed;
+	currentDest = 0;	
 }
 
 Enemy::~Enemy()
@@ -44,8 +33,6 @@ void Enemy::Update(PlayState* _state)
 		float distanceBetweenEntAndDest = std::sqrt(std::pow(deltaX, 2) + std::pow(deltaY, 2));
 		EntityPosition.x -= round(deltaX / distanceBetweenEntAndDest);
 		EntityPosition.y -= round(deltaY / distanceBetweenEntAndDest);
-		//std::cout << deltaX / distanceBetweenEntAndDest << std::endl;
-		//std::cout << EntityPosition.x << ", " << EntityPosition.y << ", Change: " << round(deltaX / distanceBetweenEntAndDest) + 1 << ", " << round(deltaY / distanceBetweenEntAndDest) + 1 << std::endl;
 	}
 	else
 	{
@@ -69,18 +56,5 @@ bool Enemy::CollideWith(Entities *_other) {
 
 void Enemy::Draw(SpriteFactory * _sprite)
 {
-	SDL_Rect cropRect;
-	if (spriteIndex > 3)
-	{
-		spriteIndex = 0;
-	}
-	if (spriteIndex < 4)
-	{
-		cropRect.x = spriteIndex * 32;
-		cropRect.y = 0;
-		cropRect.w = cropRect.h = 32;
-		spriteIndex += 1;
-	}
-	SDL_Rect worldPos = SDL_Rect{ EntityPosition.x - (int)cameraX, EntityPosition.y - (int)cameraY, EntityPosition.w, EntityPosition.h };
-	_sprite->Draw("assets/textures/ghost_sheet.png", worldPos, cropRect , flipped);
+	
 }

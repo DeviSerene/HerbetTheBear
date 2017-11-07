@@ -26,5 +26,5 @@
 /SDLEngine/Debug/Entities.obj
 /SDLEngine/Debug/Enemy.obj
 .obj
-/SDLEngine/Debug/SDLEngine.tlog/unsuccessfulbuild
-/SDLEngine/Debug/Timer.obj
+/SDLEngine/Debug
+/SDLEngine/Debug/Ghost.obj
