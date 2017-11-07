@@ -154,6 +154,7 @@ void PlayState::Update(float deltaTime)
 	}
 	teddy->Update(this);
 	clown->Update(this);
+	player->CollideWith(clown);
 
 	if (teddy->CollideWith(player))
 		nextLevel();
