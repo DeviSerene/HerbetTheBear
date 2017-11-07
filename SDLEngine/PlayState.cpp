@@ -8,6 +8,8 @@
 #include "Level.h"
 
 #define COIN_CHANCE 7
+#define BEAR_MINIMUM 3
+#define GHOST_COUNT 24
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
@@ -19,13 +21,13 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str());
 
-	for (size_t i = 0; i < 36; i++)
+	for (size_t i = 0; i <= GHOST_COUNT; i++)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
 	}
-	for (size_t j = 0; j < 6; j++)
+	for (size_t j = 0; j <= BEAR_MINIMUM; j++)
 	{
-		bears.push_back(new Bear(rand() % map->getWidthInTiles() * 64, rand() % map->getWidthInTiles() * 64, rand() % map->getHeightInTiles() * 64));
+		bears.push_back(new Bear(this));
 	}
 	skyTiles.resize(map->getWidthInTiles() * map->getHeightInTiles());
 	for (int i = 0; i < skyTiles.size(); i++)
@@ -216,7 +218,7 @@ void PlayState::nextLevel() {
 
 	for (size_t i = 0; i < bears.size(); i++)
 	{
-		bears.at(i)->Init(rand() % map->getWidthInTiles() * 64, rand() % map->getWidthInTiles() * 64, rand() % map->getHeightInTiles() * 64);
+		bears.at(i)->Init(this);
 	}
 }
 

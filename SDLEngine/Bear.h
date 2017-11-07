@@ -5,8 +5,8 @@ class Bear :
 {
 public:
 	~Bear();
-	Bear(int _roamLeft, int _roamRight, int _height);
-	void Init(int _roamLeft, int _roamRight, int _height);
+	Bear(PlayState* _state);
+	void Init(PlayState* _state);
 	void Draw(SpriteFactory* _sprite) override;
 	void Update(PlayState* _state) override;
 };

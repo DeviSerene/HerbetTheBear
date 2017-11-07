@@ -1,15 +1,21 @@
 #include "Bear.h"
 #include "PlayState.h"
 
-Bear::Bear(int _roamLeft, int _roamRight, int _height)
+Bear::Bear(PlayState* _state)
 {
-	Init(_roamLeft, _roamRight, _height);
+	Init(_state);
 }
 
-void Bear::Init(int _roamLeft, int _roamRight, int _height)
+void Bear::Init(PlayState* _state)
 {
-	destinations.push_back(SDL_Rect{ _roamLeft, _height, 64, 64 });
-	destinations.push_back(SDL_Rect{ _roamRight, _height, 64, 64 });
+	destinations.clear();
+	destinations.push_back(_state->map->getTopTiles().at(rand() % _state->map->getTopTiles().size()));
+	destinations.push_back(_state->map->getTopTiles().at(rand() % _state->map->getTopTiles().size()));
+	for (size_t i = 0; i < destinations.size(); i++)
+	{
+		destinations.at(i).x *= 64;
+		//destinations.at(i).y *= 64;
+	}
 	EntityPosition = destinations.at(0);
 	EntityPosition.w = 64;
 	EntityPosition.h = 63;
@@ -36,6 +42,7 @@ void Bear::Draw(SpriteFactory * _sprite)
 void Bear::Update(PlayState * _state)
 {
 	Enemy::Update(_state);
+	
 	bool OnGround;
 	int velX = 0;
 	if (EntityPosition.x < destinations.at(currentDest).x)
