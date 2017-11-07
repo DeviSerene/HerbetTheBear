@@ -9,7 +9,7 @@
 
 #define COIN_CHANCE 7
 #define BEAR_MINIMUM 3
-#define GHOST_COUNT 24
+#define GHOST_COUNT 10
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
@@ -26,7 +26,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
 	}
-	for (size_t j = 0; j <= BEAR_MINIMUM; j++)
+	for (size_t j = 0; j < BEAR_MINIMUM; j++)
 	{
 		bears.push_back(new Bear(this));
 	}
@@ -207,7 +207,7 @@ void PlayState::Draw()
 	}
 	for (size_t i = 0; i < bears.size(); i++)
 	{
-		bears.at(i)->Draw(m_gameData->GetHelperSprites());
+		bears.at(i)->Draw(m_gameData->GetPlayerSprites());
 	}
 	SDL_Rect playerPos = player->GetPlayerRect();
 	playerPos.x = -cameraX + (playerPos.x);
