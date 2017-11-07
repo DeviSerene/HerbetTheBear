@@ -7,6 +7,12 @@ Bear::Bear(PlayState* _state)
 	Init(_state);
 	hitboxWidth = 50;
 	hitboxHeight = 40;
+	animTimer = Timer(0.3f);
+}
+
+Bear::Bear(PlayState * _state, SDL_Rect wayPoints)
+{
+
 }
 
 void Bear::Init(PlayState* _state)
@@ -37,22 +43,21 @@ void Bear::ReOrient(PlayState* _state)
 void Bear::Draw(SpriteFactory * _sprite)
 {
 	SDL_Rect cropRect;
-	if (spriteIndex > 1)
-	{
-		spriteIndex = 0;
+	animTimer.Update(0.016f);
+	if (animTimer.Completed()) {
+		animTimer.Reset();
+		spriteIndex++;
+		if (spriteIndex > 1)
+			spriteIndex = 0;
 	}
-	if (spriteIndex < 2)
-	{
-		cropRect.x = spriteIndex * 64;
-		cropRect.y = 0;
-		cropRect.w = cropRect.h = 64;
-		spriteIndex += 1;
-	}
+	cropRect.x = spriteIndex * 64;
+	cropRect.y = 0;
+	cropRect.w = cropRect.h = 64;
 	SDL_Rect worldPos = SDL_Rect{ EntityPosition.x - (int)cameraX, EntityPosition.y - (int)cameraY, EntityPosition.w, EntityPosition.h };
 	_sprite->Draw("assets/textures/herbert.png", worldPos, cropRect, flipped);
 }
 
-void Bear::Update(PlayState * _state)
+void Bear::Update(PlayState * _state, bool isPreset)
 {
 	Enemy::Update(_state);	
 	
@@ -71,32 +76,33 @@ void Bear::Update(PlayState * _state)
 		currentDest += 1;
 	}
 
-	_state->map->Collision(EntityPosition, velX, 5, OnGround);
-
-	if (counter % 5 == 0 && (!idle))
+	_state->map->Collision(EntityPosition, velX, 10, OnGround);
+	if (!isPreset)
 	{
-		if (EntityPosition.x == prevPos.x)
+		if (counter % 5 == 0 && (!idle))
 		{
-			ReOrient(_state);			
+			if (EntityPosition.x == prevPos.x)
+			{
+				ReOrient(_state);
+			}
+			prevPos = EntityPosition;
 		}
-		prevPos = EntityPosition;
-	}
-	if (counter % moveTime == 0)
-	{
-		currentDest = 0;
-		destinations.at(currentDest) = EntityPosition;
-		for (size_t i = 1; i < destinations.size(); i++)
+		if (counter % moveTime == 0)
 		{
-			destinations.erase(destinations.begin() + i);
+			currentDest = 0;
+			destinations.at(currentDest) = EntityPosition;
+			for (size_t i = 1; i < destinations.size(); i++)
+			{
+				destinations.erase(destinations.begin() + i);
+			}
+			idle = true;
 		}
-		idle = true;
+		if (counter % (moveTime + moveTime / 2) == 0)
+		{
+			ReOrient(_state);
+			idle = false;
+			counter = 0;
+		}
 	}
-	if (counter % (moveTime + moveTime / 2) == 0)
-	{
-		ReOrient(_state);
-		idle = false;
-		counter = 0;
-	}
-
 	counter++;
 }

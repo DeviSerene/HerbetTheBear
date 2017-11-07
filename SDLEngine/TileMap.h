@@ -26,7 +26,7 @@ private:
 	
 	std::vector<int> tileIndices;
 	std::vector<TileFlags> tileFlags;
-	std::vector<TMXObjectGroup> mapObjects;
+	std::vector<TMXObjectGroup*> mapObjects;
 	std::string sprite;
 
 	int grassFrame;
@@ -46,4 +46,5 @@ public:
 	int getHeightInTiles() const { return height; }
 
 	std::vector<SDL_Rect> getTopTiles() const;
+	std::vector<TMXObjectGroup*> getObjects() const { return mapObjects; }
 };
