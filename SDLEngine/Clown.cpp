@@ -30,7 +30,7 @@ Clown::~Clown()
 
 void Clown::Update(PlayState* _state)
 {
-	float distance = abs(hypotf(EntityPosition.x, EntityPosition.y) - hypotf(player->getPosition().x, player->getPosition().y));
+	float distance = abs(hypotf(EntityPosition.x - player->getPosition().x, EntityPosition.y - player->getPosition().y));
 	if (distance  < 50 && !decoy) {
 		if (state == ClownState::Idle) {
 			state = ClownState::Attack;
