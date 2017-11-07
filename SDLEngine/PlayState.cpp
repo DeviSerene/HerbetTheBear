@@ -102,12 +102,7 @@ bool PlayState::HandleSDLEvents()
 void PlayState::Update(float deltaTime)
 {
 	this->delta = deltaTime;
-
-	player->Update(this);
-	for (int i = 0; i < Coins.size(); i++)
-	{
-		Coins[i]->Update(this);
-	}
+	
 	int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
 	SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
@@ -127,6 +122,11 @@ void PlayState::Update(float deltaTime)
 	{
 		ghosts.at(i)->Update(this);
 	}
+	for (int i = 0; i < Coins.size(); i++)
+	{
+		Coins[i]->Update(this);
+	}
+	player->Update(this);
 	bear->Update(this);
 	teddy->Update(this);
 }
@@ -152,6 +152,11 @@ void PlayState::Draw()
 	{
 		ghosts.at(i)->Draw(m_gameData->GetHelperSprites());
 	}
+	for (int i = 0; i < Coins.size(); i++)
+	{
+		//m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", Coins[i]->getWorldPosRect(), Coins[i]->getCoinCropRect(), false);
+		Coins[i]->Draw(m_gameData->GetPlayerSprites());
+	}
 	bear->Draw(m_gameData->GetHelperSprites());
 	SDL_Rect playerPos = player->GetPlayerRect();
 	playerPos.x = -cameraX + (playerPos.x);
@@ -165,11 +170,7 @@ void PlayState::Draw()
 	for (int i = 0; i < player->getPlayerHealth(); i++) {
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i, playerH - 70, 64, 64 });
 	}
-	for (int i = 0; i < Coins.size(); i++)
-	{
-		m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", Coins[i]->getCoinPosRect(), Coins[i]->getCoinCropRect(), false);
-		std::cout << "Coin Drawn" << std::endl;
-	}
+	
 
 	
 

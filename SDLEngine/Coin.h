@@ -10,6 +10,8 @@ protected:
 	SDL_Rect cropRect;
 	Timer animationTimer;
 
+	SDL_Rect worldPos;
+
 public:
 	Coin();
 	~Coin();
@@ -22,6 +24,7 @@ public:
 	
 	SDL_Rect getCoinPosRect();
 	SDL_Rect getCoinCropRect();
+	SDL_Rect getWorldPosRect();
 
 };
 
