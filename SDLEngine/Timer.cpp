@@ -1,5 +1,6 @@
 #include "Timer.h"
 
+Timer::Timer() : currentTime(0.0f), duration(1.0f) {}
 Timer::Timer(float _duration) : currentTime(0.0f), duration(_duration) { }
 
 void Timer::Update(float _delta) {
