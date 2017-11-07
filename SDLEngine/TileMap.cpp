@@ -42,8 +42,22 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY) {
 	int tileH_X = -1, tileH_Y = -1;
 	int tileV_X = -1, tileV_Y = -1;
 
-	for (int x = 0; x < width; x++) {
-		for (int y = 0; y < height; y++) {
+	int boundLeft = rect.x / tileWidth - 2;
+	int boundRight = (rect.x + rect.w) / tileWidth + 2;
+	int boundTop = rect.y / tileHeight - 2;
+	int boundBottom = (rect.y + rect.h) / tileHeight + 2;
+
+	if (boundLeft < 0)
+		boundLeft = 0;
+	if (boundRight >= width)
+		boundRight = width - 1;
+	if (boundTop < 0)
+		boundTop = 0;
+	if (boundBottom >= height)
+		boundBottom = height - 1;
+
+	for (int x = boundLeft; x < boundRight; x++) {
+		for (int y = boundTop; y < boundBottom; y++) {
 			int tileType = tileIndices[(y * width) + x];
 
 			if (tileType <= 0) continue;
