@@ -67,7 +67,7 @@ void Bear::Update(PlayState * _state)
 
 	_state->map->Collision(EntityPosition, velX, 5, OnGround);
 
-	if (counter == 10)
+	if (counter == 5)
 	{
 		if (EntityPosition.x == prevPos.x)
 		{
@@ -76,6 +76,6 @@ void Bear::Update(PlayState * _state)
 		prevPos = EntityPosition;
 	}
 	counter++;
-	if (counter > 10)
+	if (counter > 5)
 		counter = 0;
 }
