@@ -39,7 +39,7 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 	std::vector<Ghost*> ghosts;
-	Bear* bear;
+	std::vector<Bear*> bears;
 
 };
 

@@ -21,8 +21,10 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
 	}
-	bear = new Bear();
-
+	for (size_t j = 0; j < 31; j++)
+	{
+		bears.push_back(new Bear(rand() % map->getWidthInTiles() * 64, rand() % map->getWidthInTiles() * 64, rand() % map->getHeightInTiles() * 64));
+	}
 	skyTiles.resize(map->getWidthInTiles() * map->getHeightInTiles());
 	for (int i = 0; i < skyTiles.size(); i++)
 		skyTiles[i] = rand() % 3;
@@ -137,7 +139,10 @@ void PlayState::Update(float deltaTime)
 		Coins[i]->Update(this);
 	}
 	player->Update(this);
-	bear->Update(this);
+	for (size_t i = 0; i < bears.size(); i++)
+	{
+		bears.at(i)->Update(this);
+	}
 	teddy->Update(this);
 	clown->Update(this);
 }
@@ -168,7 +173,10 @@ void PlayState::Draw()
 		//m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", Coins[i]->getWorldPosRect(), Coins[i]->getCoinCropRect(), false);
 		Coins[i]->Draw(m_gameData->GetPlayerSprites());
 	}
-	bear->Draw(m_gameData->GetHelperSprites());
+	for (size_t i = 0; i < bears.size(); i++)
+	{
+		bears.at(i)->Draw(m_gameData->GetHelperSprites());
+	}
 	SDL_Rect playerPos = player->GetPlayerRect();
 	playerPos.x = -cameraX + (playerPos.x);
 	playerPos.y = -cameraY + (playerPos.y);
