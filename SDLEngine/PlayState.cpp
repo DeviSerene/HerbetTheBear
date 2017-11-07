@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "SpriteFactory.h"
 #include "Teddy.h"
+#include "Clown.h"
 
 
 
@@ -42,6 +43,8 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	}
 
 	teddy = new Teddy(SDL_Rect{ 64, 64, 32, 32 });
+
+	clown = new Clown(400, 100, 32, 64, player, false);
 }
 
 PlayState::~PlayState()
@@ -129,6 +132,7 @@ void PlayState::Update(float deltaTime)
 	}
 	bear->Update(this);
 	teddy->Update(this);
+	clown->Update(this);
 }
 
 void PlayState::Draw()
@@ -171,6 +175,7 @@ void PlayState::Draw()
 		std::cout << "Coin Drawn" << std::endl;
 	}
 
-	
+	clown->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
+	clown->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
 
 }
