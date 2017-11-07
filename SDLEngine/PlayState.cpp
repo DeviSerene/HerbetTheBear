@@ -223,4 +223,5 @@ void PlayState::nextLevel() {
 	teddy = new Teddy(map->teddyPos);
 	delete player;
 	player = new Player();
+
 }
