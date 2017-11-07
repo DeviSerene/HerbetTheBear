@@ -82,5 +82,5 @@ void Enemy::Draw(SpriteFactory * _sprite)
 		spriteIndex += 1;
 	}
 	SDL_Rect worldPos = SDL_Rect{ EntityPosition.x - (int)cameraX, EntityPosition.y - (int)cameraY, EntityPosition.w, EntityPosition.h };
-	_sprite->Draw("assets/ghost_sheet.png", worldPos, cropRect , flipped);
+	_sprite->Draw("assets/textures/ghost_sheet.png", worldPos, cropRect , flipped);
 }
