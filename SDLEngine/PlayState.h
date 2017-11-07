@@ -24,6 +24,8 @@ class PlayState : public GameState
 	int coiny;
 	int currentLevel;
 
+	std::string _enemyType;
+
 	bool hasBeenHit;
 
 	SDL_Rect doorPosRect;
@@ -58,5 +60,6 @@ public:
 	void nextLevel();
 	void generateCoins(int _chance);
 	void ScaleDoor();
+	void playDeathAnimation();
 };
 
