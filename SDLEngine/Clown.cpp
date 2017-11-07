@@ -27,12 +27,13 @@ Clown::~Clown()
 
 void Clown::Update(PlayState* _state)
 {
-	if (abs(player->getPosition().x - EntityPosition.x) < 50) {
+	float distance = abs(hypotf(EntityPosition.x, EntityPosition.y) - hypotf(player->getPosition().x, player->getPosition().y));
+	if (distance  < 50) {
 		if (state == ClownState::Idle) {
 			state = ClownState::Attack;
 			smokeCrop.x = 0;
 		}
-	} else if (abs(player->getPosition().x - EntityPosition.x) > 200) {
+	} else if (distance > 200) {
 		if (state == ClownState::Attack) {
 			state = ClownState::Idle;
 			smokeCrop.x = 0;

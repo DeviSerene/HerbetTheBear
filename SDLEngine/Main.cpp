@@ -92,7 +92,9 @@ void GameLoop(GameData* _gameData)
 		if (deltaTs < (1.0f / 50.0f))	// not sure how accurate the SDL_Delay function is..
 		{
 			SDL_Delay((unsigned int)(((1.0f / 50.0f) - deltaTs)*1000.0f));
+			//SDL_Delay((unsigned int)(30.0F / 1000.0F));
 		}
+		//SDL_Delay((unsigned int)(1000.0F / 30.0F));
 		if (exit)
 		{
 			exit = false;
