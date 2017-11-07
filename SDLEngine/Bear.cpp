@@ -28,5 +28,6 @@ void Bear::Draw(SpriteFactory * _sprite)
 
 void Bear::Update(PlayState * _state)
 {
+	Enemy::Update(_state);
 	//TODO: Add falling and ground collision
 }
