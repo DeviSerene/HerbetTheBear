@@ -37,7 +37,7 @@ public:
 	~Player();
 
 	void Input() override;
-	void Update(TileMap *_tilemap) override;
+	void Update(PlayState* _state) override;
 	void Draw(SpriteFactory *_sprite) override;
 
 	void HandleDamage();

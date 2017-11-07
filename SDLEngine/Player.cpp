@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include "PlayState.h"
 
 
 Player::Player()
@@ -132,11 +132,11 @@ void Player::Input()
 	}
 }
 
-void Player::Update(TileMap *_tilemap)
+void Player::Update(PlayState *_playState)
 {
 	
 	HandleDamage();
-	_tilemap->Collision(EntityPosition, volX, volY);
+	_playState->map->Collision(EntityPosition, volX, volY);
 }
 
 void Player::Draw(SpriteFactory *_sprite)

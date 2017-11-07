@@ -3,6 +3,9 @@
 #include <string>
 #include "SpriteFactory.h"
 #include "TileMap.h"
+
+class PlayState;
+
 class Entities
 {
 protected:
@@ -14,10 +17,10 @@ protected:
 
 public:
 	Entities();
-	~Entities();
+	~Entities() {}
 
-	virtual void Input();
-	virtual void Update(TileMap *_tilemap);
-	virtual void Draw(SpriteFactory* _sprite);
+	virtual void Input() {}
+	virtual void Update(PlayState* _state) {}
+	virtual void Draw(SpriteFactory* _sprite) {}
 };
 

@@ -30,7 +30,7 @@ void PlayState::Update(float deltaTime)
 {
 
 	
-	player->Update(map);
+	player->Update(this);
 	int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
 	SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
