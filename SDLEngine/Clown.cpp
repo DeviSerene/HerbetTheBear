@@ -28,12 +28,12 @@ Clown::~Clown()
 void Clown::Update(PlayState* _state)
 {
 	float distance = abs(hypotf(EntityPosition.x, EntityPosition.y) - hypotf(player->getPosition().x, player->getPosition().y));
-	if (distance  < 50) {
+	if (distance  < 50 && !decoy) {
 		if (state == ClownState::Idle) {
 			state = ClownState::Attack;
 			smokeCrop.x = 0;
 		}
-	} else if (distance > 200) {
+	} else if (distance > 200 && !decoy) {
 		if (state == ClownState::Attack) {
 			state = ClownState::Idle;
 			smokeCrop.x = 0;
@@ -44,7 +44,7 @@ void Clown::Update(PlayState* _state)
 		inEvilRange = true;
 	}
 
-	if (state == ClownState::Attack) {
+	if (state == ClownState::Attack && !decoy) {
 		velX = player->getPosition().x - EntityPosition.x;
 		velX = velX > 3 ? 3 : velX < -3 ? -3 : velX;
 	} else {
@@ -84,7 +84,7 @@ void Clown::Update(PlayState* _state)
 }
 
 void Clown::DrawHelper(SpriteFactory *_factory, float cameraX, float cameraY) {
-	_factory->Draw(ClownSprite, EntityPosition, animCrop, flip, cameraX, cameraY);
+	_factory->Draw(decoy ? NormalChildSprite : ClownSprite, EntityPosition, animCrop, flip, cameraX, cameraY);
 }
 
 void Clown::DrawPlayer(SpriteFactory *_factory, float cameraX, float cameraY) {

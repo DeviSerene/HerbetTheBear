@@ -20,7 +20,7 @@ std::vector<int> circusHalfTiles = { 3, 4, 5 };
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 , cameraX(0), cameraY(0)
 {
-	currentLevel = 2;
+	currentLevel = 0;
 	levels.resize(4);
 	levels[0] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet.png", 3);
 	levels[0].halfTileIndices = forestHalfTiles;
@@ -59,7 +59,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 
 	teddy = new Teddy(map->teddyPos);
 
-	clown = new Clown(400, 100, 32, 64, player, false);
+	clown = new Clown(400, 100, 32, 64, player, true);
 
 	DoorTimer = Timer(2000.0);
 
