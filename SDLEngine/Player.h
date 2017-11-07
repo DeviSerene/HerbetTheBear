@@ -54,5 +54,6 @@ public:
 	void PlayerJump();
 	int getPlayerHealth() const { return playerHeath; }
 	void incrementCoins();
+	int getCoins() const { return numOfCoins; }
 };
 
