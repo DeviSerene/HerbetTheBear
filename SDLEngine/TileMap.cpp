@@ -175,3 +175,18 @@ void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int 
 		}
 	}
 }
+
+std::vector<SDL_Rect> TileMap::getTopTiles() const {
+	std::vector<SDL_Rect> result;
+	for (int x = 0; x < width; x++) {
+		for (int y = 0; y < height; y++) {
+			if (!tileIndices[(y * width) + x])
+				continue;
+			if (y == 0)
+				continue;
+			if (!tileIndices[((y - 1) * width) + x])
+			result.push_back(SDL_Rect{ x, y, 1, 1 });
+		}
+	}
+	return result;
+}
