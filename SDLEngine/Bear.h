@@ -15,4 +15,5 @@ protected:
 	int counter = 0;
 	bool idle = false;
 	int moveTime;
+	Timer animTimer;
 };

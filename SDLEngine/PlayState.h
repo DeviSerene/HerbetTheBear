@@ -13,6 +13,7 @@ class TileMap;
 class Teddy;
 class Clown;
 struct Level;
+class MushroomSpike;
 
 class PlayState : public GameState
 {
@@ -46,7 +47,8 @@ public:
 
 	TileMap *map;
 	Player *player;
-	Clown *clown;
+	std::vector<Clown*> clowns;
+	std::vector<MushroomSpike*> spikes;
 	SpriteFactory* sprite;
 
 	PlayState(GameData* data);

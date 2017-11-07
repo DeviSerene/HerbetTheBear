@@ -19,8 +19,6 @@ Coin::Coin()
 
 	hitboxWidth = 16;
 	hitboxHeight = 16;
-
-	
 }
 
 

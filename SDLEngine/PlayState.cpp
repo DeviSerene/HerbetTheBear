@@ -8,6 +8,7 @@
 #include "Clown.h"
 #include "Level.h"
 #include "PauseState.h"
+#include "MushroomSpike.h"
 
 std::vector<int> forestHalfTiles = { 2, 4, 5, 8, 10, 11, 14, 16, 17, 20, 22, 23 };
 std::vector<int> caveHalfTiles = { 3, 7 };
@@ -37,6 +38,14 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
 
+	player = new Player();
+	for (TMXObject *ob : map->getObjects()[0]->objects) {
+		if (ob->name == "Child_Decoy")
+			clowns.push_back(new Clown(ob->x, ob->y - 64, 32, 64, player, true));
+		else if(ob->name == "Child_Clown")
+			clowns.push_back(new Clown(ob->x, ob->y - 64, 32, 64, player, false));
+	}
+
 	for (size_t i = 0; i <= GHOST_COUNT; i++)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
@@ -49,7 +58,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	for (int i = 0; i < skyTiles.size(); i++)
 		skyTiles[i] = rand() % 3;
 
-	player = new Player();
+	
 
 	inputRight = false;
 	inputLeft = false;
@@ -58,8 +67,6 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	generateCoins(COIN_CHANCE);
 
 	teddy = new Teddy(map->teddyPos);
-
-	clown = new Clown(400, 100, 32, 64, player, false);
 
 	DoorTimer = Timer(2000.0);
 
@@ -73,6 +80,8 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	drawDoor = false;
 	doorPosDetermined = false;
 	zoom = false;
+
+	spikes.push_back(new MushroomSpike(32, 32, false));
 }
 
 PlayState::~PlayState()
@@ -203,8 +212,9 @@ void PlayState::Update(float deltaTime)
 		}
 	}
 	teddy->Update(this);
-	clown->Update(this);
-	for (int i = 0; i < 20; i++)
+	for (Clown *c : clowns)
+		c->Update(this);
+	/*for (int i = 0; i < 20; i++)
 	{
 		if (player->CollideWith(clown))
 		{
@@ -267,14 +277,21 @@ void PlayState::Draw()
 
 	teddy->Draw(m_gameData->GetHelperSprites());
 
-	clown->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
-	clown->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
+	for (Clown *c : clowns) {
+		c->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
+		c->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
+	}
 
 	//UI
 	m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", SDL_Rect{ 30, 30, 32, 32 }, SDL_Rect{ 0, 0, 16, 16 });
 	DrawText(m_gameData->GetPlayerRenderer(), std::to_string(player->getCoins()), SDL_Color{ 255, 255, 255 }, 62, 38);
 	for (int i = 0; i < player->getPlayerHealth(); i++) {
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i + 20, playerH - 70, 64, 64 });
+	}
+
+	for (MushroomSpike* spike : spikes) {
+		spike->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
+		spike->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
 	}
 
 	if (drawDoor == true)

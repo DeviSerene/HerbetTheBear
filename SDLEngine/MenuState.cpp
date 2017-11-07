@@ -54,6 +54,7 @@ void MenuState::Update(float _deltaTime)
 
 void MenuState::Draw()
 {
+	//DrawText(m_gameData->GetPlayerSprites(), "", SDL_Color{10, 10, 10, 10});
 	m_gameData->GetPlayerSprites()->Draw("assets/KarstenHorse.png", { 200,100,50,50 });
 	m_gameData->GetHelperSprites()->Draw("assets/KarstenHorse.png", { 200,100,50,50 });
 }
