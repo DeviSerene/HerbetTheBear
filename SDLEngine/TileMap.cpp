@@ -16,12 +16,34 @@ TileMap::TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::
 		width = layer->width;
 		height = layer->height;
 		tileIndices.resize(width * height);
+		tileFlags.resize(width * height);
+		int w = width;
+		int h = height;
+
+		auto InRange = [&w, &h](int x, int y) {
+			return x >= 0 && x < w && y >= 0 && y < h;
+		};
 
 		std::fill(tileIndices.begin(), tileIndices.end(), -1);
 
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				tileIndices[(y * width) + x] = layer->tiles[(y * width) + x];
+			}
+		}
+
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {				
+				if (tileIndices[(y * width) + x] <= 0) continue;
+
+				TileFlags flags;
+
+				if (InRange(x, y - 1) && tileIndices[((y - 1) * width) + x] > 0) flags.top = false;
+				if (InRange(x - 1, y) && tileIndices[(y * width) + (x - 1)] > 0) flags.left = false;
+				if (InRange(x, y + 1) && tileIndices[((y + 1) * width) + x] > 0) flags.bottom = false;
+				if (InRange(x + 1, y) && tileIndices[(y * width) + (x + 1)] > 0) flags.right = false;
+
+				tileFlags[(y * width) + x] = flags;
 			}
 		}
 	}
@@ -74,7 +96,20 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY, bool& onGround) 
 			if (!(newPos.x <= tilePos.x + tilePos.w && newPos.x + newPos.w >= tilePos.x
 				&& newPos.y <= tilePos.y + tilePos.h && newPos.y + newPos.h >= tilePos.y)) continue;
 
-			if (rect.y >= tilePos.y + tilePos.h) {
+			TileFlags flags = tileFlags[(y * width) + x];
+
+			if (flags.bottom && rect.y >= tilePos.y + tilePos.h) {
+				newVelY = (tilePos.y + tilePos.h) - rect.y;
+			} else if (flags.right && rect.x >= tilePos.x + tilePos.w) {
+				newVelX = (tilePos.x + tilePos.w) - rect.x;
+			} else if (flags.left && rect.x + rect.w <= tilePos.x) {
+				newVelX = tilePos.x - (rect.x + rect.w);
+			} else if (flags.top && rect.y + rect.h <= tilePos.y) {
+				newVelY = tilePos.y - (rect.y + rect.h);
+				onGround = true;
+			}
+
+			/*if (rect.y >= tilePos.y + tilePos.h) {
 				tileV_X = x;
 				tileV_Y = y;
 
@@ -84,6 +119,7 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY, bool& onGround) 
 
 				if (tileV_Y == tileH_Y) {
 					newVelX = velX;
+					tileH_Y = tileH_X = -1;
 				}
 			}
 			else if (rect.x >= tilePos.x + tilePos.w) {
@@ -96,6 +132,7 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY, bool& onGround) 
 
 				if (tileV_X == tileH_X) {
 					newVelY = velY;
+					tileV_Y = tileV_X = -1;
 					onGround = false;
 				}
 			}
@@ -109,6 +146,7 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY, bool& onGround) 
 
 				if (tileV_X == tileH_X) {
 					newVelY = velY;
+					tileV_Y = tileV_X = -1;
 					onGround = false;
 				}
 			}
@@ -120,8 +158,9 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY, bool& onGround) 
 
 				if (tileV_Y == tileH_Y) {
 					newVelX = velX;
+					tileH_Y = tileH_X = -1;
 				}
-			}
+			}*/
 		}
 	}
 
