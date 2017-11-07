@@ -335,23 +335,23 @@ void PlayState::ScaleDoor()
 
 		if (doorPosRect.x > 0)
 		{
-			doorPosRect.x -= 10;
+			doorPosRect.x -= 20;
 		}
 
 
 		if (doorPosRect.y > 0)
 		{
-			doorPosRect.y -= 11;
+			doorPosRect.y -= 22;
 
 		}
 
 		if (doorPosRect.w < 800)
 		{
-			doorPosRect.w += 10;
+			doorPosRect.w += 20;
 		}
 		if (doorPosRect.h < 600)
 		{
-			doorPosRect.h += 10;
+			doorPosRect.h += 20;
 		}
 	}
 
