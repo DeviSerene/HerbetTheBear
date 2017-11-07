@@ -13,9 +13,10 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
 	currentLevel = 0;
-	levels.resize(2);
-	levels[0] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", "assets/textures/sky_sheet.png");
-	levels[1] = Level("test_night.tmx", "assets/textures/Forest_Tilesheet_01.png", "assets/textures/sky_sheet_dark.png");
+	levels.resize(3);
+	levels[0] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet.png", 3);
+	levels[1] = Level("test_night.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet_dark.png", 3);
+	levels[2] = Level("test_cave.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
 
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str());
 
@@ -169,8 +170,8 @@ void PlayState::Draw()
 		}
 	}
 	
-	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 6, playerW, playerH);
-	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 6, helperW, helperH);
+	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, levels[currentLevel].tileSetWidth, playerW, playerH);
+	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, levels[currentLevel].tileSetWidth, helperW, helperH);
 	for (size_t i = 0; i < ghosts.size(); i++)
 	{
 		ghosts.at(i)->Draw(m_gameData->GetHelperSprites());
