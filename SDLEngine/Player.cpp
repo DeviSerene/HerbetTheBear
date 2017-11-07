@@ -199,8 +199,6 @@ bool Player::CollideWith(Entities* _other)
 			invulnerabilityFrames = true;
 			playerDamaged = true;
 			DamageOffsetTimer.Reset();
-
-			SoundEffect::SoundEffect("assets/sfx_childHurt.wav");
 		}
 		else
 		{

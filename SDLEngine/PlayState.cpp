@@ -128,7 +128,10 @@ void PlayState::Update(float deltaTime)
 	{
 		ghosts.at(i)->Update(this);
 		// Checking if player collides with any of the ghosts
-		player->CollideWith(ghosts[i]);
+		if (player->CollideWith(ghosts[i]))
+		{
+			m_gameData->GetAudio()->SoundPlay("assets/sfx_childHurt.wav");
+		}
 	}
 
 	// Calls the update function and checks if they player has collided with a coin, if so, coin disapears and the players coin count increases
@@ -150,11 +153,17 @@ void PlayState::Update(float deltaTime)
 	{
 		bears.at(i)->Update(this);
 		// checking if the player is collisiding with any of the bears
-		player->CollideWith(bears[i]);
+		if (player->CollideWith(bears[i]))
+		{
+			m_gameData->GetAudio()->SoundPlay("assets/sfx_childHurt.wav");
+		}
 	}
 	teddy->Update(this);
 	clown->Update(this);
-	player->CollideWith(clown);
+	if (player->CollideWith(clown))
+	{
+		m_gameData->GetAudio()->SoundPlay("assets/sfx_childHurt.wav");
+	}
 
 	if (teddy->CollideWith(player))
 		nextLevel();
