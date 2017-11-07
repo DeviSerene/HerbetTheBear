@@ -162,9 +162,12 @@ void PlayState::Update(float deltaTime)
 	}
 	teddy->Update(this);
 	clown->Update(this);
-	if (player->CollideWith(clown))
+	for (int i = 0; i < 20; i++)
 	{
-		player->playSoundEffect(m_gameData);
+		if (player->CollideWith(clown))
+		{
+			player->playSoundEffect(m_gameData);
+		}
 	}
 
 	if (teddy->CollideWith(player))

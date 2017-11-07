@@ -16,7 +16,6 @@ public:
 	void MusicClean();
 
 	void SoundPlay(std::string _name, int _channel = -1);
-	void SoundStop(int _channel = -1);
 
 private:
 
