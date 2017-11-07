@@ -97,8 +97,8 @@ void PlayState::Draw()
 	SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
 
 	int skySize = 256;
-	for (int x = 0; x < map->getWidthInTiles(); x++) {
-		for (int y = 0; y < map->getHeightInTiles(); y++) {
+	for (int x = 0; x < map->getWidthInTiles() / ((float)skySize / 64); x++) {
+		for (int y = 0; y < map->getHeightInTiles() / ((float)skySize / 64); y++) {
 			int index = skyTiles[(y * map->getWidthInTiles()) + x];
 			m_gameData->GetPlayerSprites()->Draw("assets/textures/sky_sheet.png", SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
 			m_gameData->GetHelperSprites()->Draw("assets/textures/sky_sheet.png", SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
