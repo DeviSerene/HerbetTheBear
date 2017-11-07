@@ -34,7 +34,7 @@ Player::Player()
 	movingLeft = false;
 
 	animationTimer = Timer(0.2f);
-
+	onGround = false;
 }
 
 
@@ -92,8 +92,8 @@ void Player::Update(PlayState *_playState)
 
 	animationTimer.Update(_playState->delta);
 
-	volY += 1;
-	if (volY > 5) volY = 5;
+	volY += 0.75f;
+	if (volY > 10) volY = 10;
 	Entities::Update(_playState);
 	HandleDamage();
 

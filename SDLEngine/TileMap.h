@@ -4,6 +4,7 @@
 
 #include "SpriteFactory.h"
 #include "TMX/TMXMap.h"
+#include "Timer.h"
 
 class TileMap
 {
@@ -18,6 +19,9 @@ private:
 	std::vector<int> tileIndices;
 	std::vector<TMXObjectGroup> mapObjects;
 	std::string sprite;
+
+	int grassFrame;
+	Timer grassTimer;
 
 	TMXTileSet* set;
 public:

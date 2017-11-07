@@ -4,7 +4,7 @@
 
 
 TileMap::TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::string _atlas, const char *_workingDir, const char *_level)
-	:tileWidth(_tileWidth), tileHeight(_tileHeight), width(_width), height(_height), sprite(_atlas)
+	:tileWidth(_tileWidth), tileHeight(_tileHeight), width(_width), height(_height), sprite(_atlas), grassFrame(0)
 {
 	TMXMap map = TMXMap(_workingDir, _level);
 
@@ -25,6 +25,8 @@ TileMap::TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::
 			}
 		}
 	}
+
+	grassTimer = Timer(0.7f);
 }
 
 
@@ -118,6 +120,11 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY, bool& onGround) 
 		}
 	}
 
+	if (newPos.x < 0)
+		newVelX = -rect.x;
+	else if (newPos.x > width * 64 - rect.w)
+		newVelX = width * 64 - rect.w - rect.x;
+
 	rect.x += newVelX;
 	rect.y += newVelY;
 }
@@ -139,11 +146,22 @@ void TileMap::Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int 
 	if (boundBottom > height)
 		boundBottom = height;
 
+	grassTimer.Update(0.016f);
+	if (grassTimer.Completed()) {
+		grassTimer.Reset();
+		grassFrame++;
+		if (grassFrame > 5)
+			grassFrame = 0;
+	}
 	for (int x = boundLeft; x < boundRight; x++) {
 		for (int y = boundTop; y < boundBottom; y++) {
 			int indice = tileIndices[(y * width) + x];
 			if (indice <= 0) continue;
 			indice--;
+
+			if (indice > 11)
+				_factory->Draw("assets/textures/grass_sheet.png", SDL_Rect{ (int)(-_cameraX + (x * tileWidth)), (int)(-_cameraY + (y * tileHeight)) - tileHeight, tileWidth, tileHeight },
+					SDL_Rect{ grassFrame * 32, 0, 32, 32 });
 
 			int tileX = indice % _tileCountX;
 			int tileY = indice / _tileCountX;

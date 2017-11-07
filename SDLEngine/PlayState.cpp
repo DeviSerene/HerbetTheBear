@@ -1,5 +1,9 @@
 #include "PlayState.h"
 #include "TileMap.h"
+#include "GameData.h"
+#include "Player.h"
+#include "SpriteFactory.h"
+#include "Teddy.h"
 
 
 
@@ -7,8 +11,14 @@
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
-	ghost1 = new Ghost(2500, 600);
+	
 	map = new TileMap(0, 0, 0, 0, "assets/textures/Forest_Tilesheet_01.png", "assets/maps/", "test.tmx");
+
+	for (size_t i = 0; i < 36; i++)
+	{
+		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
+	}
+	bear = new Bear();
 
 	skyTiles.resize(map->getWidthInTiles() * map->getHeightInTiles());
 	for (int i = 0; i < skyTiles.size(); i++)
@@ -30,6 +40,8 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 		coinx += 20;
 		coiny += 20;
 	}
+
+	teddy = new Teddy(SDL_Rect{ 64, 64, 32, 32 });
 }
 
 PlayState::~PlayState()
@@ -91,7 +103,11 @@ void PlayState::Update(float deltaTime)
 {
 	this->delta = deltaTime;
 
-	ghost1->Update(this);
+	for (size_t i = 0; i < ghosts.size(); i++)
+	{
+		ghosts.at(i)->Update(this);
+	}
+	bear->Update(this);
 	player->Update(this);
 	for (int i = 0; i < Coins.size(); i++)
 	{
@@ -112,6 +128,7 @@ void PlayState::Update(float deltaTime)
 	else if (cameraY > (map->getHeightInTiles() * 64) - playerH)
 		cameraY = map->getHeightInTiles() * 64 - playerH;
 
+	teddy->Update(this);
 }
 
 void PlayState::Draw()
@@ -131,7 +148,11 @@ void PlayState::Draw()
 	
 	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 6, playerW, playerH);
 	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 6, helperW, helperH);
-	ghost1->Draw(m_gameData->GetHelperSprites());
+	for (size_t i = 0; i < ghosts.size(); i++)
+	{
+		ghosts.at(i)->Draw(m_gameData->GetHelperSprites());
+	}
+	bear->Draw(m_gameData->GetHelperSprites());
 	SDL_Rect playerPos = player->GetPlayerRect();
 	playerPos.x = -cameraX + (playerPos.x);
 	playerPos.y = -cameraY + (playerPos.y);
@@ -139,6 +160,11 @@ void PlayState::Draw()
 	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
 	m_gameData->GetHelperSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
 
+	teddy->Draw(m_gameData->GetHelperSprites());
+
+	for (int i = 0; i < player->getPlayerHealth(); i++) {
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i, playerH - 70, 64, 64 });
+	}
 	for (int i = 0; i < Coins.size(); i++)
 	{
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", Coins[i]->getCoinPosRect(), Coins[i]->getCoinCropRect(), false);

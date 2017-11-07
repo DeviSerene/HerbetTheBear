@@ -6,13 +6,15 @@
 #include "SpriteFactory.h"
 #include "Ghost.h"
 #include "Coin.h"
+#include "Bear.h"
 
 class TileMap;
-
+class Teddy;
 
 class PlayState : public GameState
 {
 	std::vector<int> skyTiles;
+	Teddy *teddy;
 	std::vector<Coin*> Coins;
 	int coinx;
 	int coiny;
@@ -31,7 +33,8 @@ public:
 	virtual bool HandleSDLEvents();
 	virtual void Update(float deltaTime);
 	virtual void Draw();
-	Ghost* ghost1;
+	std::vector<Ghost*> ghosts;
+	Bear* bear;
 
 };
 
