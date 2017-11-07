@@ -1,24 +1,33 @@
 #include "Bear.h"
 #include "PlayState.h"
 
-Bear::Bear(PlayState* _state)
+Bear::Bear(PlayState* _state, SDL_Rect _wayPoints, bool _isPreset)
 	: Enemy()
 {
-	Init(_state);
+	isPreset = _isPreset;
+	Init(_state, _wayPoints);
 	hitboxWidth = 50;
 	hitboxHeight = 40;
 	animTimer = Timer(0.3f);
 }
 
-void Bear::Init(PlayState* _state)
+void Bear::Init(PlayState* _state, SDL_Rect _wayPoints)
 {
-	ReOrient(_state);
-	EntityPosition = destinations.at(0);
-	EntityPosition.w = 64;
-	EntityPosition.h = 63;
+	if (!isPreset)
+	{
+		ReOrient(_state);		
+	}
+	else
+	{
+		destinations.push_back(_wayPoints);
+		destinations.push_back(SDL_Rect{ _wayPoints.x + _wayPoints.w, _wayPoints.y, 64, 64 });
+	}
 	prevPos = EntityPosition;
 	idle = false;
 	moveTime = rand() % 500 + 150;
+	EntityPosition = destinations.at(0);
+	EntityPosition.w = 64;
+	EntityPosition.h = 63;	
 }
 
 void Bear::ReOrient(PlayState* _state)
@@ -52,7 +61,7 @@ void Bear::Draw(SpriteFactory * _sprite)
 	_sprite->Draw("assets/textures/herbert.png", worldPos, cropRect, flipped);
 }
 
-void Bear::Update(PlayState * _state)
+void Bear::Update(PlayState * _state, bool isPreset)
 {
 	Enemy::Update(_state);	
 	
@@ -71,32 +80,33 @@ void Bear::Update(PlayState * _state)
 		currentDest += 1;
 	}
 
-	_state->map->Collision(EntityPosition, velX, 5, OnGround);
-
-	if (counter % 5 == 0 && (!idle))
+	_state->map->Collision(EntityPosition, velX, 10, OnGround);
+	if (!isPreset)
 	{
-		if (EntityPosition.x == prevPos.x)
+		if (counter % 5 == 0 && (!idle))
 		{
-			ReOrient(_state);			
+			if (EntityPosition.x == prevPos.x)
+			{
+				ReOrient(_state);
+			}
+			prevPos = EntityPosition;
 		}
-		prevPos = EntityPosition;
-	}
-	if (counter % moveTime == 0)
-	{
-		currentDest = 0;
-		destinations.at(currentDest) = EntityPosition;
-		for (size_t i = 1; i < destinations.size(); i++)
+		if (counter % moveTime == 0)
 		{
-			destinations.erase(destinations.begin() + i);
+			currentDest = 0;
+			destinations.at(currentDest) = EntityPosition;
+			for (size_t i = 1; i < destinations.size(); i++)
+			{
+				destinations.erase(destinations.begin() + i);
+			}
+			idle = true;
 		}
-		idle = true;
+		if (counter % (moveTime + moveTime / 2) == 0)
+		{
+			ReOrient(_state);
+			idle = false;
+			counter = 0;
+		}
 	}
-	if (counter % (moveTime + moveTime / 2) == 0)
-	{
-		ReOrient(_state);
-		idle = false;
-		counter = 0;
-	}
-
 	counter++;
 }

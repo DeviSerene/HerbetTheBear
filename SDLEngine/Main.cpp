@@ -38,7 +38,7 @@ int main(int, char**)
 	}
 	gameData->m_stateManager = new GamestateManager;
 	//gameData->m_stateManager->AddState(new MenuState(gameData));
-	gameData->m_stateManager->AddState(new PlayState(gameData));
+	gameData->m_stateManager->AddState(new MenuState(gameData));
 	GameLoop(gameData); //start the game loop
 
 	// clean up, free any memory we have used

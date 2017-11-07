@@ -42,5 +42,7 @@ public:
 
 	void DrawHelper(SpriteFactory *_factory, float cameraX, float cameraY);
 	void DrawPlayer(SpriteFactory *_factory, float cameraX, float cameraY);
+
+	bool isDecoy() const { return decoy; }
 };
 

@@ -41,9 +41,13 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	player = new Player();
 	for (TMXObject *ob : map->getObjects()[0]->objects) {
 		if (ob->name == "Child_Decoy")
-			clowns.push_back(new Clown(ob->x, ob->y - 64, 32, 64, player, true));
-		else if(ob->name == "Child_Clown")
-			clowns.push_back(new Clown(ob->x, ob->y - 64, 32, 64, player, false));
+			clowns.push_back(new Clown(ob->x - 16, ob->y - 64, 32, 64, player, true));
+		else if (ob->name == "Child_Clown")
+			clowns.push_back(new Clown(ob->x - 16, ob->y - 64, 32, 64, player, false));
+		else if (ob->name == "Mushroom")
+			spikes.push_back(new MushroomSpike(ob->x - 16, ob->y - 32, true));
+		else if (ob->name == "Spike")
+			spikes.push_back(new MushroomSpike(ob->x - 16, ob->y - 32, false));
 	}
 
 	for (size_t i = 0; i <= GHOST_COUNT; i++)
@@ -52,7 +56,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	}
 	for (size_t j = 0; j < BEAR_MINIMUM; j++)
 	{
-		bears.push_back(new Bear(this));
+		bears.push_back(new Bear(this, SDL_Rect{ 0, 0, 0, 0 }, false));
 	}
 	skyTiles.resize(map->getWidthInTiles() * map->getHeightInTiles());
 	for (int i = 0; i < skyTiles.size(); i++)
@@ -365,7 +369,7 @@ void PlayState::nextLevel() {
 
 	for (size_t i = 0; i < bears.size(); i++)
 	{
-		bears.at(i)->Init(this);
+		bears.at(i)->Init(this, SDL_Rect{ 0, 0, 0, 0 });
 	}
 }
 
