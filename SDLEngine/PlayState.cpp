@@ -8,6 +8,7 @@
 #include "Clown.h"
 #include "Level.h"
 #include "PauseState.h"
+#include "MushroomSpike.h"
 
 std::vector<int> forestHalfTiles = { 2, 4, 5, 8, 10, 11, 14, 16, 17, 20, 22, 23 };
 std::vector<int> caveHalfTiles = { 3, 7 };
@@ -73,6 +74,8 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	drawDoor = false;
 	doorPosDetermined = false;
 	zoom = false;
+
+	spikes.push_back(new MushroomSpike(32, 32, false));
 }
 
 PlayState::~PlayState()
@@ -262,6 +265,11 @@ void PlayState::Draw()
 	DrawText(m_gameData->GetPlayerRenderer(), std::to_string(player->getCoins()), SDL_Color{ 255, 255, 255 }, 62, 38);
 	for (int i = 0; i < player->getPlayerHealth(); i++) {
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i + 20, playerH - 70, 64, 64 });
+	}
+
+	for (MushroomSpike* spike : spikes) {
+		spike->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
+		spike->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
 	}
 
 	if (drawDoor == true)
