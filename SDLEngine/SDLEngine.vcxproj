@@ -161,6 +161,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteFactory.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TMX\tinyxml2.cpp" />
     <ClCompile Include="TMX\TMXLayer.cpp" />
     <ClCompile Include="TMX\TMXMap.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteFactory.h" />
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="TMX\tinyxml2.h" />
     <ClInclude Include="TMX\TMXLayer.h" />
     <ClInclude Include="TMX\TMXMap.h" />
