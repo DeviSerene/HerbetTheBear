@@ -3,7 +3,7 @@
 #include <SDL_rect.h>
 
 
-TileMap::TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::string _atlas, const char *_workingDir, const char *_level)
+TileMap::TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::string _atlas, const char *_workingDir, const char *_level, std::vector<int> halfTiles)
 	:tileWidth(_tileWidth), tileHeight(_tileHeight), width(_width), height(_height), sprite(_atlas), grassFrame(0)
 {
 	TMXMap map = TMXMap(_workingDir, _level);
@@ -33,10 +33,18 @@ TileMap::TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::
 		}
 
 		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {				
-				if (tileIndices[(y * width) + x] <= 0) continue;
+			for (int y = 0; y < height; y++) {
+				int indice = tileIndices[(y * width) + x];
+
+				if (indice <= 0) continue;
 
 				TileFlags flags;
+
+				for (int i = 0; i < halfTiles.size(); i++) {
+					if (indice == halfTiles[i])
+						flags.halfTile = true;
+				}
+
 
 				if (InRange(x, y - 1) && tileIndices[((y - 1) * width) + x] > 0) flags.top = false;
 				if (InRange(x - 1, y) && tileIndices[(y * width) + (x - 1)] > 0) flags.left = false;
@@ -93,10 +101,12 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY, bool& onGround) 
 
 			SDL_Rect tilePos = { x * tileWidth, y * tileHeight, tileWidth, tileHeight };
 
+			TileFlags flags = tileFlags[(y * width) + x];
+			if (flags.halfTile) tilePos.h = tilePos.h / 2;
+
 			if (!(newPos.x <= tilePos.x + tilePos.w && newPos.x + newPos.w >= tilePos.x
 				&& newPos.y <= tilePos.y + tilePos.h && newPos.y + newPos.h >= tilePos.y)) continue;
 
-			TileFlags flags = tileFlags[(y * width) + x];
 
 			if (flags.bottom && rect.y >= tilePos.y + tilePos.h) {
 				newVelY = (tilePos.y + tilePos.h) - rect.y;
@@ -108,59 +118,6 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY, bool& onGround) 
 				newVelY = tilePos.y - (rect.y + rect.h);
 				onGround = true;
 			}
-
-			/*if (rect.y >= tilePos.y + tilePos.h) {
-				tileV_X = x;
-				tileV_Y = y;
-
-				if (tileV_X != tileH_X) {
-					newVelY = (tilePos.y + tilePos.h) - rect.y;
-				}
-
-				if (tileV_Y == tileH_Y) {
-					newVelX = velX;
-					tileH_Y = tileH_X = -1;
-				}
-			}
-			else if (rect.x >= tilePos.x + tilePos.w) {
-				tileH_X = x;
-				tileH_Y = y;
-
-				if (tileH_Y != tileV_Y) {
-					newVelX = (tilePos.x + tilePos.w) - rect.x;
-				}
-
-				if (tileV_X == tileH_X) {
-					newVelY = velY;
-					tileV_Y = tileV_X = -1;
-					onGround = false;
-				}
-			}
-			else if (rect.x + rect.w <= tilePos.x) {
-				tileH_X = x;
-				tileH_Y = y;
-
-				if (tileH_Y != tileV_Y) {
-					newVelX = tilePos.x - (rect.x + rect.w);
-				}
-
-				if (tileV_X == tileH_X) {
-					newVelY = velY;
-					tileV_Y = tileV_X = -1;
-					onGround = false;
-				}
-			}
-			else if (rect.y + rect.h <= tilePos.y) {
-				tileV_X = x;
-				tileV_Y = y;
-				newVelY = tilePos.y - (rect.y + rect.h);
-				onGround = true;
-
-				if (tileV_Y == tileH_Y) {
-					newVelX = velX;
-					tileH_Y = tileH_X = -1;
-				}
-			}*/
 		}
 	}
 

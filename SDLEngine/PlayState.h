@@ -7,6 +7,7 @@
 #include "Ghost.h"
 #include "Coin.h"
 #include "Bear.h"
+#include "Timer.h"
 
 class TileMap;
 class Teddy;
@@ -24,6 +25,15 @@ class PlayState : public GameState
 	int currentLevel;
 
 	bool hasBeenHit;
+
+	SDL_Rect doorPosRect;
+	bool doorPosDetermined;
+	SDL_Rect doorCropRect;
+	bool doorSpawned;
+	int doorIncrement;
+	bool drawDoor;
+
+	Timer DoorTimer;
 
 public:
 	float cameraX, cameraY;
@@ -46,5 +56,6 @@ public:
 
 	void nextLevel();
 	void generateCoins(int _chance);
+	void ScaleDoor();
 };
 

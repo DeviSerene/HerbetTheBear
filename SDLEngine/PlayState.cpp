@@ -16,11 +16,12 @@
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
-	currentLevel = 0;
-	levels.resize(3);
+	currentLevel = 3;
+	levels.resize(4);
 	levels[0] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet.png", 3);
 	levels[1] = Level("test_night.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet_dark.png", 3);
 	levels[2] = Level("test_cave.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
+	levels[3] = Level("test_circus.tmx", "assets/textures/Circus_Tilesheet_01.png", 3, "assets/textures/circusbg_sheet.png", 3);
 
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str());
 
@@ -47,6 +48,18 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	teddy = new Teddy(map->teddyPos);
 
 	clown = new Clown(400, 100, 32, 64, player, false);
+
+	DoorTimer = Timer(2000.0);
+
+	doorPosRect.w = 128;
+	doorPosRect.h = 96;
+
+	doorCropRect.x = doorCropRect.y = 0;
+	doorCropRect.w = 128;
+	doorCropRect.h = 96;
+
+	drawDoor = false;
+	doorPosDetermined = false;
 }
 
 PlayState::~PlayState()
@@ -176,7 +189,8 @@ void PlayState::Update(float deltaTime)
 	}
 
 	if (teddy->CollideWith(player))
-		nextLevel();
+		drawDoor = true;
+		
 
 	// If this returns true, then the player has lost all of their lives and they lose
 	if (player->checkForPlayerDeath() == true)
@@ -218,6 +232,32 @@ void PlayState::Draw()
 	playerPos.x = -cameraX + (playerPos.x);
 	playerPos.y = -cameraY + (playerPos.y);
 
+	if (drawDoor == true)
+	{
+		if (doorPosDetermined == false)
+		{
+			doorPosRect.x = playerPos.x - playerPos.w;
+			doorPosRect.y = playerPos.y - 50;
+			doorPosDetermined = true;
+		}
+
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/Door_01.png", doorPosRect, doorCropRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/Door_01.png", doorPosRect, doorCropRect);
+
+
+		if (DoorTimer.Completed())
+		{
+			nextLevel();
+			drawDoor = false;
+			doorPosDetermined = false;
+			DoorTimer.Reset();
+		}
+		else
+		{
+			DoorTimer.Update(10);
+		}
+	}
+
 	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
 	m_gameData->GetHelperSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
 
@@ -232,6 +272,9 @@ void PlayState::Draw()
 	for (int i = 0; i < player->getPlayerHealth(); i++) {
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i + 20, playerH - 70, 64, 64 });
 	}
+
+	
+	
 }
 
 void PlayState::nextLevel() {
@@ -262,4 +305,9 @@ void PlayState::generateCoins(int _chance) {
 			Coins.push_back(c);
 		}
 	}
+}
+
+void PlayState::ScaleDoor()
+{
+
 }

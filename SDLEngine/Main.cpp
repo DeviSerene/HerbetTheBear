@@ -32,7 +32,7 @@ int main(int, char**)
 
 	// If the code reached here, everything is successful so far! :D
 	GameData* gameData = new GameData();
-	if (gameData->Init(800, 600) == 0)
+	if (gameData->Init(WINDOWX, WINDOWY) == 0)
 	{
 		return 0;
 	}

@@ -11,6 +11,7 @@ struct TileFlags {
 	bool left = true;
 	bool right = true;
 	bool bottom = true;
+	bool halfTile = false;
 };
 
 class TileMap
@@ -35,7 +36,7 @@ private:
 public:
 	SDL_Rect teddyPos;
 
-	TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::string _atlas, const char *_workingDir, const char *_level);
+	TileMap(int _tileWidth, int _tileHeight, int _width, int _height, std::string _atlas, const char *_workingDir, const char *_level, std::vector<int> halfTiles = std::vector<int>());
 	~TileMap();
 
 	void Collision(SDL_Rect& rect, float velX, float velY, bool& onGround);
