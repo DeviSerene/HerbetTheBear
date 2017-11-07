@@ -1,6 +1,7 @@
 #include "Ghost.h"
 
 Ghost::Ghost(int _xRange, int _yRange)
+	: Enemy()
 {
 	
 	for (size_t i = 0; i < rand() % 10 + 2; i++)
@@ -14,6 +15,9 @@ Ghost::Ghost(int _xRange, int _yRange)
 	
 	EntityPosition = destinations.at(0);
 	EntityPosition.w = EntityPosition.h = 32;
+
+	hitboxWidth = 20;
+	hitboxHeight = 25;
 }
 
 Ghost::~Ghost()
