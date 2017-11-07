@@ -67,7 +67,7 @@ void TileMap::Collision(SDL_Rect& rect, float velX, float velY, bool& onGround) 
 			if (!(newPos.x <= tilePos.x + tilePos.w && newPos.x + newPos.w >= tilePos.x
 				&& newPos.y <= tilePos.y + tilePos.h && newPos.y + newPos.h >= tilePos.y)) continue;
 
-			if (rect.y >= tilePos.y + tilePos.y) {
+			if (rect.y >= tilePos.y + tilePos.h) {
 				tileV_X = x;
 				tileV_Y = y;
 

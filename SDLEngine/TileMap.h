@@ -27,4 +27,3 @@ public:
 	void Collision(SDL_Rect& rect, float velX, float velY, bool& onGround);
 	void Draw(SpriteFactory *_factory, float _cameraX, float _cameraY, int tileCountX, int _windowWidth, int _windowHeight);
 };
-

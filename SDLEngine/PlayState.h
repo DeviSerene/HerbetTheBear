@@ -26,5 +26,6 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 	Enemy* enemy1;
+
 };
 
