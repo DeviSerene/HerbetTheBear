@@ -45,7 +45,7 @@ public:
 
 	TileMap *map;
 	Player *player;
-	Clown *clown;
+	std::vector<Clown*> clowns;
 	std::vector<MushroomSpike*> spikes;
 	SpriteFactory* sprite;
 

@@ -38,7 +38,13 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
 
-
+	player = new Player();
+	for (TMXObject *ob : map->getObjects()[0]->objects) {
+		if (ob->name == "Child_Decoy")
+			clowns.push_back(new Clown(ob->x, ob->y - 64, 32, 64, player, true));
+		else if(ob->name == "Child_Clown")
+			clowns.push_back(new Clown(ob->x, ob->y - 64, 32, 64, player, false));
+	}
 
 	for (size_t i = 0; i <= GHOST_COUNT; i++)
 	{
@@ -52,7 +58,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	for (int i = 0; i < skyTiles.size(); i++)
 		skyTiles[i] = rand() % 3;
 
-	player = new Player();
+	
 
 	inputRight = false;
 	inputLeft = false;
@@ -61,8 +67,6 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	generateCoins(COIN_CHANCE);
 
 	teddy = new Teddy(map->teddyPos);
-
-	clown = new Clown(400, 100, 32, 64, player, false);
 
 	DoorTimer = Timer(2000.0);
 
@@ -199,14 +203,15 @@ void PlayState::Update(float deltaTime)
 		}
 	}
 	teddy->Update(this);
-	clown->Update(this);
-	for (int i = 0; i < 20; i++)
+	for (Clown *c : clowns)
+		c->Update(this);
+	/*for (int i = 0; i < 20; i++)
 	{
 		if (player->CollideWith(clown))
 		{
 			player->playSoundEffect(m_gameData);
 		}
-	}
+	}*/
 
 	if (teddy->CollideWith(player))
 		drawDoor = true;
@@ -259,8 +264,10 @@ void PlayState::Draw()
 
 	teddy->Draw(m_gameData->GetHelperSprites());
 
-	clown->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
-	clown->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
+	for (Clown *c : clowns) {
+		c->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
+		c->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
+	}
 
 	//UI
 	m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", SDL_Rect{ 30, 30, 32, 32 }, SDL_Rect{ 0, 0, 16, 16 });
