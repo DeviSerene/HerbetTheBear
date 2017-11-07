@@ -17,7 +17,8 @@ Coin::Coin()
 
 	DestoryCoin = false;
 
-	
+	hitboxWidth = 16;
+	hitboxHeight = 16;
 }
 
 
