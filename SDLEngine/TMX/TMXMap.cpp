@@ -96,15 +96,18 @@ TMXMap::TMXMap(const char *workingDir, const char *fileName)
 			int oId, oX, oY, oWidth, oHeight;
 			TMX_OBJECT_SHAPES shape = TMX_RECTANGLE;
 			std::string oType;
+			std::string oName;
+			oName = o->Attribute("name");
 			o->QueryIntAttribute("id", &oId);
 			o->QueryIntAttribute("x", &oX);
 			o->QueryIntAttribute("y", &oY);
 			o->QueryIntAttribute("width", &oWidth);
 			o->QueryIntAttribute("height", &oHeight);
-			oType = o->Attribute("type");
-			if (o->FirstChildElement("ellipse") != NULL)
-				shape = TMX_ELLIPSE;
-			TMXObject *ob = new TMXObject(oX, oY, oWidth, oHeight, oId, oType, shape);
+			oType = o->Attribute("type") != NULL ? o->Attribute("type") : "";
+			if (!o->NoChildren())
+				if(o->FirstChildElement("ellipse") != NULL)
+					shape = TMX_ELLIPSE;
+			TMXObject *ob = new TMXObject(oName, oX, oY, oWidth, oHeight, oId, oType, shape);
 			og->objects.push_back(ob);
 			XMLElement *p = o->FirstChildElement("properties");
 			if (p != NULL)
