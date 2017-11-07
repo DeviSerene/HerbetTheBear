@@ -1,11 +1,13 @@
 #include "PlayState.h"
 #include "TileMap.h"
 #include "GameData.h"
+#include "GamestateManager.h"
 #include "Player.h"
 #include "SpriteFactory.h"
 #include "Teddy.h"
 #include "Clown.h"
 #include "Level.h"
+#include "PauseState.h"
 
 #define COIN_CHANCE 7
 #define BEAR_MINIMUM 3
@@ -78,6 +80,9 @@ bool PlayState::HandleSDLEvents()
 				case SDLK_a:
 				case SDLK_LEFT:
 					inputLeft = true;
+					break;
+				case SDLK_ESCAPE:
+					m_gameData->m_stateManager->AddState(new PauseState(m_gameData));
 					break;
 			}
 		} else if (event.type == SDL_KEYUP) {
