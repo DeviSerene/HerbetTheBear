@@ -31,6 +31,12 @@
     <Filter Include="Header Files\Sound">
       <UniqueIdentifier>{efab3ea8-baba-4d63-91df-e535376eb222}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TMX">
+      <UniqueIdentifier>{90f109bd-a023-465e-94e9-22df195b9c92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TMX">
+      <UniqueIdentifier>{ca611775-6d93-42bc-9521-818afe4e436d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -72,24 +78,6 @@
     <ClCompile Include="TileMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TMX\tinyxml2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TMX\TMXLayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TMX\TMXMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TMX\TMXObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TMX\TMXObjectGroup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TMX\TMXTileSet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -98,6 +86,24 @@
     </ClCompile>
     <ClCompile Include="Trap.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TMX\TMXTileSet.cpp">
+      <Filter>Source Files\TMX</Filter>
+    </ClCompile>
+    <ClCompile Include="TMX\TMXLayer.cpp">
+      <Filter>Source Files\TMX</Filter>
+    </ClCompile>
+    <ClCompile Include="TMX\TMXMap.cpp">
+      <Filter>Source Files\TMX</Filter>
+    </ClCompile>
+    <ClCompile Include="TMX\TMXObject.cpp">
+      <Filter>Source Files\TMX</Filter>
+    </ClCompile>
+    <ClCompile Include="TMX\TMXObjectGroup.cpp">
+      <Filter>Source Files\TMX</Filter>
+    </ClCompile>
+    <ClCompile Include="TMX\tinyxml2.cpp">
+      <Filter>Source Files\TMX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,24 +143,6 @@
     <ClInclude Include="TileMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TMX\tinyxml2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TMX\TMXLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TMX\TMXMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TMX\TMXObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TMX\TMXObjectGroup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TMX\TMXTileSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -163,6 +151,24 @@
     </ClInclude>
     <ClInclude Include="Trap.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TMX\TMXTileSet.h">
+      <Filter>Header Files\TMX</Filter>
+    </ClInclude>
+    <ClInclude Include="TMX\TMXLayer.h">
+      <Filter>Header Files\TMX</Filter>
+    </ClInclude>
+    <ClInclude Include="TMX\TMXMap.h">
+      <Filter>Header Files\TMX</Filter>
+    </ClInclude>
+    <ClInclude Include="TMX\TMXObject.h">
+      <Filter>Header Files\TMX</Filter>
+    </ClInclude>
+    <ClInclude Include="TMX\TMXObjectGroup.h">
+      <Filter>Header Files\TMX</Filter>
+    </ClInclude>
+    <ClInclude Include="TMX\tinyxml2.h">
+      <Filter>Header Files\TMX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

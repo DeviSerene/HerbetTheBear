@@ -14,6 +14,8 @@ class PlayState : public GameState
 public:
 	float cameraX, cameraY;
 
+	bool inputRight, inputLeft, inputUp;
+
 	TileMap* map;
 	Player* player;
 	SpriteFactory* sprite;

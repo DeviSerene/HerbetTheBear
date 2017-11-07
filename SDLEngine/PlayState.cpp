@@ -1,6 +1,6 @@
 #include "PlayState.h"
 #include "TileMap.h"
-
+#include "GameData.h"
 #include "Player.h"
 #include "SpriteFactory.h"
 
@@ -12,6 +12,9 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 
 	player = new Player();
 
+	inputRight = false;
+	inputLeft = false;
+	inputUp = false;
 }
 
 PlayState::~PlayState()
@@ -22,6 +25,49 @@ PlayState::~PlayState()
 bool PlayState::HandleSDLEvents()
 {
 	player->Input();
+
+	SDL_Event event;
+
+	while (SDL_PollEvent(&event))
+	{
+		if (event.type == SDL_QUIT) {
+			// Quit game
+			//m_gameData->m_stateManager->RemoveLastState();
+			return false;
+		} else if (event.type == SDL_KEYDOWN) {
+			switch (event.key.keysym.sym) {
+				case SDLK_SPACE:
+				case SDLK_UP:
+				case SDLK_w:
+					inputUp = true;
+					break;
+				case SDLK_d:
+				case SDLK_RIGHT:
+					inputRight = true;
+					break;
+				case SDLK_a:
+				case SDLK_LEFT:
+					inputLeft = true;
+					break;
+			}
+		} else if (event.type == SDL_KEYUP) {
+			switch (event.key.keysym.sym) {
+			case SDLK_SPACE:
+			case SDLK_UP:
+			case SDLK_w:
+				inputUp = false;
+				break;
+			case SDLK_d:
+			case SDLK_RIGHT:
+				inputRight = false;
+				break;
+			case SDLK_a:
+			case SDLK_LEFT:
+				inputLeft = false;
+				break;
+			}
+		}
+	}
 
 	return true;
 }
@@ -56,7 +102,6 @@ void PlayState::Draw()
 	playerPos.y = -cameraY + (playerPos.y);
 
 	m_gameData->GetPlayerSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
-
 	m_gameData->GetHelperSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
 
 }

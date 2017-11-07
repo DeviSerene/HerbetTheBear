@@ -7,7 +7,7 @@ Player::Player()
 {
 	// stating players spawning position
 	EntityPosition.x = 30;
-	EntityPosition.y = -100;
+	EntityPosition.y = 0;
 	EntityPosition.w = 32;
 	EntityPosition.h = 32;
 
@@ -45,98 +45,67 @@ Player::~Player()
 
 void Player::Input()
 {
-	
+
+}
+
+void Player::Update(PlayState *_playState)
+{
 	timeLastFrame = timeCurrentFrame;
 	timeCurrentFrame = SDL_GetTicks();
 	deltaT = timeCurrentFrame - timeLastFrame;
 
 	volX = 0;
 
-	if (deltaT >= 10)
-	{
-		while (SDL_PollEvent(&key_input))
+	if (_playState->inputUp) {
+		/*if (playerJumping == false)
 		{
-			if (key_input.type == SDL_QUIT)
-			{
-				// Quit game
-			}
-			else if (key_input.type == SDL_KEYDOWN)
-			{
-				switch (key_input.key.keysym.sym)
-				{
-				case SDLK_SPACE:
+		playerJumping = true;
+		// Initilizing this to allow the jump class to pair it with the jump limit while jumping
+		YBeforeJump = EntityPosition.y;
+		}*/
 
-					/*if (playerJumping == false)
-					{
-						playerJumping = true;
-						// Initilizing this to allow the jump class to pair it with the jump limit while jumping
-						YBeforeJump = EntityPosition.y;
-					}*/
-
-					volY = -10;
-					// Jump movement
-					break;
-				case SDLK_a:
-					// Left movement
-					//EntityPosition.x -= 5;
-					volX = -5;
-					CropRect.y = 32;
-
-					if (CropRect.x >= 128)
-					{
-						CropRect.x = 0;
-					}
-
-					CropRect.x += 32;
-					movingLeft = true;
-
-					// Put sprite animation for left movement here
-					break;
-				case SDLK_d:
-
-					//right movement
-					//EntityPosition.x += 5;
-					volX = 5;
-					CropRect.y = 32;
-
-					if (CropRect.x >= 128)
-					{
-						CropRect.x = 0;
-					}
-
-					CropRect.x += 32;
-					movingLeft = false;
-
-					// put sprite animation for right movement here
-					break;
-				default:
-
-					CropRect.y = 0;
-
-					if (CropRect.x >= 128)
-					{
-						CropRect.x = 0;
-					}
-
-					CropRect.x += 32;
-
-
-					break;
-
-				}
-			}
-		}
-
-			volY += 1;
-			if (volY > 5) volY = 5;
+		volY = -10;
+		movingLeft = true;
 	}
-}
 
-void Player::Update(PlayState *_playState)
-{
+	// Jump movement
+	if (_playState->inputLeft) {
+		// Left movement
+		//EntityPosition.x -= 5;
+		volX = -5;
+		movingLeft = true;
+		// Put sprite animation for left movement here
+	} else if (_playState->inputRight) {
+		volX = 5;
+		movingLeft = false;
+	}
+
+	CropRect.x += 32;
+
+	if (CropRect.x >= 128) {
+		CropRect.x = 0;
+	}
+
+	volY += 1;
+	if (volY > 5) volY = 5;
 	Entities::Update(_playState);
 	HandleDamage();
-	_playState->map->Collision(EntityPosition, volX, volY);
+
+	bool onGround = false;
+	_playState->map->Collision(EntityPosition, volX, volY, onGround);
+
+	if (onGround) {
+		if (volX > 0 || volX < 0) {
+			CropRect.y = 32;
+		}
+		else {
+			CropRect.y = 0;
+		}
+	}
+	else {
+		CropRect.y = 64;
+	}
+
 }
 
 void Player::Draw(SpriteFactory *_sprite)
