@@ -29,7 +29,8 @@ bool PlayState::HandleSDLEvents()
 void PlayState::Update(float deltaTime)
 {
 
-	
+
+	enemy1->Update();
 	player->Update(this);
 	int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
@@ -45,11 +46,11 @@ void PlayState::Draw()
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
 	SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
 
-	//enemy1->Draw(m_gameData->GetPlayerSprites());
-	enemy1->Draw(m_gameData->GetHelperSprites());
+	
+	
 	map->Draw(m_gameData->GetPlayerSprites(), cameraX, cameraY, 6, playerW, playerH);
 	map->Draw(m_gameData->GetHelperSprites(), cameraX, cameraY, 6, helperW, helperH);
-	
+	enemy1->Draw(m_gameData->GetHelperSprites());
 	SDL_Rect playerPos = player->GetPlayerRect();
 	playerPos.x = -cameraX + (playerPos.x);
 	playerPos.y = -cameraY + (playerPos.y);
