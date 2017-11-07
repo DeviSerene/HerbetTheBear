@@ -29,5 +29,3 @@
 /SDLEngine/Debug
 /SDLEngine/Debug/Ghost.obj
 *.obj
-/SDLEngine/Debug/SDLEngine.Build.CppClean.log
-/SDLEngine/assets/textures/Thumbs.db
