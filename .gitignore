@@ -28,3 +28,4 @@
 .obj
 /SDLEngine/Debug
 /SDLEngine/Debug/Ghost.obj
+*.obj

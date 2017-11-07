@@ -88,6 +88,15 @@ void PlayState::Update(float deltaTime)
 	cameraX = player->GetPlayerRect().x - (playerW / 2);
 	cameraY = player->GetPlayerRect().y - (playerH / 2);
 
+	if(cameraX < 0)
+		cameraX = 0;
+	else if (cameraX > (map->getWidthInTiles() * 64) - playerW)
+		cameraX = map->getWidthInTiles() * 64 - playerW;
+	if (cameraY < 0)
+		cameraY = 0;
+	else if (cameraY > (map->getHeightInTiles() * 64) - playerH)
+		cameraY = map->getHeightInTiles() * 64 - playerH;
+
 }
 
 void PlayState::Draw()
