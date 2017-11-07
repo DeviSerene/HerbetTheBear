@@ -16,5 +16,6 @@ protected:
 	int counter = 0;
 	bool idle = false;
 	int moveTime;
+	bool isPreset;
 	Timer animTimer;
 };

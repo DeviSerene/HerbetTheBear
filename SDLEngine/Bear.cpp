@@ -12,18 +12,22 @@ Bear::Bear(PlayState* _state)
 
 Bear::Bear(PlayState * _state, SDL_Rect wayPoints)
 {
-
+	destinations.push_back(wayPoints);
+	destinations.push_back(SDL_Rect{ wayPoints.x + wayPoints.w, wayPoints.y, 64, 64 });
 }
 
 void Bear::Init(PlayState* _state)
 {
-	ReOrient(_state);
+	if (!isPreset)
+	{
+		ReOrient(_state);
+		prevPos = EntityPosition;
+		idle = false;
+		moveTime = rand() % 500 + 150;
+	}
 	EntityPosition = destinations.at(0);
 	EntityPosition.w = 64;
-	EntityPosition.h = 63;
-	prevPos = EntityPosition;
-	idle = false;
-	moveTime = rand() % 500 + 150;
+	EntityPosition.h = 63;	
 }
 
 void Bear::ReOrient(PlayState* _state)
