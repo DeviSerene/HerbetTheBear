@@ -56,7 +56,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	}
 	for (size_t j = 0; j < BEAR_MINIMUM; j++)
 	{
-		bears.push_back(new Bear(this));
+		bears.push_back(new Bear(this, SDL_Rect{ 0, 0, 0, 0 }, false));
 	}
 	skyTiles.resize(map->getWidthInTiles() * map->getHeightInTiles());
 	for (int i = 0; i < skyTiles.size(); i++)
@@ -228,7 +228,7 @@ void PlayState::Update(float deltaTime)
 			player->playSoundEffect(m_gameData);
 		}
 	}
-	/*for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 20; i++)
 	{
 		if (player->CollideWith(clown))
 		{
@@ -354,7 +354,7 @@ void PlayState::nextLevel() {
 
 	for (size_t i = 0; i < bears.size(); i++)
 	{
-		bears.at(i)->Init(this);
+		bears.at(i)->Init(this, SDL_Rect{ 0, 0, 0, 0 });
 	}
 }
 
