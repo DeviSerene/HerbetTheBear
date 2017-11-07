@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Bear.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entities.cpp" />
     <ClCompile Include="GameData.cpp" />
@@ -174,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Bear.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entities.h" />
     <ClInclude Include="GameData.h" />

@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "SpriteFactory.h"
 #include "Ghost.h"
+#include "Bear.h"
 
 class TileMap;
 class Teddy;
@@ -29,6 +30,7 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 	std::vector<Ghost*> ghosts;
+	Bear* bear;
 
 };
 

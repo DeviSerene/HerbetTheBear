@@ -111,7 +111,10 @@
     <ClCompile Include="Ghost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Teddy.cpp">
+	<ClCompile Include="Bear.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+	<ClCompile Include="Teddy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -185,8 +188,11 @@
     <ClInclude Include="Ghost.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Teddy.h">
+	<ClInclude Include="Bear.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
+	<ClInclude Include="Teddy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+ </ItemGroup>
 </Project>
