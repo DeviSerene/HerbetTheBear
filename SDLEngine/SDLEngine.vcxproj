@@ -148,8 +148,8 @@
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Clown.cpp" />
-	<ClCompile Include="Coin.cpp" />
-	<ClCompile Include="Bear.cpp" />
+    <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="Bear.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entities.cpp" />
     <ClCompile Include="GameData.cpp" />
@@ -179,13 +179,14 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Bear.h" />
     <ClInclude Include="Clown.h" />
-	<ClInclude Include="Coin.h" />
-	<ClInclude Include="Enemy.h" />
+    <ClInclude Include="Coin.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entities.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GamestateManager.h" />
     <ClInclude Include="Ghost.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="Player.h" />

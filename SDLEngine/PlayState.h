@@ -10,22 +10,27 @@
 
 class TileMap;
 class Teddy;
+class Clown;
+struct Level;
 
 class PlayState : public GameState
 {
 	std::vector<int> skyTiles;
+	std::vector<Level> levels;
 	Teddy *teddy;
 	std::vector<Coin*> Coins;
 	int coinx;
 	int coiny;
+	int currentLevel;
 public:
 	float cameraX, cameraY;
 	float delta;
 
 	bool inputRight, inputLeft, inputUp;
 
-	TileMap* map;
-	Player* player;
+	TileMap *map;
+	Player *player;
+	Clown *clown;
 	SpriteFactory* sprite;
 
 	PlayState(GameData* data);

@@ -4,15 +4,18 @@
 #include "Player.h"
 #include "SpriteFactory.h"
 #include "Teddy.h"
-
-
-
+#include "Clown.h"
+#include "Level.h"
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	,cameraX(0), cameraY(0)
 {
-	
-	map = new TileMap(0, 0, 0, 0, "assets/textures/Forest_Tilesheet_01.png", "assets/maps/", "test.tmx");
+	currentLevel = 1;
+	levels.resize(2);
+	levels[0] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", "assets/textures/sky_sheet.png");
+	levels[1] = Level("test_night.tmx", "assets/textures/Forest_Tilesheet_01.png", "assets/textures/sky_sheet_dark.png");
+
+	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str());
 
 	for (size_t i = 0; i < 36; i++)
 	{
@@ -40,7 +43,10 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 		coinx += 20;
 		coiny += 20;
 	}
+
 	teddy = new Teddy(map->teddyPos);
+
+	clown = new Clown(400, 100, 32, 64, player, false);
 }
 
 PlayState::~PlayState()
@@ -101,7 +107,12 @@ bool PlayState::HandleSDLEvents()
 void PlayState::Update(float deltaTime)
 {
 	this->delta = deltaTime;
-	
+
+	player->Update(this);
+	for (int i = 0; i < Coins.size(); i++)
+	{
+		Coins[i]->Update(this);
+	}
 	int playerW = 0, playerH = 0, helperW = 0, helperH = 0;
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &playerW, &playerH);
 	SDL_GetWindowSize(m_gameData->GetHelperWindow(), &helperW, &helperH);
@@ -128,6 +139,7 @@ void PlayState::Update(float deltaTime)
 	player->Update(this);
 	bear->Update(this);
 	teddy->Update(this);
+	clown->Update(this);
 }
 
 void PlayState::Draw()
@@ -140,8 +152,8 @@ void PlayState::Draw()
 	for (int x = 0; x < map->getWidthInTiles() / ((float)skySize / 64); x++) {
 		for (int y = 0; y < map->getHeightInTiles() / ((float)skySize / 64); y++) {
 			int index = skyTiles[(y * map->getWidthInTiles()) + x];
-			m_gameData->GetPlayerSprites()->Draw("assets/textures/sky_sheet.png", SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
-			m_gameData->GetHelperSprites()->Draw("assets/textures/sky_sheet.png", SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
+			m_gameData->GetPlayerSprites()->Draw(levels[currentLevel].backgroundTileSet, SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
+			m_gameData->GetHelperSprites()->Draw(levels[currentLevel].backgroundTileSet, SDL_Rect{ x * skySize - (int)cameraX, y * skySize - (int)cameraY, skySize, skySize }, SDL_Rect{ index * 64, 0, 64, 64 });
 		}
 	}
 	
@@ -169,8 +181,13 @@ void PlayState::Draw()
 	for (int i = 0; i < player->getPlayerHealth(); i++) {
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i, playerH - 70, 64, 64 });
 	}
-	
+	for (int i = 0; i < Coins.size(); i++)
+	{
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", Coins[i]->getCoinPosRect(), Coins[i]->getCoinCropRect(), false);
+		std::cout << "Coin Drawn" << std::endl;
+	}
 
-	
+	clown->DrawPlayer(m_gameData->GetPlayerSprites(), cameraX, cameraY);
+	clown->DrawHelper(m_gameData->GetHelperSprites(), cameraX, cameraY);
 
 }
