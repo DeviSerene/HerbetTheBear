@@ -20,7 +20,7 @@ std::vector<int> circusHalfTiles = { 3, 4, 5 };
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 , cameraX(0), cameraY(0)
 {
-	currentLevel = 2;
+	currentLevel = 0;
 	levels.resize(4);
 	levels[0] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet.png", 3);
 	levels[0].halfTileIndices = forestHalfTiles;
@@ -335,23 +335,23 @@ void PlayState::ScaleDoor()
 
 		if (doorPosRect.x > 0)
 		{
-			doorPosRect.x -= 10;
+			doorPosRect.x -= 20;
 		}
 
 
 		if (doorPosRect.y > 0)
 		{
-			doorPosRect.y -= 11;
+			doorPosRect.y -= 22;
 
 		}
 
 		if (doorPosRect.w < 800)
 		{
-			doorPosRect.w += 10;
+			doorPosRect.w += 20;
 		}
 		if (doorPosRect.h < 600)
 		{
-			doorPosRect.h += 10;
+			doorPosRect.h += 20;
 		}
 	}
 
