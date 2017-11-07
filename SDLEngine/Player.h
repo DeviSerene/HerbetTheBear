@@ -10,6 +10,7 @@ protected:
 
 	SDL_Event key_input;
 
+	//Crop Rect
 	SDL_Rect CropRect;
 
 	int playerHeath;
