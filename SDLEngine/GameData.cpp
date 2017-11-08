@@ -22,7 +22,7 @@ int GameData::Init(int _windowX, int _windowY)
 {
 
 	// try to create the window, log error and pause if fail
-	m_windowPlayer = SDL_CreateWindow("GameJam - Player Window", 100, 100, _windowX, _windowY, SDL_WINDOW_SHOWN);
+	m_windowPlayer = SDL_CreateWindow("GameJam - Player Window", 100, 100, _windowX, _windowY, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	if (m_windowPlayer == NULL)
 	{
 		std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
@@ -40,7 +40,7 @@ int GameData::Init(int _windowX, int _windowY)
 	}
 
 	//HEPLER WINDOW
-	m_windowHelper = SDL_CreateWindow("GameJam - Helper Window", _windowX+100, 100, _windowX, _windowY, SDL_WINDOW_SHOWN);
+	m_windowHelper = SDL_CreateWindow("GameJam - Helper Window", _windowX+100, 100, _windowX, _windowY, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	if (m_windowHelper == NULL)
 	{
 		std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
