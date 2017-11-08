@@ -14,8 +14,8 @@
 // function prototypes
 void GameLoop(GameData* _gameData);
 
-#define WINDOWX 800
-#define WINDOWY 600
+#define WINDOWX 1280
+#define WINDOWY 720
 
 int main(int, char**)
 {
