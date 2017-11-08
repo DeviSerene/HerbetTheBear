@@ -520,6 +520,7 @@ void PlayState::playDeathAnimation()
 		m_gameData->GetHelperSprites()->Draw("assets/textures/AgainButton.png", againRect);
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		m_gameData->GetAudio()->MusicStop();
 		m_gameData->GetAudio()->SoundPlay("assets/sfx_clown.wav");
 		// Play clown death animation
 		
@@ -563,7 +564,8 @@ void PlayState::playDeathAnimation()
 		
 		if (soundEffectPlayed == false)
 		{
-			m_gameData->GetAudio()->SoundPlay("assets/sfx_slurp.wav");
+			m_gameData->GetAudio()->MusicStop();
+			m_gameData->GetAudio()->SoundPlay("assets/sfx_slurp.wav", 1);
 			soundEffectPlayed = true;
 		}
 		// play bear death animation
@@ -609,7 +611,8 @@ void PlayState::playDeathAnimation()
 		m_gameData->GetHelperSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
 		if (soundEffectPlayed == false)
 		{
-			m_gameData->GetAudio()->SoundPlay("assets/sfx_spikeImpale.wav");
+			m_gameData->GetAudio()->MusicStop();
+			m_gameData->GetAudio()->SoundPlay("assets/sfx_spikeImpale.wav", 1);
 			soundEffectPlayed = true;
 		}
 		// play bear death animation
@@ -653,7 +656,8 @@ void PlayState::playDeathAnimation()
 
 		if (soundEffectPlayed == false)
 		{
-			m_gameData->GetAudio()->SoundPlay("assets/sfx_bear.wav");
+			m_gameData->GetAudio()->MusicStop();
+			m_gameData->GetAudio()->SoundPlay("assets/sfx_bear.wav", 1);
 			soundEffectPlayed = true;
 		}
 		// play bear death animation
