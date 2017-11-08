@@ -78,5 +78,6 @@ public:
 	void generateCoins(int _chance);
 	void ScaleDoor();
 	void playDeathAnimation();
+	void placeObjects();
 };
 

@@ -13,14 +13,15 @@ Coin::Coin()
 
 	cropRect.x = 0;
 	cropRect.y = 0;
-	cropRect.w = cropRect.h = 16;
+	cropRect.w = cropRect.h = 32;
 
 	DestoryCoin = false;
 
 	hitboxWidth = 16;
 	hitboxHeight = 16;
-}
 
+	animationTimer = Timer(0.3f);
+}
 
 Coin::~Coin()
 {
@@ -33,8 +34,8 @@ void Coin::Update(PlayState *_state)
 	Entities::Update(_state);
 	if (animationTimer.Completed())
 	{
-		cropRect.x += 16;
-		if (cropRect.x >= 112)
+		cropRect.x += 32;
+		if (cropRect.x >= 160)
 		{
 			cropRect.x = 0;
 		}
@@ -51,7 +52,7 @@ void Coin::Draw(SpriteFactory *_sprite)
 {
 	// Sets the coins position in world space
 	worldPos = SDL_Rect{ EntityPosition.x - (int)cameraX, EntityPosition.y - (int)cameraY, EntityPosition.w, EntityPosition.h };
-	_sprite->Draw("assets/textures/coin_sheet.png", worldPos, cropRect, false);
+	_sprite->Draw("assets/textures/heart_collectable_sheet.png", worldPos, cropRect, false);
 }
 
 
@@ -69,6 +70,7 @@ bool Coin::CollideWith(Entities* _other)
 
 	return DestoryCoin;
 }
+
 void Coin::CoinCollected()
 {
 	// If player collides with coin, gets destoryed

@@ -14,48 +14,26 @@ std::vector<int> forestHalfTiles = { 2, 4, 5, 8, 10, 11, 14, 16, 17, 20, 22, 23 
 std::vector<int> caveHalfTiles = { 3, 7 };
 std::vector<int> circusHalfTiles = { 3, 4, 5 };
 
-#define COIN_CHANCE 7
+#define COIN_CHANCE 300
 #define BEAR_MINIMUM 3
-#define GHOST_COUNT 15
+#define GHOST_COUNT 50
+#define FREEZE_AI false
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 , cameraX(0), cameraY(0)
 {
-	currentLevel = 0;
-	levels.resize(4);
+	currentLevel = 1;
+	levels.resize(2);
 	levels[0] = Level("level_caves.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
 	levels[0].halfTileIndices = caveHalfTiles;
-
-	levels[1] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet.png", 3);
-	levels[1].halfTileIndices = forestHalfTiles;
-
-	levels[1] = Level("test_night.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet_dark.png", 3);
-	levels[1].halfTileIndices = forestHalfTiles;
-
-	levels[2] = Level("test_cave.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
-	levels[2].halfTileIndices = caveHalfTiles;
-
-	levels[3] = Level("test_circus.tmx", "assets/textures/Circus_Tilesheet_01.png", 3, "assets/textures/circusbg_sheet.png", 3);
-	levels[3].halfTileIndices = circusHalfTiles;
-	levels[3].grass = false;
+	levels[1] = Level("ToTheCircus.tmx", "assets/textures/Circus_Tilesheet_01.png", 3, "assets/textures/circusbg_sheet.png", 3);
+	levels[1].halfTileIndices = caveHalfTiles;
+	levels[1].grass = false;
 
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
 
 	player = new Player();
-	for (TMXObject *ob : map->getObjects()[0]->objects) {
-		if (ob->name == "Child_Decoy")
-			clowns.push_back(new Clown(ob->x - 16, ob->y - 64, 32, 64, player, true));
-		else if (ob->name == "Child_Clown")
-			clowns.push_back(new Clown(ob->x - 16, ob->y - 64, 32, 64, player, false));
-		else if (ob->name == "Mushroom")
-			spikes.push_back(new MushroomSpike(ob->x, ob->y, true));
-		else if (ob->name == "Spike")
-			spikes.push_back(new MushroomSpike(ob->x, ob->y , false));
-		else if (ob->name == "Waypoint")
-			bears.push_back(new Bear(this, SDL_Rect{ ob->x, ob->y, ob->width, ob->height }, true));
-		else if (ob->name == "Player")
-			player->SetPlayerRect(SDL_Rect{ ob->x, ob->y - 32, 32, 32 });
-	}
+	placeObjects();
 	for (size_t i = 0; i <= GHOST_COUNT; i++)
 	{
 		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
@@ -73,8 +51,6 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	inputRight = false;
 	inputLeft = false;
 	inputUp = false;
-
-	generateCoins(COIN_CHANCE);
 
 	teddy = new Teddy(map->teddyPos);
 
@@ -222,7 +198,7 @@ void PlayState::Update(float deltaTime)
 			{
 				ghosts.at(i)->Update(this);
 				// Checking if player collides with any of the ghosts
-				if (player->CollideWith(ghosts[i]))
+				if (!FREEZE_AI && player->CollideWith(ghosts[i]))
 				{
 					player->playSoundEffect(m_gameData);
 				}
@@ -253,7 +229,7 @@ void PlayState::Update(float deltaTime)
 			for (int i = 0; i < spikes.size(); i++)
 			{
 				spikes[i]->Update(this);
-				if (spikes[i]->isDecoy() == false)
+				if (!FREEZE_AI && spikes[i]->isDecoy() == false)
 				{
 					if (player->CollideWith(spikes[i]))
 					{
@@ -274,7 +250,7 @@ void PlayState::Update(float deltaTime)
 			{
 				bears.at(i)->Update(this);
 				// checking if the player is collisiding with any of the bears
-				if (player->CollideWith(bears[i]))
+				if (!FREEZE_AI && player->CollideWith(bears[i]))
 				{
 					player->playSoundEffect(m_gameData);
 
@@ -293,7 +269,7 @@ void PlayState::Update(float deltaTime)
 				c->Update(this);
 				if (c->isDecoy() == false)
 				{
-					if (player->CollideWith(c))
+					if (!FREEZE_AI && player->CollideWith(c))
 					{
 						player->playSoundEffect(m_gameData);
 					}
@@ -305,17 +281,6 @@ void PlayState::Update(float deltaTime)
 
 			}
 		}
-		/*for (int i = 0; i < 20; i++)
-		{
-			if (player->CollideWith(clown))
-			{
-				player->playSoundEffect(m_gameData);
-			}
-			if (player->checkForPlayerDeath())
-			{
-				_enemyType = "Clown";
-			}
-		}*/
 
 		if (teddy->CollideWith(player))
 			drawDoor = true;
@@ -355,6 +320,7 @@ void PlayState::Draw()
 		for (size_t i = 0; i < bears.size(); i++)
 		{
 			bears.at(i)->Draw(m_gameData->GetPlayerSprites());
+			bears.at(i)->Draw(m_gameData->GetHelperSprites());
 		}
 		SDL_Rect playerPos = player->GetPlayerRect();
 		playerPos.x = -cameraX + (playerPos.x);
@@ -373,8 +339,6 @@ void PlayState::Draw()
 		}
 
 		//UI
-		m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", SDL_Rect{ 30, 30, 32, 32 }, SDL_Rect{ 0, 0, 16, 16 });
-		DrawText(m_gameData->GetPlayerRenderer(), std::to_string(player->getCoins()), SDL_Color{ 255, 255, 255 }, 62, 38);
 		for (int i = 0; i < player->getPlayerHealth(); i++) {
 			m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i + 20, playerH - 70, 64, 64 });
 		}
@@ -431,8 +395,7 @@ void PlayState::nextLevel() {
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
 	delete teddy;
 	teddy = new Teddy(map->teddyPos);
-	player->SetPlayerRect(SDL_Rect{ 30, 0, 32, 32 });
-	generateCoins(COIN_CHANCE);
+	placeObjects();
 
 	for (size_t i = 0; i < bears.size(); i++)
 	{
@@ -440,12 +403,53 @@ void PlayState::nextLevel() {
 	}
 }
 
+void PlayState::placeObjects() {
+	for (Clown *c : clowns)
+		delete c;
+	clowns.clear();
+
+	for (MushroomSpike *ms : spikes)
+		delete ms;
+	spikes.clear();
+
+	for (Bear *b : bears)
+		delete b;
+	bears.clear();
+
+	for (Coin *c : Coins)
+		delete c;
+	Coins.clear();
+
+	for (TMXObject *ob : map->getObjects()[0]->objects) {
+		if (ob->name == "Child_Decoy")
+			clowns.push_back(new Clown(ob->x - 16, ob->y - 64, 32, 64, player, true));
+		else if (ob->name == "Child_Clown")
+			clowns.push_back(new Clown(ob->x - 16, ob->y - 64, 32, 64, player, false));
+		else if (ob->name == "Mushroom")
+			spikes.push_back(new MushroomSpike(ob->x, ob->y, true));
+		else if (ob->name == "Spike")
+			spikes.push_back(new MushroomSpike(ob->x, ob->y, false));
+		else if (ob->name == "Waypoint")
+			bears.push_back(new Bear(this, SDL_Rect{ ob->x, ob->y, ob->width, ob->height }, true));
+		else if (ob->name == "Player")
+			player->SetPlayerRect(SDL_Rect{ ob->x, ob->y - 32, 32, 32 });
+		else if (ob->name == "Heart") {
+			Coin *c = new Coin();
+			c->SetCoinPosRect(ob->x, ob->y);
+			Coins.push_back(c);
+		}
+	}
+
+	if (Coins.size() <= 0)
+		generateCoins(COIN_CHANCE);
+}
+
 void PlayState::generateCoins(int _chance) {
 	for (Coin *c : Coins)
 		delete c;
 	Coins.clear();
 	for (SDL_Rect r : map->getTopTiles()) {
-		if (rand() % _chance == 0) {
+		if (rand() % _chance < 10 - player->getPlayerHealth()) {
 			Coin *c = new Coin();
 			c->SetCoinPosRect(r.x * 64 + 24, r.y * 64 - 16);
 			Coins.push_back(c);
