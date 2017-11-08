@@ -16,7 +16,7 @@ std::vector<int> circusHalfTiles = { 3, 4, 5 };
 
 #define COIN_CHANCE 7
 #define BEAR_MINIMUM 3
-#define GHOST_COUNT 15
+#define GHOST_COUNT 25
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 , cameraX(0), cameraY(0)
@@ -240,7 +240,7 @@ void PlayState::Update(float deltaTime)
 		{
 			for (size_t i = 0; i < bears.size(); i++)
 			{
-				bears.at(i)->Update(this, true);
+				bears.at(i)->Update(this);
 				// checking if the player is collisiding with any of the bears
 				if (player->CollideWith(bears[i]))
 				{
