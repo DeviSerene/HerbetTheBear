@@ -22,10 +22,12 @@ std::vector<int> circusHalfTiles = { 3, 4, 5 };
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 , cameraX(0), cameraY(0)
 {
-	currentLevel = 1;
-	levels.resize(2);
-	levels[0] = Level("level_caves.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
+	currentLevel = 0;
+	levels.resize(3);
+	levels[0] = Level("Stairwell.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
 	levels[0].halfTileIndices = caveHalfTiles;
+	levels[2] = Level("level_caves.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
+	levels[2].halfTileIndices = caveHalfTiles;
 	levels[1] = Level("ToTheCircus.tmx", "assets/textures/Circus_Tilesheet_01.png", 3, "assets/textures/circusbg_sheet.png", 3);
 	levels[1].halfTileIndices = caveHalfTiles;
 	levels[1].grass = false;
@@ -141,6 +143,12 @@ bool PlayState::HandleSDLEvents()
 			case SDLK_LEFT:
 				inputLeft = false;
 				break;
+			}
+		}
+		if(event.type == SDL_WINDOWEVENT) {
+			if (event.window.event == SDL_WINDOWEVENT_CLOSE) {
+				m_gameData->m_stateManager->RemoveLastState();
+				return false;
 			}
 		}
 	}
