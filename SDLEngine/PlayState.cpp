@@ -173,6 +173,27 @@ bool PlayState::HandleSDLEvents()
 			}
 
 		}
+		else if (event.type == SDL_MOUSEBUTTONDOWN)
+		{
+			switch (event.button.button)
+			{
+			case SDL_BUTTON_LEFT:
+				if (!hasWonGame && !player->checkForPlayerDeath())
+					continue;
+				int x = event.button.x;
+				int y = event.button.y;
+
+				if (x >= againRect.x && x < againRect.x + againRect.w && y >= againRect.y && y < againRect.y + againRect.h) {
+					m_gameData->m_stateManager->ChangeState(new MenuState(m_gameData));
+					soundEffectPlayed = false;
+				}
+				if (x >= youWinRect.x && x < youWinRect.x + youWinRect.w && y >= youWinRect.y && y < youWinRect.y + youWinRect.h)
+				{
+					m_gameData->m_stateManager->ChangeState(new MenuState(m_gameData));
+					soundEffectPlayed = false;
+				}
+			}
+		}
 		if(event.type == SDL_WINDOWEVENT) {
 			if (event.window.event == SDL_WINDOWEVENT_CLOSE) {
 				m_gameData->m_stateManager->ClearStates();
