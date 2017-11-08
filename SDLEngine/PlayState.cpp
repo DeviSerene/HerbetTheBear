@@ -250,7 +250,6 @@ void PlayState::Update(float deltaTime)
 					Coins.erase(Coins.begin() + i);
 					player->incrementCoins();
 					m_gameData->GetAudio()->SoundPlay("assets/sfx_coin.wav");
-					hasWonGame = true;
 				}
 
 			}
