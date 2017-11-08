@@ -533,6 +533,11 @@ void PlayState::setLevel(int _l) {
 	{
 		bears.at(i)->Init(this, SDL_Rect{ 0, 0, 0, 0 });
 	}
+	ghosts.clear();
+	for (size_t i = 0; i <= GHOST_COUNT; i++)
+	{
+		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
+	}
 }
 
 void PlayState::nextLevel() {
@@ -552,6 +557,11 @@ void PlayState::nextLevel() {
 	for (size_t i = 0; i < bears.size(); i++)
 	{
 		bears.at(i)->Init(this, SDL_Rect{ 0, 0, 0, 0 });
+	}
+	ghosts.clear();
+	for (size_t i = 0; i <= GHOST_COUNT; i++)
+	{
+		ghosts.push_back(new Ghost(map->getWidthInTiles() * 64, map->getHeightInTiles() * 64));
 	}
 }
 
