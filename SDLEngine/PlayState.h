@@ -53,6 +53,9 @@ class PlayState : public GameState
 	bool drawDoor;
 	bool hasWonGame;
 
+	bool musicStopped;
+	bool musicChanged;
+
 	bool soundEffectPlayed;
 
 	Timer DoorTimer;

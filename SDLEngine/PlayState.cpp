@@ -105,6 +105,9 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	youWinRect.y = (WindowSizeH / 2) - youWinRect.h;
 
 	hasWonGame = false;
+
+	musicStopped = false;
+	musicChanged = false;
 	
 }
 
@@ -225,6 +228,46 @@ bool PlayState::HandleSDLEvents()
 
 void PlayState::Update(float deltaTime)
 {
+	if (musicChanged == false)
+	{
+		if (currentLevel == 0)
+		{
+			if (musicStopped == false)
+			{
+				m_gameData->GetAudio()->MusicStop();
+				//m_gameData->GetAudio()->MusicClean();
+				musicStopped = true;
+				
+			}
+			//m_gameData->GetAudio()->MusicLoad("assets/bgm_forest.mp3");
+			m_gameData->GetAudio()->MusicPlay("assets/The_Caves.mid");
+			musicChanged = true;
+		}
+		else if (currentLevel == 1)
+		{
+			if (musicStopped == false)
+			{
+				m_gameData->GetAudio()->MusicStop();
+				//m_gameData->GetAudio()->MusicClean();
+				musicStopped = true;
+			}
+			//m_gameData->GetAudio()->MusicLoad("assets/bgm_circus.mp3");
+			m_gameData->GetAudio()->MusicPlay("assets/Clockwork_Mansion.mid");
+			musicChanged = true;
+		}
+		else if (currentLevel == 2)
+		{
+			if (musicStopped == false)
+			{
+				m_gameData->GetAudio()->MusicStop();
+				//m_gameData->GetAudio()->MusicClean();
+				musicStopped = true;
+			}
+			//m_gameData->GetAudio()->MusicLoad("assets/bgm_cave.mp3");
+			m_gameData->GetAudio()->MusicPlay("assets/The_Waterfalls.mid");
+			musicChanged = true;
+		}
+	}
 	this->delta = deltaTime;
 	if (hasWonGame == false && !drawDoor)
 	{
@@ -480,7 +523,7 @@ void PlayState::nextLevel() {
 	if (currentLevel >= levels.size())
 	{
 		hasWonGame = true;
-		return;
+		
 	}
 	delete map;
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
@@ -557,37 +600,37 @@ void PlayState::ScaleDoor()
 
 		if (doorPosRect.x > 0)
 		{
-			doorPosRect.x -= 20;
+			doorPosRect.x -= 40;
 		}
 
 
 		if (doorPosRect.y > 0)
 		{
-			doorPosRect.y -= 22;
+			doorPosRect.y -= 44;
 
 		}
 
 		if (doorPosRect.w < WindowSizeW)
 		{
-			doorPosRect.w += 20;
+			doorPosRect.w += 60;
 		}
 		if (doorPosRect.h < WindowSizeH)
 		{
-			doorPosRect.h += 20;
+			doorPosRect.h += 40;
 		}
 	}
 
-	if (doorPosRect.x < 0 && doorPosRect.y < 0 && doorPosRect.w > WindowSizeW / 2 && doorPosRect.h > WindowSizeH / 2)
+	if (doorPosRect.x < 0 && doorPosRect.y < 0 && doorPosRect.w > WindowSizeW && doorPosRect.h > WindowSizeH)
 	{
 		// x = -2445
 		// y = -3419
 		// w = 5688
 		// h = 5486
 
-		doorPosRect.x -= 20;
-		doorPosRect.y -= 28;
-		doorPosRect.w += 40;
-		doorPosRect.h += 40;
+		doorPosRect.x -= 40;
+		doorPosRect.y -= 56;
+		doorPosRect.w += 80;
+		doorPosRect.h += 80;
 	}
 
 	if (doorPosRect.x <= -2445 && doorPosRect.y <= -3419 && doorPosRect.w >= 5688 && doorPosRect.h >= 5486)
@@ -597,6 +640,8 @@ void PlayState::ScaleDoor()
 		drawDoor = false;
 		doorPosDetermined = false;
 		player->setInvincibility(false);
+		musicStopped = false;
+		musicChanged = false;
 	}
 }
 
