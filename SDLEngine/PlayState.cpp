@@ -528,6 +528,7 @@ void PlayState::nextLevel() {
 	{
 		hasWonGame = true;
 		return;
+		
 	}
 	delete map;
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
