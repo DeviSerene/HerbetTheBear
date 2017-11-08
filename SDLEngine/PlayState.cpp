@@ -208,7 +208,7 @@ bool PlayState::HandleSDLEvents()
 void PlayState::Update(float deltaTime)
 {
 	this->delta = deltaTime;
-	if (hasWonGame == false)
+	if (hasWonGame == false && !drawDoor)
 	{
 		if (player->checkForPlayerDeath() == false)
 		{
