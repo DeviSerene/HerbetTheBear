@@ -14,7 +14,7 @@ std::vector<int> forestHalfTiles = { 2, 4, 5, 8, 10, 11, 14, 16, 17, 20, 22, 23 
 std::vector<int> caveHalfTiles = { 3, 7 };
 std::vector<int> circusHalfTiles = { 3, 4, 5 };
 
-#define COIN_CHANCE 1000
+#define COIN_CHANCE 300
 #define BEAR_MINIMUM 3
 #define GHOST_COUNT 25
 
