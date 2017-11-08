@@ -8,6 +8,7 @@
 #include "Coin.h"
 #include "Bear.h"
 #include "Timer.h"
+#include "MenuState.h"
 
 class TileMap;
 class Teddy;
@@ -29,11 +30,16 @@ class PlayState : public GameState
 
 	bool hasBeenHit;
 
+	SDL_Event mouse_clicked;
+
 	SDL_Rect deathAnimationRect;
 	SDL_Rect deathAnimationCropRect;
 
 	SDL_Rect gameOverRect;
 	SDL_Rect againRect;
+
+	int WindowSizeW;
+	int WindowSizeH;
 
 	SDL_Rect doorPosRect;
 	bool doorPosDetermined;

@@ -48,7 +48,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	for (int i = 0; i < skyTiles.size(); i++)
 		skyTiles[i] = rand() % 3;
 
-	
+	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &WindowSizeW, &WindowSizeH);
 
 	inputRight = false;
 	inputLeft = false;
@@ -72,22 +72,25 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 
 	soundEffectPlayed = false;
 
-	deathAnimationRect.x = 300;
-	deathAnimationRect.y = 200;
 	deathAnimationRect.w = 200;
 	deathAnimationRect.h = 200;
+	deathAnimationRect.x = (WindowSizeW / 2) - deathAnimationRect.w / 2;
+	deathAnimationRect.y = (WindowSizeH / 2) - deathAnimationRect.h / 2;
 
 	deathAnimationCropRect.x = deathAnimationCropRect.y = 0;
 
-	gameOverRect.x = 200;
-	gameOverRect.y = 20;
+	
 	gameOverRect.w = 352;
 	gameOverRect.h = 320;
+	gameOverRect.x = (WindowSizeW / 2) - gameOverRect.w / 2;
+	gameOverRect.y = (WindowSizeH / 2) - gameOverRect.h;
+	
 
-	againRect.x = 150;
-	againRect.y = 430;
 	againRect.w = 496;
 	againRect.h = 128;
+	againRect.x = (WindowSizeW / 2) - againRect.w / 2;
+	againRect.y = (WindowSizeH / 2) + againRect.h;
+	
 }
 
 PlayState::~PlayState()
@@ -143,6 +146,21 @@ bool PlayState::HandleSDLEvents()
 			case SDLK_LEFT:
 				inputLeft = false;
 				break;
+			}
+
+		}
+		else if (event.type == SDL_MOUSEBUTTONDOWN)
+		{
+			switch (event.button.button)
+			{
+			case SDL_BUTTON_LEFT:
+
+				int x = event.button.x;
+				int y = event.button.y;
+
+				if (x >= againRect.x && x < againRect.x + againRect.w && y >= againRect.y && y < againRect.y + againRect.h) {
+					m_gameData->m_stateManager->ChangeState(new MenuState(m_gameData));
+				}
 			}
 		}
 		if(event.type == SDL_WINDOWEVENT) {
@@ -530,6 +548,8 @@ void PlayState::playDeathAnimation()
 			else if (deathAnimationCropRect.x == 36 && deathAnimationCropRect.y == 192)
 			{
 				// Call back to menu or lose state
+				soundEffectPlayed = false;
+				HandleSDLEvents();
 			}
 		}
 		else
@@ -548,7 +568,12 @@ void PlayState::playDeathAnimation()
 		m_gameData->GetHelperSprites()->Draw("assets/textures/AgainButton.png", againRect);
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
-		m_gameData->GetAudio()->SoundPlay("assets/sfx_ghost.wav");
+		
+		if (soundEffectPlayed == false)
+		{
+			m_gameData->GetAudio()->SoundPlay("assets/sfx_slurp.wav");
+			soundEffectPlayed = true;
+		}
 		// play bear death animation
 		if (DeathTimer.Completed())
 		{
@@ -569,6 +594,9 @@ void PlayState::playDeathAnimation()
 			}
 			else if (deathAnimationCropRect.x == 256 && deathAnimationCropRect.y == 192)
 			{
+
+				soundEffectPlayed = false;
+				HandleSDLEvents();
 				// Call back to menu or lose state
 			}
 		}
@@ -611,8 +639,10 @@ void PlayState::playDeathAnimation()
 			}
 			else if (deathAnimationCropRect.x == 256 && deathAnimationCropRect.y == 192)
 			{
-				// Call back to menu or lose state
 				soundEffectPlayed = false;
+				HandleSDLEvents();
+				// Call back to menu or lose state
+				
 			}
 		}
 		else
@@ -628,6 +658,12 @@ void PlayState::playDeathAnimation()
 		m_gameData->GetHelperSprites()->Draw("assets/textures/AgainButton.png", againRect);
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+
+		if (soundEffectPlayed == false)
+		{
+			m_gameData->GetAudio()->SoundPlay("assets/sfx_bear.wav");
+			soundEffectPlayed = true;
+		}
 		// play bear death animation
 		if (DeathTimer.Completed())
 		{
@@ -648,6 +684,8 @@ void PlayState::playDeathAnimation()
 			}
 			else if (deathAnimationCropRect.x == 256 && deathAnimationCropRect.y == 192)
 			{
+				soundEffectPlayed = false;
+				HandleSDLEvents();
 				// Call back to menu or lose state
 			}
 		}
