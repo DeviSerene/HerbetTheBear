@@ -485,17 +485,17 @@ void PlayState::ScaleDoor()
 
 		}
 
-		if (doorPosRect.w < 800)
+		if (doorPosRect.w < WindowSizeW)
 		{
 			doorPosRect.w += 20;
 		}
-		if (doorPosRect.h < 600)
+		if (doorPosRect.h < WindowSizeH)
 		{
 			doorPosRect.h += 20;
 		}
 	}
 
-	if (doorPosRect.x < 0 && doorPosRect.y < 0 && doorPosRect.w > 800 && doorPosRect.h > 600)
+	if (doorPosRect.x < 0 && doorPosRect.y < 0 && doorPosRect.w > WindowSizeW / 2 && doorPosRect.h > WindowSizeH / 2)
 	{
 		// x = -2445
 		// y = -3419
