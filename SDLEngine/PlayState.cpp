@@ -92,12 +92,24 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	doorPosDetermined = false;
 	zoom = false;
 
+	soundEffectPlayed = false;
+
 	deathAnimationRect.x = 300;
 	deathAnimationRect.y = 200;
 	deathAnimationRect.w = 200;
 	deathAnimationRect.h = 200;
 
 	deathAnimationCropRect.x = deathAnimationCropRect.y = 0;
+
+	gameOverRect.x = 200;
+	gameOverRect.y = 20;
+	gameOverRect.w = 352;
+	gameOverRect.h = 320;
+
+	againRect.x = 150;
+	againRect.y = 430;
+	againRect.w = 496;
+	againRect.h = 128;
 }
 
 PlayState::~PlayState()
@@ -482,6 +494,10 @@ void PlayState::playDeathAnimation()
 		
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/ClownDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/ClownDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
 		m_gameData->GetAudio()->SoundPlay("assets/sfx_clown.wav");
 		// Play clown death animation
 		
@@ -516,6 +532,10 @@ void PlayState::playDeathAnimation()
 
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/GhostDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/GhostDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
 		m_gameData->GetAudio()->SoundPlay("assets/sfx_ghost.wav");
 		// play bear death animation
 		if (DeathTimer.Completed())
@@ -551,7 +571,15 @@ void PlayState::playDeathAnimation()
 
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/SpikeDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/SpikeDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
-		m_gameData->GetAudio()->SoundPlay("assets/sfx_spikeImpale.wav");
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		if (soundEffectPlayed == false)
+		{
+			m_gameData->GetAudio()->SoundPlay("assets/sfx_spikeImpale.wav");
+			soundEffectPlayed = true;
+		}
 		// play bear death animation
 		if (DeathTimer.Completed())
 		{
@@ -572,6 +600,7 @@ void PlayState::playDeathAnimation()
 			else if (deathAnimationCropRect.x == 256 && deathAnimationCropRect.y == 192)
 			{
 				// Call back to menu or lose state
+				soundEffectPlayed = false;
 			}
 		}
 		else
@@ -583,6 +612,10 @@ void PlayState::playDeathAnimation()
 	{
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/BearDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/BearDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
 		// play bear death animation
 		if (DeathTimer.Completed())
 		{

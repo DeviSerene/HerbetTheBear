@@ -32,12 +32,17 @@ class PlayState : public GameState
 	SDL_Rect deathAnimationRect;
 	SDL_Rect deathAnimationCropRect;
 
+	SDL_Rect gameOverRect;
+	SDL_Rect againRect;
+
 	SDL_Rect doorPosRect;
 	bool doorPosDetermined;
 	SDL_Rect doorCropRect;
 	bool doorSpawned;
 	int doorIncrement;
 	bool drawDoor;
+
+	bool soundEffectPlayed;
 
 	Timer DoorTimer;
 	Timer DeathTimer;
