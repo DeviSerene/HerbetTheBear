@@ -116,7 +116,7 @@ void Bear::Update(PlayState * _state)
 			counter = 0;
 		}
 	}
-	else
+	/*else
 	{
 		if (counter % 5 == 0)
 		{
@@ -126,6 +126,6 @@ void Bear::Update(PlayState * _state)
 		{
 			counter = 0;
 		}
-	}
+	}*/
 	counter++;
 }
