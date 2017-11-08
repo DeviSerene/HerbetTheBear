@@ -23,8 +23,11 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 {
 	currentLevel = 0;
 	levels.resize(4);
-	levels[0] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet.png", 3);
-	levels[0].halfTileIndices = forestHalfTiles;
+	levels[0] = Level("level_caves.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
+	levels[0].halfTileIndices = caveHalfTiles;
+
+	levels[1] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet.png", 3);
+	levels[1].halfTileIndices = forestHalfTiles;
 
 	levels[1] = Level("test_night.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet_dark.png", 3);
 	levels[1].halfTileIndices = forestHalfTiles;
@@ -45,9 +48,9 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 		else if (ob->name == "Child_Clown")
 			clowns.push_back(new Clown(ob->x - 16, ob->y - 64, 32, 64, player, false));
 		else if (ob->name == "Mushroom")
-			spikes.push_back(new MushroomSpike(ob->x - 16, ob->y - 32, true));
+			spikes.push_back(new MushroomSpike(ob->x, ob->y, true));
 		else if (ob->name == "Spike")
-			spikes.push_back(new MushroomSpike(ob->x - 16, ob->y - 32, false));
+			spikes.push_back(new MushroomSpike(ob->x, ob->y , false));
 		else if (ob->name == "Waypoint")
 			bears.push_back(new Bear(this, SDL_Rect{ ob->x, ob->y, ob->width, ob->height }, true));
 		else if (ob->name == "Player")
