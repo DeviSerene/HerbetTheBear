@@ -11,6 +11,8 @@ Bear::Bear(PlayState* _state, SDL_Rect _wayPoints, bool _isPreset)
 	animTimer = Timer(0.3f);
 }
 
+Bear::~Bear() {}
+
 void Bear::Init(PlayState* _state, SDL_Rect _wayPoints)
 {
 	if (!isPreset)
