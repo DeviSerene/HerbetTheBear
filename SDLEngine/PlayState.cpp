@@ -482,6 +482,7 @@ void PlayState::playDeathAnimation()
 		
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/ClownDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/ClownDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetAudio()->SoundPlay("assets/sfx_clown.wav");
 		// Play clown death animation
 		
 		if (DeathTimer.Completed())
@@ -515,6 +516,7 @@ void PlayState::playDeathAnimation()
 
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/GhostDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/GhostDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetAudio()->SoundPlay("assets/sfx_ghost.wav");
 		// play bear death animation
 		if (DeathTimer.Completed())
 		{
@@ -549,6 +551,7 @@ void PlayState::playDeathAnimation()
 
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/SpikeDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/SpikeDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetAudio()->SoundPlay("assets/sfx_spikeImpale.wav");
 		// play bear death animation
 		if (DeathTimer.Completed())
 		{
