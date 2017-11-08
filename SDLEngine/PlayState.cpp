@@ -160,6 +160,7 @@ bool PlayState::HandleSDLEvents()
 
 				if (x >= againRect.x && x < againRect.x + againRect.w && y >= againRect.y && y < againRect.y + againRect.h) {
 					m_gameData->m_stateManager->ChangeState(new MenuState(m_gameData));
+					soundEffectPlayed = false;
 				}
 			}
 		}
@@ -549,7 +550,7 @@ void PlayState::playDeathAnimation()
 			else if (deathAnimationCropRect.x == 36 && deathAnimationCropRect.y == 192)
 			{
 				// Call back to menu or lose state
-				soundEffectPlayed = false;
+				
 				HandleSDLEvents();
 			}
 		}
@@ -597,7 +598,7 @@ void PlayState::playDeathAnimation()
 			else if (deathAnimationCropRect.x == 256 && deathAnimationCropRect.y == 192)
 			{
 
-				soundEffectPlayed = false;
+			
 				HandleSDLEvents();
 				// Call back to menu or lose state
 			}
@@ -642,7 +643,7 @@ void PlayState::playDeathAnimation()
 			}
 			else if (deathAnimationCropRect.x == 256 && deathAnimationCropRect.y == 192)
 			{
-				soundEffectPlayed = false;
+				
 				HandleSDLEvents();
 				// Call back to menu or lose state
 				
@@ -688,7 +689,7 @@ void PlayState::playDeathAnimation()
 			}
 			else if (deathAnimationCropRect.x == 256 && deathAnimationCropRect.y == 192)
 			{
-				soundEffectPlayed = false;
+				
 				HandleSDLEvents();
 				// Call back to menu or lose state
 			}

@@ -18,7 +18,7 @@ bool MenuState::HandleSDLEvents()
 	SDL_Event ev;
 	int x, y;
 	SDL_GetMouseState(&x, &y); //locate where the mouse is
-
+	m_gameData->GetAudio()->MusicPlay("fft_trisection.mid");
 	while (SDL_PollEvent(&ev))
 	{
 		switch (ev.type)
