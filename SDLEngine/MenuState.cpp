@@ -5,7 +5,8 @@
 MenuState::MenuState(GameData* _gamedata)
 	: GameState(_gamedata)
 {
-	
+
+	m_gameData->GetAudio()->MusicPlay("assets/fft_trisection.mid");
 }
 
 MenuState::~MenuState()
@@ -70,7 +71,6 @@ void MenuState::Update(float _deltaTime)
 {
 	int width;
 	int height;
-	m_gameData->GetAudio()->MusicPlay("assets/fft_trisection.mid");
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &width, &height);
 	playRect = { (width - 192) / 2, 300, 192, 64 };
 	exitRect = { (width - 192) / 2, 400, 192, 64 };
