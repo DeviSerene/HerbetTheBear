@@ -35,8 +35,12 @@ class PlayState : public GameState
 	SDL_Rect deathAnimationRect;
 	SDL_Rect deathAnimationCropRect;
 
+	SDL_Rect WinAnimationRect;
+	SDL_Rect WinAnimationCropRect;
+
 	SDL_Rect gameOverRect;
 	SDL_Rect againRect;
+	SDL_Rect youWinRect;
 
 	int WindowSizeW;
 	int WindowSizeH;
@@ -47,11 +51,13 @@ class PlayState : public GameState
 	bool doorSpawned;
 	int doorIncrement;
 	bool drawDoor;
+	bool hasWonGame;
 
 	bool soundEffectPlayed;
 
 	Timer DoorTimer;
 	Timer DeathTimer;
+	Timer WinTimer;
 	bool zoom;
 
 public:
@@ -79,5 +85,6 @@ public:
 	void ScaleDoor();
 	void playDeathAnimation();
 	void placeObjects();
+	void WinScreen();
 };
 
