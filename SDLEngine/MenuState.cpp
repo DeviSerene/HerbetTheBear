@@ -86,8 +86,8 @@ void MenuState::Update(float _deltaTime)
 	int width;
 	int height;
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &width, &height);
-	playRect = { (width - 192) / 2, 300, 192, 64 };
-	exitRect = { (width - 192) / 2, 400, 192, 64 };
+	playRect = { (width - 192) / 2, 500, 192, 64 };
+	exitRect = { (width - 192) / 2, 600, 192, 64 };
 }
 
 void MenuState::Draw()
@@ -108,6 +108,8 @@ void MenuState::Draw()
 	//DrawText(m_gameData->GetPlayerRenderer(), std::string("The Adventures of Herbet the bear")
 
 	DrawText(m_gameData->GetHelperRenderer(), std::string("Please Press Play on Screen 1"), SDL_Color{255, 255, 255, 255 }, 10, 10);
+
+	m_gameData->GetPlayerSprites()->Draw(Logo, { (width - 673) / 2, 200, 673, 234 });
 
 	m_gameData->GetPlayerSprites()->Draw(BearLogo, { 0, height - 320, 320, 320 });
 	m_gameData->GetPlayerSprites()->Draw(BearLogo, { width - 320, height - 320, 320, 320 }, true);

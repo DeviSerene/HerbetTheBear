@@ -4,6 +4,7 @@
 #include "GamestateManager.h"
 
 #define BearLogo "assets/textures/Logo.png"
+#define Logo "assets/textures/gameTitle.png"
 
 class MenuState :
 	public GameState
