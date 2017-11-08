@@ -17,6 +17,7 @@ std::vector<int> circusHalfTiles = { 3, 4, 5 };
 #define COIN_CHANCE 300
 #define BEAR_MINIMUM 3
 #define GHOST_COUNT 50
+#define FREEZE_AI false
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 , cameraX(0), cameraY(0)
@@ -27,6 +28,7 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	levels[0].halfTileIndices = caveHalfTiles;
 	levels[1] = Level("ToTheCircus.tmx", "assets/textures/Circus_Tilesheet_01.png", 3, "assets/textures/circusbg_sheet.png", 3);
 	levels[1].halfTileIndices = caveHalfTiles;
+	levels[1].grass = false;
 
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
 
@@ -178,7 +180,7 @@ void PlayState::Update(float deltaTime)
 			{
 				ghosts.at(i)->Update(this);
 				// Checking if player collides with any of the ghosts
-				if (player->CollideWith(ghosts[i]))
+				if (!FREEZE_AI && player->CollideWith(ghosts[i]))
 				{
 					player->playSoundEffect(m_gameData);
 				}
@@ -209,7 +211,7 @@ void PlayState::Update(float deltaTime)
 			for (int i = 0; i < spikes.size(); i++)
 			{
 				spikes[i]->Update(this);
-				if (spikes[i]->isDecoy() == false)
+				if (!FREEZE_AI && spikes[i]->isDecoy() == false)
 				{
 					if (player->CollideWith(spikes[i]))
 					{
@@ -230,7 +232,7 @@ void PlayState::Update(float deltaTime)
 			{
 				bears.at(i)->Update(this);
 				// checking if the player is collisiding with any of the bears
-				if (player->CollideWith(bears[i]))
+				if (!FREEZE_AI && player->CollideWith(bears[i]))
 				{
 					player->playSoundEffect(m_gameData);
 
@@ -249,7 +251,7 @@ void PlayState::Update(float deltaTime)
 				c->Update(this);
 				if (c->isDecoy() == false)
 				{
-					if (player->CollideWith(c))
+					if (!FREEZE_AI && player->CollideWith(c))
 					{
 						player->playSoundEffect(m_gameData);
 					}
