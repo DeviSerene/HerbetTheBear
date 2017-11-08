@@ -371,8 +371,8 @@ void PlayState::Draw()
 
 
 
-			m_gameData->GetPlayerSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
-			m_gameData->GetHelperSprites()->Draw("child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
+			m_gameData->GetPlayerSprites()->Draw("assets/textures/child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
+			m_gameData->GetHelperSprites()->Draw("assets/textures/child_sheet.png", playerPos, player->GetPlayerCropRect(), player->getPlayerDirection());
 
 			teddy->Draw(m_gameData->GetHelperSprites());
 
