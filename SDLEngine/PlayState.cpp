@@ -326,6 +326,7 @@ void PlayState::Draw()
 		for (size_t i = 0; i < bears.size(); i++)
 		{
 			bears.at(i)->Draw(m_gameData->GetPlayerSprites());
+			bears.at(i)->Draw(m_gameData->GetHelperSprites());
 		}
 		SDL_Rect playerPos = player->GetPlayerRect();
 		playerPos.x = -cameraX + (playerPos.x);
