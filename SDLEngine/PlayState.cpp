@@ -867,7 +867,8 @@ void PlayState::WinScreen()
 	if (soundEffectPlayed == false)
 	{
 		m_gameData->GetAudio()->MusicStop();
-		m_gameData->GetAudio()->SoundPlay("assets/sfx_bear.wav");
+		m_gameData->GetAudio()->SoundPlay("assets/Gabe the dog sound effect.wav");
+		soundEffectPlayed = true;
 	}
 
 	if (WinTimer.Completed())
