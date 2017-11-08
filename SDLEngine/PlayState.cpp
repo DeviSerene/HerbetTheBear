@@ -344,8 +344,6 @@ void PlayState::Draw()
 		}
 
 		//UI
-		m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", SDL_Rect{ 30, 30, 32, 32 }, SDL_Rect{ 0, 0, 16, 16 });
-		DrawText(m_gameData->GetPlayerRenderer(), std::to_string(player->getCoins()), SDL_Color{ 255, 255, 255 }, 62, 38);
 		for (int i = 0; i < player->getPlayerHealth(); i++) {
 			m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i + 20, playerH - 70, 64, 64 });
 		}
