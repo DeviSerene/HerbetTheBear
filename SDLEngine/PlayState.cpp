@@ -15,8 +15,8 @@ std::vector<int> caveHalfTiles = { 3, 7 };
 std::vector<int> circusHalfTiles = { 3, 4, 5 };
 
 #define COIN_CHANCE 300
-#define BEAR_MINIMUM 3
-#define GHOST_COUNT 25
+#define BEAR_MINIMUM 10
+#define GHOST_COUNT 135
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 , cameraX(0), cameraY(0)
