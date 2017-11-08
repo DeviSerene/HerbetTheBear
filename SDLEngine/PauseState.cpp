@@ -18,13 +18,19 @@ bool PauseState::HandleSDLEvents() {
 	SDL_Event ev;
 	while (SDL_PollEvent(&ev)) {
 		if (ev.type == SDL_QUIT) {
-
+			return false;
 		}
 		else if (ev.type == SDL_KEYDOWN) {
 			switch (ev.key.keysym.sym) {
 			case SDLK_ESCAPE:
 				m_gameData->m_stateManager->RemoveLastState();
 				break;
+			}
+		}
+		if (ev.type == SDL_WINDOWEVENT) {
+			if (ev.window.event == SDL_WINDOWEVENT_CLOSE) {
+				m_gameData->m_stateManager->ClearStates();
+				return false;
 			}
 		}
 	}
