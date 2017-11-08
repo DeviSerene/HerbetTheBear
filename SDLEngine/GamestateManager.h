@@ -16,6 +16,7 @@ public:
 	void AddState(GameState* gamestate);
 	void ChangeState(GameState* gamestate);
 	void RemoveLastState();
+	void ClearStates() { gameStates.clear(); }
 
 	//used to update / draw whichever states need it
 	bool HandleSDLEvents();

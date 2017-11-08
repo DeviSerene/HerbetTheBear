@@ -84,6 +84,7 @@ public:
 	std::vector<Bear*> bears;
 
 	void nextLevel();
+	void setLevel(int l);
 	void generateCoins(int _chance);
 	void ScaleDoor();
 	void playDeathAnimation();
