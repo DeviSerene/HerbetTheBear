@@ -521,12 +521,15 @@ void PlayState::setLevel(int _l) {
 }
 
 void PlayState::nextLevel() {
-	currentLevel++;
-	if (currentLevel >= levels.size())
+	
+	if (currentLevel >= levels.size() - 1)
 	{
 		hasWonGame = true;
+		return;
 		
 	}
+	currentLevel++;
+
 	delete map;
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
 	delete teddy;
