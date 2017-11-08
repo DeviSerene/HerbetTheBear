@@ -39,3 +39,17 @@
 /SDLEngine/Debug/SDLEngine.tlog
 /SDLEngine/assets/textures/Thumbs.db
 *.enc
+/SDLEngine/Release/vc140.pdb
+/SDLEngine/Release/SDLEngine.tlog/SDLEngine.lastbuildstate
+/SDLEngine/Release/SDLEngine.tlog/link.write.1.tlog
+/SDLEngine/Release/SDLEngine.tlog/link.read.1.tlog
+/SDLEngine/Release/SDLEngine.tlog/link.command.1.tlog
+/SDLEngine/Release/SDLEngine.tlog/CL.write.1.tlog
+/SDLEngine/Release/SDLEngine.tlog/CL.read.1.tlog
+/SDLEngine/Release/SDLEngine.tlog/CL.command.1.tlog
+/SDLEngine/Release/SDLEngine.log
+/SDLEngine/Release/SDLEngine.Build.CppClean.log
+/Release/SDLEngine.pdb
+/Release/SDLEngine.ipdb
+/Release/SDLEngine.iobj
+/Release/SDLEngine.exe
