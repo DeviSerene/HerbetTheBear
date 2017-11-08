@@ -7,6 +7,20 @@ MenuState::MenuState(GameData* _gamedata)
 {
 
 	m_gameData->GetAudio()->MusicPlay("assets/fft_trisection.mid");
+
+	int width;
+	int height;
+	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &width, &height);
+
+	bgW = (width / 256) + 1;
+	bgH = (height / 256) + 1;
+	randomBg.resize(bgW * bgH);
+
+	for (int x = 0; x < bgW; x++) {
+		for (int y = 0; y < bgH; y++) {
+			randomBg[(y * bgW) + x] = rand() % 3;
+		}
+	}
 }
 
 MenuState::~MenuState()
@@ -78,12 +92,25 @@ void MenuState::Update(float _deltaTime)
 
 void MenuState::Draw()
 {
+
+	for (int x = 0; x < bgW; x++) {
+		for (int y = 0; y < bgH; y++) {
+			m_gameData->GetPlayerSprites()->Draw("assets/textures/cavebg_sheet.png", { x * 256,y * 256,256,256 }, SDL_Rect{ randomBg[(y * bgW) + x] * 64, 0, 64, 64 });
+		}
+	}
+
+
 	int width;
 	int height;
 
 	SDL_GetWindowSize(m_gameData->GetPlayerWindow(), &width, &height);
 
+	//DrawText(m_gameData->GetPlayerRenderer(), std::string("The Adventures of Herbet the bear")
+
 	DrawText(m_gameData->GetHelperRenderer(), std::string("Please Press Play on Screen 1"), SDL_Color{255, 255, 255, 255 }, 10, 10);
+
+	m_gameData->GetPlayerSprites()->Draw(BearLogo, { 0, height - 320, 320, 320 });
+	m_gameData->GetPlayerSprites()->Draw(BearLogo, { width - 320, height - 320, 320, 320 }, true);
 
 	m_gameData->GetPlayerSprites()->Draw("assets/textures/PlayButton.png", playRect);
 	m_gameData->GetPlayerSprites()->Draw("assets/textures/ExitButton.png", exitRect);
