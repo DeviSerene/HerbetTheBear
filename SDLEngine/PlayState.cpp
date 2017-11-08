@@ -156,6 +156,24 @@ bool PlayState::HandleSDLEvents()
 			case SDLK_3:
 				setLevel(2);
 				break;
+			case SDLK_4:
+				setLevel(3);
+				break;
+			case SDLK_5:
+				setLevel(4);
+				break;
+			case SDLK_6:
+				setLevel(5);
+				break;
+			case SDLK_7:
+				setLevel(6);
+				break;
+			case SDLK_8:
+				setLevel(7);
+				break;
+			case SDLK_9:
+				setLevel(8);
+				break;
 			}
 		}
 		else if (event.type == SDL_KEYUP) {
