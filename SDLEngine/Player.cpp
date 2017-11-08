@@ -199,7 +199,9 @@ void Player::PlayerJump()
 
 void Player::incrementCoins()
 {
-	numOfCoins++;
+	playerHeath++;
+	if (playerHeath > 10)
+		playerHeath = 10;
 }
 
 bool Player::CollideWith(Entities* _other)
