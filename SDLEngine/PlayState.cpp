@@ -50,6 +50,8 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 			spikes.push_back(new MushroomSpike(ob->x - 16, ob->y - 32, false));
 		else if (ob->name == "Waypoint")
 			bears.push_back(new Bear(this, SDL_Rect{ ob->x, ob->y, ob->width, ob->height }, true));
+		else if (ob->name == "Player")
+			player->SetPlayerRect(SDL_Rect{ ob->x, ob->y - 32, 32, 32 });
 	}
 	for (size_t i = 0; i <= GHOST_COUNT; i++)
 	{
@@ -93,9 +95,6 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	deathAnimationRect.h = 200;
 
 	deathAnimationCropRect.x = deathAnimationCropRect.y = 0;
-	
-
-	spikes.push_back(new MushroomSpike(32, 32, false));
 }
 
 PlayState::~PlayState()
@@ -240,7 +239,7 @@ void PlayState::Update(float deltaTime)
 		{
 			for (size_t i = 0; i < bears.size(); i++)
 			{
-				bears.at(i)->Update(this, true);
+				bears.at(i)->Update(this);
 				// checking if the player is collisiding with any of the bears
 				if (player->CollideWith(bears[i]))
 				{
