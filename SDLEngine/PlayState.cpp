@@ -481,6 +481,8 @@ void PlayState::Draw()
 
 void PlayState::setLevel(int _l) {
 	currentLevel = _l;
+	musicStopped = false;
+	musicChanged = false;
 	if (currentLevel >= levels.size())
 	{
 		currentLevel = levels.size() - 1;
