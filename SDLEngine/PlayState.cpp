@@ -50,11 +50,16 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 		else if (ob->name == "Mushroom")
 			spikes.push_back(new MushroomSpike(ob->x, ob->y, true));
 		else if (ob->name == "Spike")
-			spikes.push_back(new MushroomSpike(ob->x, ob->y , false));
+			spikes.push_back(new MushroomSpike(ob->x, ob->y, false));
 		else if (ob->name == "Waypoint")
 			bears.push_back(new Bear(this, SDL_Rect{ ob->x, ob->y, ob->width, ob->height }, true));
 		else if (ob->name == "Player")
 			player->SetPlayerRect(SDL_Rect{ ob->x, ob->y - 32, 32, 32 });
+		else if (ob->name == "Heart") {
+			Coin *c = new Coin();
+			c->SetCoinPosRect(ob->x, ob->y);
+			Coins.push_back(c);
+		}
 	}
 	for (size_t i = 0; i <= GHOST_COUNT; i++)
 	{
@@ -74,7 +79,8 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	inputLeft = false;
 	inputUp = false;
 
-	generateCoins(COIN_CHANCE);
+	if(Coins.size() <= 0)
+		generateCoins(COIN_CHANCE);
 
 	teddy = new Teddy(map->teddyPos);
 
@@ -402,7 +408,8 @@ void PlayState::nextLevel() {
 	delete teddy;
 	teddy = new Teddy(map->teddyPos);
 	player->SetPlayerRect(SDL_Rect{ 30, 0, 32, 32 });
-	generateCoins(COIN_CHANCE);
+	if(Coins.size() <= 0)
+		generateCoins(COIN_CHANCE);
 
 	for (size_t i = 0; i < bears.size(); i++)
 	{
