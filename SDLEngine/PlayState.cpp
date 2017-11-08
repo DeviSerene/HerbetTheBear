@@ -237,13 +237,26 @@ void PlayState::Update(float deltaTime)
 				m_gameData->GetAudio()->MusicStop();
 				//m_gameData->GetAudio()->MusicClean();
 				musicStopped = true;
+
+			}
+			//m_gameData->GetAudio()->MusicLoad("assets/bgm_forest.mp3");
+			m_gameData->GetAudio()->MusicPlay("assets/Forest_of_Monsters.mid");
+			musicChanged = true;
+		}
+		else if (currentLevel == 1)
+		{
+			if (musicStopped == false)
+			{
+				m_gameData->GetAudio()->MusicStop();
+				//m_gameData->GetAudio()->MusicClean();
+				musicStopped = true;
 				
 			}
 			//m_gameData->GetAudio()->MusicLoad("assets/bgm_forest.mp3");
 			m_gameData->GetAudio()->MusicPlay("assets/The_Caves.mid");
 			musicChanged = true;
 		}
-		else if (currentLevel == 1)
+		else if (currentLevel == 2)
 		{
 			if (musicStopped == false)
 			{
@@ -255,7 +268,7 @@ void PlayState::Update(float deltaTime)
 			m_gameData->GetAudio()->MusicPlay("assets/Clockwork_Mansion.mid");
 			musicChanged = true;
 		}
-		else if (currentLevel == 2)
+		else if (currentLevel == 3)
 		{
 			if (musicStopped == false)
 			{
