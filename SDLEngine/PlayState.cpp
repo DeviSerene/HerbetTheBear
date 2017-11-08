@@ -23,8 +23,11 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 {
 	currentLevel = 0;
 	levels.resize(4);
-	levels[0] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet.png", 3);
-	levels[0].halfTileIndices = forestHalfTiles;
+	levels[0] = Level("level_caves.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
+	levels[0].halfTileIndices = caveHalfTiles;
+
+	levels[1] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet.png", 3);
+	levels[1].halfTileIndices = forestHalfTiles;
 
 	levels[1] = Level("test_night.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet_dark.png", 3);
 	levels[1].halfTileIndices = forestHalfTiles;
@@ -45,11 +48,13 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 		else if (ob->name == "Child_Clown")
 			clowns.push_back(new Clown(ob->x - 16, ob->y - 64, 32, 64, player, false));
 		else if (ob->name == "Mushroom")
-			spikes.push_back(new MushroomSpike(ob->x - 16, ob->y - 32, true));
+			spikes.push_back(new MushroomSpike(ob->x, ob->y, true));
 		else if (ob->name == "Spike")
-			spikes.push_back(new MushroomSpike(ob->x - 16, ob->y - 32, false));
+			spikes.push_back(new MushroomSpike(ob->x, ob->y , false));
 		else if (ob->name == "Waypoint")
 			bears.push_back(new Bear(this, SDL_Rect{ ob->x, ob->y, ob->width, ob->height }, true));
+		else if (ob->name == "Player")
+			player->SetPlayerRect(SDL_Rect{ ob->x, ob->y - 32, 32, 32 });
 	}
 	for (size_t i = 0; i <= GHOST_COUNT; i++)
 	{
@@ -87,15 +92,24 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	doorPosDetermined = false;
 	zoom = false;
 
+	soundEffectPlayed = false;
+
 	deathAnimationRect.x = 300;
 	deathAnimationRect.y = 200;
 	deathAnimationRect.w = 200;
 	deathAnimationRect.h = 200;
 
 	deathAnimationCropRect.x = deathAnimationCropRect.y = 0;
-	
 
-	spikes.push_back(new MushroomSpike(32, 32, false));
+	gameOverRect.x = 200;
+	gameOverRect.y = 20;
+	gameOverRect.w = 352;
+	gameOverRect.h = 320;
+
+	againRect.x = 150;
+	againRect.y = 430;
+	againRect.w = 496;
+	againRect.h = 128;
 }
 
 PlayState::~PlayState()
@@ -480,6 +494,11 @@ void PlayState::playDeathAnimation()
 		
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/ClownDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/ClownDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		m_gameData->GetAudio()->SoundPlay("assets/sfx_clown.wav");
 		// Play clown death animation
 		
 		if (DeathTimer.Completed())
@@ -513,6 +532,11 @@ void PlayState::playDeathAnimation()
 
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/GhostDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/GhostDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		m_gameData->GetAudio()->SoundPlay("assets/sfx_ghost.wav");
 		// play bear death animation
 		if (DeathTimer.Completed())
 		{
@@ -547,6 +571,15 @@ void PlayState::playDeathAnimation()
 
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/SpikeDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/SpikeDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		if (soundEffectPlayed == false)
+		{
+			m_gameData->GetAudio()->SoundPlay("assets/sfx_spikeImpale.wav");
+			soundEffectPlayed = true;
+		}
 		// play bear death animation
 		if (DeathTimer.Completed())
 		{
@@ -567,6 +600,7 @@ void PlayState::playDeathAnimation()
 			else if (deathAnimationCropRect.x == 256 && deathAnimationCropRect.y == 192)
 			{
 				// Call back to menu or lose state
+				soundEffectPlayed = false;
 			}
 		}
 		else
@@ -578,6 +612,10 @@ void PlayState::playDeathAnimation()
 	{
 		m_gameData->GetPlayerSprites()->Draw("assets/textures/BearDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
 		m_gameData->GetHelperSprites()->Draw("assets/textures/BearDeath_TileSet_01.png", deathAnimationRect, deathAnimationCropRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/AgainButton.png", againRect);
+		m_gameData->GetPlayerSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
+		m_gameData->GetHelperSprites()->Draw("assets/textures/GameOver.png", gameOverRect);
 		// play bear death animation
 		if (DeathTimer.Completed())
 		{

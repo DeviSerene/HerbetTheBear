@@ -19,8 +19,8 @@ void Bear::Init(PlayState* _state, SDL_Rect _wayPoints)
 	}
 	else
 	{
-		destinations.push_back(SDL_Rect{ _wayPoints.x - _wayPoints.w/2, _wayPoints.y, 64, 63 });
-		destinations.push_back(SDL_Rect{ _wayPoints.x + _wayPoints.w/2, _wayPoints.y, 64, 63 });
+		destinations.push_back(SDL_Rect{ _wayPoints.x, _wayPoints.y - 64, 64, 63 });
+		destinations.push_back(SDL_Rect{ _wayPoints.x + _wayPoints.w, _wayPoints.y - 64, 64, 63 });
 	}
 	prevPos = EntityPosition;
 	idle = false;
@@ -116,7 +116,7 @@ void Bear::Update(PlayState * _state)
 			counter = 0;
 		}
 	}
-	else
+	/*else
 	{
 		if (counter % 5 == 0)
 		{
@@ -126,6 +126,6 @@ void Bear::Update(PlayState * _state)
 		{
 			counter = 0;
 		}
-	}
+	}*/
 	counter++;
 }

@@ -8,10 +8,10 @@ MushroomSpike::MushroomSpike(int posX, int posY, bool decoy)
 {
 	EntityPosition.x = posX;
 	EntityPosition.y = posY;
-	EntityPosition.w = 32;
-	EntityPosition.h = 32;
-	hitboxWidth = 32;
-	hitboxHeight = 16;
+	EntityPosition.w = 64;
+	EntityPosition.h = 64;
+	hitboxWidth = 64;
+	hitboxHeight = 32;
 	this->decoy = decoy;
 	revealed = false;
 }
