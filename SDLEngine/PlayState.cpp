@@ -153,6 +153,24 @@ bool PlayState::HandleSDLEvents()
 			case SDLK_3:
 				setLevel(2);
 				break;
+			case SDLK_4:
+				setLevel(3);
+				break;
+			case SDLK_5:
+				setLevel(4);
+				break;
+			case SDLK_6:
+				setLevel(5);
+				break;
+			case SDLK_7:
+				setLevel(6);
+				break;
+			case SDLK_8:
+				setLevel(7);
+				break;
+			case SDLK_9:
+				setLevel(8);
+				break;
 			}
 		}
 		else if (event.type == SDL_KEYUP) {
@@ -462,6 +480,7 @@ void PlayState::nextLevel() {
 	if (currentLevel >= levels.size())
 	{
 		hasWonGame = true;
+		return;
 	}
 	delete map;
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
