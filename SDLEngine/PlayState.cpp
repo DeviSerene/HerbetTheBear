@@ -144,6 +144,15 @@ bool PlayState::HandleSDLEvents()
 			case SDLK_ESCAPE:
 				m_gameData->m_stateManager->AddState(new PauseState(m_gameData));
 				break;
+			case SDLK_1:
+				setLevel(0);
+				break;
+			case SDLK_2:
+				setLevel(1);
+				break;
+			case SDLK_3:
+				setLevel(2);
+				break;
 			}
 		}
 		else if (event.type == SDL_KEYUP) {
@@ -164,29 +173,9 @@ bool PlayState::HandleSDLEvents()
 			}
 
 		}
-		else if (event.type == SDL_MOUSEBUTTONDOWN)
-		{
-			switch (event.button.button)
-			{
-			case SDL_BUTTON_LEFT:
-
-				int x = event.button.x;
-				int y = event.button.y;
-
-				if (x >= againRect.x && x < againRect.x + againRect.w && y >= againRect.y && y < againRect.y + againRect.h) {
-					m_gameData->m_stateManager->ChangeState(new MenuState(m_gameData));
-					soundEffectPlayed = false;
-				}
-				if (x >= youWinRect.x && x < youWinRect.x + youWinRect.w && y >= youWinRect.y && y < youWinRect.y + youWinRect.h)
-				{
-					m_gameData->m_stateManager->ChangeState(new MenuState(m_gameData));
-					soundEffectPlayed = false;
-				}
-			}
-		}
 		if(event.type == SDL_WINDOWEVENT) {
 			if (event.window.event == SDL_WINDOWEVENT_CLOSE) {
-				m_gameData->m_stateManager->RemoveLastState();
+				m_gameData->m_stateManager->ClearStates();
 				return false;
 			}
 		}
@@ -424,6 +413,27 @@ void PlayState::Draw()
 
 	
 
+}
+
+void PlayState::setLevel(int _l) {
+	currentLevel = _l;
+	if (currentLevel >= levels.size())
+	{
+		currentLevel = levels.size() - 1;
+	}
+	else if (currentLevel < 0) {
+		currentLevel = 0;
+	}
+	delete map;
+	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
+	delete teddy;
+	teddy = new Teddy(map->teddyPos);
+	placeObjects();
+
+	for (size_t i = 0; i < bears.size(); i++)
+	{
+		bears.at(i)->Init(this, SDL_Rect{ 0, 0, 0, 0 });
+	}
 }
 
 void PlayState::nextLevel() {
