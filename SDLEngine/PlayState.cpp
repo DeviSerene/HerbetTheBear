@@ -23,9 +23,11 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 , cameraX(0), cameraY(0)
 {
 	currentLevel = 0;
-	levels.resize(3);
-	levels[0] = Level("Stairwell.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
-	levels[0].halfTileIndices = caveHalfTiles;
+	levels.resize(4);
+	levels[0] = Level("Forest.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet_dark.png", 3);
+	levels[0].halfTileIndices = forestHalfTiles;
+	levels[3] = Level("Stairwell.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
+	levels[3].halfTileIndices = caveHalfTiles;
 	levels[2] = Level("level_caves.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
 	levels[2].halfTileIndices = caveHalfTiles;
 	levels[1] = Level("ToTheCircus.tmx", "assets/textures/Circus_Tilesheet_01.png", 3, "assets/textures/circusbg_sheet.png", 3);
@@ -534,15 +536,13 @@ void PlayState::setLevel(int _l) {
 }
 
 void PlayState::nextLevel() {
-	
-	if (currentLevel >= levels.size() - 1)
+	currentLevel++;
+	if (currentLevel >= levels.size())
 	{
 		hasWonGame = true;
 		return;
 		
 	}
-	currentLevel++;
-
 	delete map;
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
 	delete teddy;
