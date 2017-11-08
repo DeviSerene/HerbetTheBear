@@ -22,22 +22,11 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 , cameraX(0), cameraY(0)
 {
 	currentLevel = 0;
-	levels.resize(4);
+	levels.resize(2);
 	levels[0] = Level("level_caves.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
 	levels[0].halfTileIndices = caveHalfTiles;
-
-	levels[1] = Level("test.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet.png", 3);
-	levels[1].halfTileIndices = forestHalfTiles;
-
-	levels[1] = Level("test_night.tmx", "assets/textures/Forest_Tilesheet_01.png", 6, "assets/textures/sky_sheet_dark.png", 3);
-	levels[1].halfTileIndices = forestHalfTiles;
-
-	levels[2] = Level("test_cave.tmx", "assets/textures/Cave_Tilesheet_01.png", 4, "assets/textures/cavebg_sheet.png", 3);
-	levels[2].halfTileIndices = caveHalfTiles;
-
-	levels[3] = Level("test_circus.tmx", "assets/textures/Circus_Tilesheet_01.png", 3, "assets/textures/circusbg_sheet.png", 3);
-	levels[3].halfTileIndices = circusHalfTiles;
-	levels[3].grass = false;
+	levels[1] = Level("level_caves.tmx", "assets/textures/Circus_Tilesheet_01.png", 3, "assets/textures/circusbg_sheet.png", 3);
+	levels[1].halfTileIndices = caveHalfTiles;
 
 	map = new TileMap(0, 0, 0, 0, levels[currentLevel].tileSet.c_str(), "assets/maps/", levels[currentLevel].TMXName.c_str(), levels[currentLevel].halfTileIndices);
 
