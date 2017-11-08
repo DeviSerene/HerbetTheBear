@@ -14,9 +14,9 @@ std::vector<int> forestHalfTiles = { 2, 4, 5, 8, 10, 11, 14, 16, 17, 20, 22, 23 
 std::vector<int> caveHalfTiles = { 3, 7 };
 std::vector<int> circusHalfTiles = { 3, 4, 5 };
 
-#define COIN_CHANCE 1000
-#define BEAR_MINIMUM 3
-#define GHOST_COUNT 25
+#define COIN_CHANCE 300
+#define BEAR_MINIMUM 10
+#define GHOST_COUNT 135
 
 PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 , cameraX(0), cameraY(0)
@@ -50,11 +50,16 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 		else if (ob->name == "Mushroom")
 			spikes.push_back(new MushroomSpike(ob->x, ob->y, true));
 		else if (ob->name == "Spike")
-			spikes.push_back(new MushroomSpike(ob->x, ob->y , false));
+			spikes.push_back(new MushroomSpike(ob->x, ob->y, false));
 		else if (ob->name == "Waypoint")
 			bears.push_back(new Bear(this, SDL_Rect{ ob->x, ob->y, ob->width, ob->height }, true));
 		else if (ob->name == "Player")
 			player->SetPlayerRect(SDL_Rect{ ob->x, ob->y - 32, 32, 32 });
+		else if (ob->name == "Heart") {
+			Coin *c = new Coin();
+			c->SetCoinPosRect(ob->x, ob->y);
+			Coins.push_back(c);
+		}
 	}
 	for (size_t i = 0; i <= GHOST_COUNT; i++)
 	{
@@ -74,7 +79,8 @@ PlayState::PlayState(GameData* _gameData) : GameState(_gameData)
 	inputLeft = false;
 	inputUp = false;
 
-	generateCoins(COIN_CHANCE);
+	if(Coins.size() <= 0)
+		generateCoins(COIN_CHANCE);
 
 	teddy = new Teddy(map->teddyPos);
 
@@ -326,6 +332,7 @@ void PlayState::Draw()
 		for (size_t i = 0; i < bears.size(); i++)
 		{
 			bears.at(i)->Draw(m_gameData->GetPlayerSprites());
+			bears.at(i)->Draw(m_gameData->GetHelperSprites());
 		}
 		SDL_Rect playerPos = player->GetPlayerRect();
 		playerPos.x = -cameraX + (playerPos.x);
@@ -344,8 +351,6 @@ void PlayState::Draw()
 		}
 
 		//UI
-		m_gameData->GetPlayerSprites()->Draw("assets/textures/coin_sheet.png", SDL_Rect{ 30, 30, 32, 32 }, SDL_Rect{ 0, 0, 16, 16 });
-		DrawText(m_gameData->GetPlayerRenderer(), std::to_string(player->getCoins()), SDL_Color{ 255, 255, 255 }, 62, 38);
 		for (int i = 0; i < player->getPlayerHealth(); i++) {
 			m_gameData->GetPlayerSprites()->Draw("assets/textures/heart.png", SDL_Rect{ 70 * i + 20, playerH - 70, 64, 64 });
 		}
@@ -403,7 +408,8 @@ void PlayState::nextLevel() {
 	delete teddy;
 	teddy = new Teddy(map->teddyPos);
 	player->SetPlayerRect(SDL_Rect{ 30, 0, 32, 32 });
-	generateCoins(COIN_CHANCE);
+	if(Coins.size() <= 0)
+		generateCoins(COIN_CHANCE);
 
 	for (size_t i = 0; i < bears.size(); i++)
 	{
